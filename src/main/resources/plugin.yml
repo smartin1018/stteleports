@@ -1,0 +1,25 @@
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+author: Jerred Shepherd (RiotShielder)
+website: http://shepherdjerred.com/
+
+main: com.shepherdjerred.stteleports.Main
+
+commands:
+    sttp:
+        description: Handles plugin related functions
+        aliases: [stteleports]
+
+permissions:
+    stTeleports.*:
+        description: Gives access to all plugin functions
+        children:
+            stSkills.admin.*: true
+    stTeleports.admin.*:
+        description: Gives access to all admin commands
+        children:
+          stSkills.admin.reload: true
+    stTeleports.admin.reload:
+        description: Gives access to /sttp reload
+        default: OP

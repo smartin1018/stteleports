@@ -1,0 +1,12 @@
+mysql:
+    hostname: localhost
+    port: 3306
+    database: stteleports
+    username: root
+    password: password
+    prefix: prefix_
+    pool:
+        connectionTimeout: 30000
+        idleTimeout: 300000
+        minIdleConnections: 9
+        maxConnections: 9
