@@ -2,22 +2,34 @@ package com.shepherdjerred.stteleports.objects;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 public class TeleportPlayer {
 
-    public static HashMap<UUID, TeleportPlayer> teleportPlayers = new HashMap<>();
+    @NotNull
+    private static HashMap<UUID, TeleportPlayer> teleportPlayers = new HashMap<>();
 
+    @NotNull
     private UUID uuid;
+    @NotNull
     private String name;
     private long cooldown;
     private double cooldownMultiplier;
     private double costMultiplier;
+    @Nullable
     private Location home;
 
-    public TeleportPlayer(UUID uuid) {
+    /**
+     * Creates a TeleportPlayer object, only the UUID is needed
+     * Name is pulled from Bukkit, other values default to 'empty' states
+     *
+     * @param uuid The UUID of the player
+     */
+    public TeleportPlayer(@NotNull UUID uuid) {
         this.uuid = uuid;
         name = Bukkit.getPlayer(uuid).getName();
         cooldown = 0L;
@@ -25,7 +37,8 @@ public class TeleportPlayer {
         costMultiplier = 1.0;
     }
 
-    public static TeleportPlayer getTeleportPlayer(String name) {
+    @Nullable
+    public static TeleportPlayer getTeleportPlayer(@NotNull String name) {
         for (TeleportPlayer teleportPlayer : teleportPlayers.values())
             if (teleportPlayer.getName().equals(name))
                 return teleportPlayer;
@@ -33,14 +46,17 @@ public class TeleportPlayer {
         return null;
     }
 
-    public static TeleportPlayer getTeleportPlayer(UUID uuid) {
+    @Nullable
+    public static TeleportPlayer getTeleportPlayer(@NotNull UUID uuid) {
         return teleportPlayers.getOrDefault(uuid, null);
     }
 
+    @NotNull
     public UUID getUuid() {
         return uuid;
     }
 
+    @NotNull
     public String getName() {
         return name;
     }
@@ -69,11 +85,12 @@ public class TeleportPlayer {
         this.costMultiplier = costMultiplier;
     }
 
+    @Nullable
     public Location getHome() {
         return home;
     }
 
-    public void setHome(Location home) {
+    public void setHome(@Nullable Location home) {
         this.home = home;
     }
 }

@@ -1,13 +1,17 @@
 package com.shepherdjerred.stteleports.objects;
 
 import com.shepherdjerred.stteleports.Main;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
 public class Teleport {
 
-    public static HashMap<String, Teleport> teleports = new HashMap<>();
+    @NotNull
+    private static HashMap<String, Teleport> teleports = new HashMap<>();
 
+    @NotNull
     private String name;
     private boolean enabled;
     private int cooldown;
@@ -15,7 +19,7 @@ public class Teleport {
     private double cooldownMultiplier;
     private double costMultiplier;
 
-    public Teleport(String name) {
+    public Teleport(@NotNull String name) {
         this.name = name;
         this.enabled = Main.getInstance().getConfig().getBoolean("teleports." + name + ".enabled");
         this.cooldown = Main.getInstance().getConfig().getInt("teleports." + name + ".cooldown");
@@ -25,6 +29,12 @@ public class Teleport {
         teleports.put(name, this);
     }
 
+    @Nullable
+    public static Teleport getTeleport(@NotNull String name) {
+        return teleports.getOrDefault(name, null);
+    }
+
+    @NotNull
     public String getName() {
         return name;
     }
