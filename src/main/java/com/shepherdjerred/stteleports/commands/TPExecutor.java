@@ -13,11 +13,15 @@ import java.util.Calendar;
 
 public class TPExecutor implements CommandExecutor {
 
-
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
             sender.sendMessage("Players only");
+            return true;
+        }
+
+        if (!sender.hasPermission("stTeleports.teleport")) {
+            sender.sendMessage("No permission");
             return true;
         }
 
@@ -26,7 +30,7 @@ public class TPExecutor implements CommandExecutor {
             return true;
         }
 
-        Teleport teleport = Teleport.teleports.get("tp");
+        Teleport teleport = Teleport.getTeleport("tp");
         TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(((Player) sender).getUniqueId());
         boolean success = false;
 
