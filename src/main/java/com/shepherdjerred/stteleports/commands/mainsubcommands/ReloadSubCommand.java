@@ -4,7 +4,6 @@ import com.shepherdjerred.stteleports.Main;
 import com.shepherdjerred.stteleports.files.ConfigHelper;
 import com.shepherdjerred.stteleports.messages.commands.GenericMessages;
 import com.shepherdjerred.stteleports.messages.commands.MainCommandMessages;
-import com.shepherdjerred.stteleports.mysql.TableManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,10 +19,6 @@ public class ReloadSubCommand {
 
         Main.getInstance().reloadConfig();
         ConfigHelper.loadConfigs();
-
-        TableManager.checkConnection();
-
-        TableManager.loadDatabase();
 
         for (Player loopPlayer : Bukkit.getOnlinePlayers()) {
             // TODO Reload player data

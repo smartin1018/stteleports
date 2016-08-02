@@ -7,9 +7,12 @@ website: http://shepherdjerred.com/
 main: com.shepherdjerred.stteleports.Main
 
 commands:
-    sttp:
+    stteleports:
         description: Handles plugin related functions
-        aliases: [stteleports]
+        aliases: [sttp]
+    teleport:
+        description: Handles plugin related functions
+        aliases: [tp]
 
 permissions:
     stTeleports.*:

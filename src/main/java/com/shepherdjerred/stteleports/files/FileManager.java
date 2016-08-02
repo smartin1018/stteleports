@@ -1,7 +1,6 @@
 package com.shepherdjerred.stteleports.files;
 
 import com.shepherdjerred.stteleports.Main;
-import com.shepherdjerred.stteleports.mysql.ErrorManager;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -61,7 +60,6 @@ public class FileManager {
 
         } catch (Exception e) {
             e.printStackTrace();
-            ErrorManager.logError(e);
         }
 
     }
@@ -80,7 +78,6 @@ public class FileManager {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            ErrorManager.logError(e);
         }
     }
 
@@ -96,7 +93,6 @@ public class FileManager {
             in.close();
         } catch (Exception e) {
             e.printStackTrace();
-            ErrorManager.logError(e);
         }
     }
 

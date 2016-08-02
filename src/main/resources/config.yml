@@ -1,12 +1,32 @@
-mysql:
-    hostname: localhost
-    port: 3306
-    database: stteleports
-    username: root
-    password: password
-    prefix: prefix_
-    pool:
-        connectionTimeout: 30000
-        idleTimeout: 300000
-        minIdleConnections: 9
-        maxConnections: 9
+teleports:
+    home:
+        enabled: true
+        cooldown: 5
+        cost: 10
+        cooldown-multiplier: .5
+        cost-multiplier: .5
+    spawn:
+        enabled: true
+        cooldown: 5
+        cost: 10
+        cooldown-multiplier: .5
+        cost-multiplier: .5
+    tp:
+        enabled: true
+        cooldown: 10
+        cost: 10
+        cooldown-multiplier: .5
+        cost-multiplier: .5
+    tpa:
+        enabled: true
+        cooldown: 10
+        cost: 10
+        cooldown-multiplier: .5
+        cost-multiplier: .5
+
+periodic:
+    frequency: 3
+    cooldown-multiplier: -.5
+    cost-multiplier: -.5
+
+debug: false
