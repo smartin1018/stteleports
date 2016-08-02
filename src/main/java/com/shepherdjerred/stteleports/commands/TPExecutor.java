@@ -37,6 +37,7 @@ public class TPExecutor implements CommandExecutor {
         if (teleportPlayer.getCooldown() < Calendar.getInstance().getTimeInMillis() / 1000L) {
             sender.sendMessage("Still cooling down");
             sender.sendMessage("Curent cooldown: " + teleportPlayer.getCooldown());
+            return true;
         }
 
         if (args.length < 2) {
