@@ -11,16 +11,16 @@ commands:
         description: Handles plugin related functions
         aliases: [sttp]
     teleport:
-        description: Handles plugin related functions
+        description: Teleport command
         aliases: [tp]
     tpa:
-        description: Handles plugin related functions
-        aliases: []
+        description: Teleport request command
+        aliases: [tpr]
     home:
-        description: Handles plugin related functions
+        description: Home command
         aliases: []
     sethome:
-        description: Handles plugin related functions
+        description: Sethome command
         aliases: []
 
 permissions:

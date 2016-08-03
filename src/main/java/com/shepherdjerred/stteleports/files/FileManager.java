@@ -65,7 +65,7 @@ public class FileManager {
     }
 
     // Save files
-    private void saveFiles(@NotNull FileName file) {
+    public void saveFiles(@NotNull FileName file) {
         Validate.notNull(file);
         try {
             switch (file) {
