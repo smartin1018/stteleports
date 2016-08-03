@@ -35,10 +35,10 @@ public class MainExecutor implements CommandExecutor {
 
     }
 
-}
+    enum SubCommands {
 
-enum SubCommands {
+        HELP, RELOAD
 
-    HELP, RELOAD
+    }
 
 }

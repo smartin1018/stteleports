@@ -20,7 +20,14 @@ public class ConfigHelper {
     }
 
     private static void loadTeleports() {
-        Main.getInstance().getConfig().getConfigurationSection("teleports").getKeys(false).forEach(Teleport::new);
+        Main.getInstance().getConfig().getConfigurationSection("teleports").getKeys(false).forEach(teleport -> new Teleport(
+                teleport,
+                Main.getInstance().getConfig().getBoolean("teleports." + teleport + ".enabled"),
+                Main.getInstance().getConfig().getInt("teleports." + teleport + ".cooldown"),
+                Main.getInstance().getConfig().getDouble("teleports." + teleport + ".cost"),
+                Main.getInstance().getConfig().getDouble("teleports." + teleport + ".cooldown-multiplier"),
+                Main.getInstance().getConfig().getDouble("teleports." + teleport + ".cost-multiplier")
+        ));
     }
 
 }

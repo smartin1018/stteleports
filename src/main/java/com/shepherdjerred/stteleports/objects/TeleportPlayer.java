@@ -5,7 +5,9 @@ import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class TeleportPlayer {
 
@@ -20,8 +22,8 @@ public class TeleportPlayer {
     private double costMultiplier;
     @Nullable
     private Location home;
-    @NotNull
-    private List<TeleportPlayer> recievedRequests;
+    @Nullable
+    private TeleportPlayer teleportRequester;
     /**
      * Creates a TeleportPlayer object, only the UUID is needed
      * Name is pulled from Bukkit, other values default to 'empty' states
@@ -34,9 +36,8 @@ public class TeleportPlayer {
         cooldown = 0L;
         cooldownMultiplier = 1.0;
         costMultiplier = 1.0;
-        recievedRequests = new ArrayList<>();
+        teleportRequester = null;
         teleportPlayers.put(uuid, this);
-
     }
 
     public static HashMap<UUID, TeleportPlayer> getTeleportPlayers() {
@@ -57,9 +58,17 @@ public class TeleportPlayer {
         return teleportPlayers.getOrDefault(uuid, null);
     }
 
-    @NotNull
-    public List<TeleportPlayer> getRecievedRequests() {
-        return recievedRequests;
+    @Nullable
+    public TeleportPlayer getTeleportRequester() {
+        return teleportRequester;
+    }
+
+    public void setTeleportRequester(TeleportPlayer teleportRequester) {
+        this.teleportRequester = teleportRequester;
+    }
+
+    public void removeTeleportRequester() {
+        teleportRequester = null;
     }
 
     @NotNull

@@ -1,6 +1,5 @@
 package com.shepherdjerred.stteleports.objects;
 
-import com.shepherdjerred.stteleports.Main;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,13 +18,13 @@ public class Teleport {
     private double cooldownMultiplier;
     private double costMultiplier;
 
-    public Teleport(@NotNull String name) {
+    public Teleport(@NotNull String name, boolean enabled, int cooldown, double cost, double cooldownMultiplier, double costMultiplier) {
         this.name = name;
-        this.enabled = Main.getInstance().getConfig().getBoolean("teleports." + name + ".enabled");
-        this.cooldown = Main.getInstance().getConfig().getInt("teleports." + name + ".cooldown");
-        this.cost = Main.getInstance().getConfig().getDouble("teleports." + name + ".cost");
-        this.cooldownMultiplier = Main.getInstance().getConfig().getDouble("teleports." + name + ".cooldown-multiplier");
-        this.costMultiplier = Main.getInstance().getConfig().getDouble("teleports." + name + ".cost-multiplier");
+        this.enabled = enabled;
+        this.cooldown = cooldown;
+        this.cost = cost;
+        this.cooldownMultiplier = cooldownMultiplier;
+        this.costMultiplier = costMultiplier;
         teleports.put(name, this);
     }
 

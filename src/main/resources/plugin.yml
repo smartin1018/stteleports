@@ -16,12 +16,6 @@ commands:
     tpa:
         description: Handles plugin related functions
         aliases: []
-    tpaaccept:
-        description: Handles plugin related functions
-        aliases: [tpaa]
-    tpadecline:
-        description: Handles plugin related functions
-        aliases: [tpad, tpadeny]
     home:
         description: Handles plugin related functions
         aliases: []

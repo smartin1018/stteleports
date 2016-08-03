@@ -15,6 +15,18 @@ commands:
     teleport:
         success: "&aYou have teleported to &3%player%"
         successOther: "&aYou have teleported &3%target% &ato &3%destination%"
+    teleportRequest:
+        send:
+            requestSender: "Teleport request sent to %target%"
+            requestTarget: |-
+                Teleport request recieved from %sender%
+                Use /tpaaccept to accept
+        accepted:
+            requestSender: ""
+            requestTarget: ""
+        declined:
+            requestSender: ""
+            requestTarget: ""
     home:
         success: "&aYou have teleported home"
         noHome: "&cSet a home with /sethome first"

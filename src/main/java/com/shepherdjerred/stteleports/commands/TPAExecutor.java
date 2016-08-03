@@ -1,57 +1,47 @@
 package com.shepherdjerred.stteleports.commands;
 
-import com.shepherdjerred.stteleports.messages.MessageHelper;
+import com.shepherdjerred.stteleports.commands.tpasubcommands.AcceptSubCommand;
+import com.shepherdjerred.stteleports.commands.tpasubcommands.DeclineSubCommand;
+import com.shepherdjerred.stteleports.commands.tpasubcommands.SendSubCommand;
 import com.shepherdjerred.stteleports.messages.commands.GenericMessages;
-import com.shepherdjerred.stteleports.messages.commands.SharedMessages;
-import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import org.bukkit.Bukkit;
+import org.apache.commons.lang3.EnumUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
-import java.util.Calendar;
 
 public class TPAExecutor implements CommandExecutor {
 
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(GenericMessages.getNoConsoleMessage());
-            return true;
-        }
-
-        if (!sender.hasPermission("stTeleports.teleport.request.send")) {
-            sender.sendMessage(GenericMessages.getNoPermsMessage());
-            return true;
-        }
-
         if (args.length < 1) {
-            sender.sendMessage(GenericMessages.getNoArgsMessage("<target>"));
+            sender.sendMessage(GenericMessages.getNoArgsMessage("<send, accept, decline>"));
             return true;
         }
 
-        TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(((Player) sender).getUniqueId());
-
-        if (!teleportPlayer.cooldownIsOver()) {
-            sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.shared.stillCoolingDown")
-                    .replace("%time%", teleportPlayer.getCooldownString()));
-            sender.sendMessage("Current time: " + Calendar.getInstance().getTimeInMillis());
-            sender.sendMessage("Curent cooldown: " + teleportPlayer.getCooldown());
+        if (!EnumUtils.isValidEnum(MainExecutor.SubCommands.class, args[0].toUpperCase())) {
+            sender.sendMessage(GenericMessages.getInvalidArgsMessage(args[0], "<send, accept, decline>"));
             return true;
         }
 
-        if (Bukkit.getPlayer(args[1]) != null) {
-            // TODO Delete request after 30 seconds
-            TeleportPlayer.getTeleportPlayer(args[1]).getRecievedRequests().add(teleportPlayer);
-            sender.sendMessage("Sent request");
-        } else
-            sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
+        switch (SubCommands.valueOf(args[0].toUpperCase())) {
+            case SEND:
+                SendSubCommand.Executor(sender, args);
+                return true;
+            case ACCEPT:
+                AcceptSubCommand.Executor(sender, args);
+                return true;
+            case DECLINE:
+                DeclineSubCommand.Executor(sender, args);
+                return true;
+        }
 
         return true;
 
     }
 
+    enum SubCommands {
+        SEND, ACCEPT, DECLINE
+    }
 
 }

@@ -44,22 +44,24 @@ public class TPExecutor implements CommandExecutor {
         }
 
         if (args.length < 2) {
-            if (Bukkit.getPlayer(args[1]) != null) {
-                ((Player) sender).teleport(Bukkit.getPlayer(args[1]));
-                sender.sendMessage("Teleported to " + args[1]);
+            if (Bukkit.getPlayer(args[0]) != null) {
+                ((Player) sender).teleport(Bukkit.getPlayer(args[0]));
+                sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleport.success")
+                        .replace("%player%", args[0]));
                 success = true;
             } else
-                sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
+                sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[0]));
         } else {
-            if (Bukkit.getPlayer(args[1]) != null)
-                if (Bukkit.getPlayer(args[2]) != null) {
-                    (Bukkit.getPlayer(args[1])).teleport(Bukkit.getPlayer(args[2]));
-                    sender.sendMessage("Teleported " + args[1] + " to " + args[2]);
+            if (Bukkit.getPlayer(args[0]) != null)
+                if (Bukkit.getPlayer(args[1]) != null) {
+                    (Bukkit.getPlayer(args[0])).teleport(Bukkit.getPlayer(args[1]));
+                    sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleport.successOther")
+                            .replace("%target%", args[0]).replace("%destination%", args[1]));
                     success = true;
                 } else
-                    sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[2]));
+                    sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
             else
-                sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
+                sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[0]));
         }
 
         if (success) {

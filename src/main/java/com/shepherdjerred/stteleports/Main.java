@@ -32,8 +32,6 @@ public class Main extends JavaPlugin {
 
         this.getCommand("teleport").setExecutor(new TPExecutor());
         this.getCommand("tpa").setExecutor(new TPAExecutor());
-        this.getCommand("tpaaccept").setExecutor(new TPAAcceptExecutor());
-        this.getCommand("tpadecline").setExecutor(new TPADeclineExecutor());
         this.getCommand("sethome").setExecutor(new SetHomeExecutor());
         this.getCommand("home").setExecutor(new HomeExecutor());
 
