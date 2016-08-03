@@ -9,4 +9,17 @@ generic:
 commands:
     main:
         reload: "&aThe configuration and database have been reloaded"
+    shared:
+        stillCoolingDown: "&cou need to wait %time% before teleporting again"
+        targetIsntOnline: "&c%player% isn't online"
+    teleport:
+        success: "&aYou have teleported to &3%player%"
+        successOther: "&aYou have teleported &3%target% &ato &3%destination%"
+    home:
+        success: "&aYou have teleported home"
+        noHome: "&cSet a home with /sethome first"
+    sethome:
+        success: "&aYour home has been set"
+    spawn:
+        success: "&aYou have teleported to spawn"
 listeners:

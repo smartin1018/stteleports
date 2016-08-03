@@ -1,14 +1,15 @@
 package com.shepherdjerred.stteleports.listeners;
 
+import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class SampleListener implements Listener {
+public class JoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        // Do something
+        new TeleportPlayer(event.getPlayer().getUniqueId());
     }
 
 }

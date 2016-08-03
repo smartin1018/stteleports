@@ -8,18 +8,18 @@ public class GenericMessages {
 
     @NotNull
     public static String getNoPermsMessage() {
-        return MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("messages.generic.noPerms");
+        return MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("generic.noPerms");
     }
 
     @NotNull
     public static String getNoConsoleMessage() {
-        return MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("messages.generic.noConsole");
+        return MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("generic.noConsole");
     }
 
     @NotNull
     public static String getNoArgsMessage(@NotNull String correctArgs) {
         Validate.notNull(correctArgs);
-        return MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("messages.generic.noArgs.correct")
+        return MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("generic.noArgs.correct")
                 .replace("%args%", correctArgs);
     }
 
@@ -27,7 +27,7 @@ public class GenericMessages {
     public static String getInvalidArgsMessage(@NotNull String givenArg, @NotNull String correctArgs) {
         Validate.notNull(givenArg);
         Validate.notNull(correctArgs);
-        return MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("messages.generic.invalidArg.correct")
+        return MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("generic.invalidArg.correct")
                 .replace("%arg%", givenArg)
                 .replace("%args%", correctArgs);
     }

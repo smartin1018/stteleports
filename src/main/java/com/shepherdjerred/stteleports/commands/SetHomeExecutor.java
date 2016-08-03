@@ -1,5 +1,7 @@
 package com.shepherdjerred.stteleports.commands;
 
+import com.shepherdjerred.stteleports.messages.MessageHelper;
+import com.shepherdjerred.stteleports.messages.commands.GenericMessages;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,19 +13,19 @@ public class SetHomeExecutor implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("Players only");
+            sender.sendMessage(GenericMessages.getNoConsoleMessage());
             return true;
         }
 
         if (!sender.hasPermission("stTeleports.sethome")) {
-            sender.sendMessage("No permission");
+            sender.sendMessage(GenericMessages.getNoPermsMessage());
             return true;
         }
 
         TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(((Player) sender).getUniqueId());
 
         teleportPlayer.setHome(((Player) sender).getLocation());
-        sender.sendMessage("Set home");
+        sender.sendMessage(MessageHelper.colorMessagesString("commands.sethome.success"));
 
         return true;
 

@@ -5,14 +5,12 @@ import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class TeleportPlayer {
 
     @NotNull
     private static HashMap<UUID, TeleportPlayer> teleportPlayers = new HashMap<>();
-
     @NotNull
     private UUID uuid;
     @NotNull
@@ -22,7 +20,8 @@ public class TeleportPlayer {
     private double costMultiplier;
     @Nullable
     private Location home;
-
+    @NotNull
+    private List<TeleportPlayer> recievedRequests;
     /**
      * Creates a TeleportPlayer object, only the UUID is needed
      * Name is pulled from Bukkit, other values default to 'empty' states
@@ -35,6 +34,13 @@ public class TeleportPlayer {
         cooldown = 0L;
         cooldownMultiplier = 1.0;
         costMultiplier = 1.0;
+        recievedRequests = new ArrayList<>();
+        teleportPlayers.put(uuid, this);
+
+    }
+
+    public static HashMap<UUID, TeleportPlayer> getTeleportPlayers() {
+        return teleportPlayers;
     }
 
     @Nullable
@@ -49,6 +55,11 @@ public class TeleportPlayer {
     @Nullable
     public static TeleportPlayer getTeleportPlayer(@NotNull UUID uuid) {
         return teleportPlayers.getOrDefault(uuid, null);
+    }
+
+    @NotNull
+    public List<TeleportPlayer> getRecievedRequests() {
+        return recievedRequests;
     }
 
     @NotNull
@@ -92,5 +103,24 @@ public class TeleportPlayer {
 
     public void setHome(@Nullable Location home) {
         this.home = home;
+    }
+
+    @NotNull
+    public String getCooldownString() {
+        return String.valueOf((Calendar.getInstance().getTimeInMillis() - getCooldown()) / 1000L);
+    }
+
+    public boolean cooldownIsOver() {
+        return getCooldown() <= Calendar.getInstance().getTimeInMillis();
+    }
+
+    public void runTeleport(Teleport teleport) {
+        setCooldown(teleport.getCooldown() + (int) (teleport.getCooldownMultiplier() * getCooldownMultiplier()));
+        setCooldownMultiplier(getCooldownMultiplier() + teleport.getCooldownMultiplier());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, (int) getCooldown());
+
+        setCooldown(calendar.getTimeInMillis());
     }
 }
