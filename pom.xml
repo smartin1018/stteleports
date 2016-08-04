@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.shepherdjerred</groupId>
     <artifactId>stTeleports</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>stTeleports</name>
     <url>https://github.com/ShepherdJerred/stTeleports</url>
     <description>Player teleporting</description>
