@@ -1,5 +1,6 @@
 package com.shepherdjerred.stteleports.objects;
 
+import com.shepherdjerred.stteleports.files.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class TeleportPlayer {
 
@@ -24,6 +26,7 @@ public class TeleportPlayer {
     private Location home;
     @Nullable
     private TeleportPlayer teleportRequester;
+
     /**
      * Creates a TeleportPlayer object, only the UUID is needed
      * Name is pulled from Bukkit, other values default to 'empty' states
@@ -87,6 +90,8 @@ public class TeleportPlayer {
 
     public void setCooldown(long cooldown) {
         this.cooldown = cooldown;
+        FileManager.getInstance().storage.set("players." + getUuid() + ".cooldown", cooldown);
+        FileManager.getInstance().saveFiles(FileManager.FileName.STORAGE);
     }
 
     public double getCooldownMultiplier() {
@@ -95,6 +100,8 @@ public class TeleportPlayer {
 
     public void setCooldownMultiplier(double cooldownMultiplier) {
         this.cooldownMultiplier = cooldownMultiplier;
+        FileManager.getInstance().storage.set("players." + getUuid() + ".cooldown-multiplier", cooldownMultiplier);
+        FileManager.getInstance().saveFiles(FileManager.FileName.STORAGE);
     }
 
     public double getCostMultiplier() {
@@ -103,6 +110,8 @@ public class TeleportPlayer {
 
     public void setCostMultiplier(double costMultiplier) {
         this.costMultiplier = costMultiplier;
+        FileManager.getInstance().storage.set("players." + getUuid() + ".cost-multiplier", costMultiplier);
+        FileManager.getInstance().saveFiles(FileManager.FileName.STORAGE);
     }
 
     @Nullable
@@ -116,7 +125,47 @@ public class TeleportPlayer {
 
     @NotNull
     public String getCooldownString() {
-        return String.valueOf((Calendar.getInstance().getTimeInMillis() - getCooldown()) / 1000L);
+
+        long diffInMillies = getCooldown() - Calendar.getInstance().getTimeInMillis();
+
+        long hours = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        diffInMillies -= TimeUnit.HOURS.toMillis(hours);
+
+        long minutes = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        diffInMillies -= TimeUnit.MINUTES.toMillis(minutes);
+
+        long seconds = TimeUnit.SECONDS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+        if (hours < 1 && minutes < 1 && seconds < 1)
+            seconds = 1L;
+
+        String string = "";
+
+        if (hours > 0) {
+            string = string.concat(String.valueOf(hours) + " hour");
+            if (hours > 1)
+                string = string.concat("s");
+        }
+
+        if (hours > 0 && minutes > 0)
+            string = string.concat(", ");
+
+        if (minutes > 0) {
+            string = string.concat(String.valueOf(minutes) + " minute");
+            if (minutes > 1)
+                string = string.concat("s");
+        }
+
+        if (minutes > 0 && seconds > 0 || minutes == 0 && seconds > 0 && hours > 0)
+            string = string.concat(", ");
+
+        if (seconds > 0) {
+            string = string.concat(String.valueOf(seconds) + " second");
+            if (seconds > 1)
+                string = string.concat("s");
+        }
+
+        return String.valueOf(string);
     }
 
     public boolean cooldownIsOver() {
@@ -124,7 +173,7 @@ public class TeleportPlayer {
     }
 
     public void runTeleport(Teleport teleport) {
-        setCooldown(teleport.getCooldown() + (int) (teleport.getCooldownMultiplier() * getCooldownMultiplier()));
+        setCooldown((long) (teleport.getCooldown() * getCooldownMultiplier()));
         setCooldownMultiplier(getCooldownMultiplier() + teleport.getCooldownMultiplier());
 
         Calendar calendar = Calendar.getInstance();
