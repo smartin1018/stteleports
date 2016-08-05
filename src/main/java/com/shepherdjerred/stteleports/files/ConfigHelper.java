@@ -1,6 +1,7 @@
 package com.shepherdjerred.stteleports.files;
 
 import com.shepherdjerred.stteleports.Main;
+import com.shepherdjerred.stteleports.extensions.Vault;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -15,6 +16,12 @@ public class ConfigHelper {
 
         Main.debug = Main.getInstance().getConfig().getBoolean("debug");
         FileManager.getInstance().loadFiles();
+
+        if (Main.getInstance().getConfig().getBoolean("economy.enabled"))
+            if (Vault.setupEconomy())
+                Main.getInstance().getLogger().info("Vault support enabled");
+            else
+                Main.getInstance().getLogger().info("Error enabling economy");
 
         loadTeleports();
     }

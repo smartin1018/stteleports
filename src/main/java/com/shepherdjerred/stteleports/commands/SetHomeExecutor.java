@@ -28,12 +28,12 @@ public class SetHomeExecutor implements CommandExecutor {
         teleportPlayer.setHome(((Player) sender).getLocation());
         sender.sendMessage(MessageHelper.colorMessagesString("commands.sethome.success"));
 
-        FileManager.getInstance().storage.set("homes." + ((Player) sender).getUniqueId() + ".home.x", teleportPlayer.getHome().getX());
-        FileManager.getInstance().storage.set("homes." + ((Player) sender).getUniqueId() + ".home.y", teleportPlayer.getHome().getY());
-        FileManager.getInstance().storage.set("homes." + ((Player) sender).getUniqueId() + ".home.z", teleportPlayer.getHome().getZ());
-        FileManager.getInstance().storage.set("homes." + ((Player) sender).getUniqueId() + ".home.yaw", teleportPlayer.getHome().getYaw());
-        FileManager.getInstance().storage.set("homes." + ((Player) sender).getUniqueId() + ".home.pitch", teleportPlayer.getHome().getPitch());
-        FileManager.getInstance().storage.set("homes." + ((Player) sender).getUniqueId() + ".home.world", teleportPlayer.getHome().getWorld().getUID());
+        FileManager.getInstance().storage.set("players." + ((Player) sender).getUniqueId() + ".homes.home.x", teleportPlayer.getHome().getX());
+        FileManager.getInstance().storage.set("players." + ((Player) sender).getUniqueId() + ".homes.home.y", teleportPlayer.getHome().getY());
+        FileManager.getInstance().storage.set("players." + ((Player) sender).getUniqueId() + ".homes.home.z", teleportPlayer.getHome().getZ());
+        FileManager.getInstance().storage.set("players." + ((Player) sender).getUniqueId() + ".homes.home.yaw", teleportPlayer.getHome().getYaw());
+        FileManager.getInstance().storage.set("players." + ((Player) sender).getUniqueId() + ".homes.home.pitch", teleportPlayer.getHome().getPitch());
+        FileManager.getInstance().storage.set("players." + ((Player) sender).getUniqueId() + ".homes.home.world", teleportPlayer.getHome().getWorld().getUID().toString());
         FileManager.getInstance().saveFiles(FileManager.FileName.STORAGE);
 
         return true;

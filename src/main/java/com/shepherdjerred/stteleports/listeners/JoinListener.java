@@ -16,14 +16,23 @@ public class JoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         TeleportPlayer teleportPlayer = new TeleportPlayer(event.getPlayer().getUniqueId());
 
-        if (FileManager.getInstance().storage.getConfigurationSection("homes." + event.getPlayer().getUniqueId()) + "home" != null) {
+        if (FileManager.getInstance().storage.getConfigurationSection("players." + event.getPlayer().getUniqueId() + ".cooldown") != null)
+            teleportPlayer.setCooldown(FileManager.getInstance().storage.getLong("players." + event.getPlayer().getUniqueId() + ".cooldown"));
+
+        if (FileManager.getInstance().storage.getConfigurationSection("players." + event.getPlayer().getUniqueId() + ".cooldown-multiplier") != null)
+            teleportPlayer.setCooldownMultiplier(FileManager.getInstance().storage.getDouble("players." + event.getPlayer().getUniqueId() + ".cooldown-multiplier"));
+
+        if (FileManager.getInstance().storage.getConfigurationSection("players." + event.getPlayer().getUniqueId() + ".cost-multiplier") != null)
+            teleportPlayer.setCostMultiplier(FileManager.getInstance().storage.getDouble("players." + event.getPlayer().getUniqueId() + ".cost-multiplier"));
+
+        if (FileManager.getInstance().storage.getConfigurationSection("players." + event.getPlayer().getUniqueId() + ".homes.home") != null) {
             teleportPlayer.setHome(new Location(
-                    Bukkit.getWorld(UUID.fromString(FileManager.getInstance().storage.getString("homes." + event.getPlayer().getUniqueId() + ".home.world"))),
-                    FileManager.getInstance().storage.getDouble("homes." + event.getPlayer().getUniqueId() + ".home.x"),
-                    FileManager.getInstance().storage.getDouble("homes." + event.getPlayer().getUniqueId() + ".home.y"),
-                    FileManager.getInstance().storage.getDouble("homes." + event.getPlayer().getUniqueId() + ".home.z"),
-                    Float.parseFloat(FileManager.getInstance().storage.getString("homes." + event.getPlayer().getUniqueId() + ".home.yaw")),
-                    Float.parseFloat(FileManager.getInstance().storage.getString("homes." + event.getPlayer().getUniqueId() + ".home.pitch"))
+                    Bukkit.getWorld(UUID.fromString(FileManager.getInstance().storage.getString("" + event.getPlayer().getUniqueId() + ".homes.home.world"))),
+                    FileManager.getInstance().storage.getDouble("players." + event.getPlayer().getUniqueId() + ".homes.home.x"),
+                    FileManager.getInstance().storage.getDouble("players." + event.getPlayer().getUniqueId() + ".homes.home.y"),
+                    FileManager.getInstance().storage.getDouble("players." + event.getPlayer().getUniqueId() + ".homes.home.z"),
+                    Float.parseFloat(FileManager.getInstance().storage.getString("players." + event.getPlayer().getUniqueId() + ".homes.home.yaw")),
+                    Float.parseFloat(FileManager.getInstance().storage.getString("players." + event.getPlayer().getUniqueId() + ".homes.home.pitch"))
             ));
         }
 
