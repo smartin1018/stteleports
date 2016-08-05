@@ -32,42 +32,51 @@ public class TPExecutor implements CommandExecutor {
             return true;
         }
 
-        TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(((Player) sender).getUniqueId());
+        Player player = (Player) sender;
+        TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(player.getUniqueId());
         boolean success = false;
 
         if (!teleportPlayer.cooldownIsOver()) {
-            sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.shared.stillCoolingDown")
+            player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.shared.stillCoolingDown")
                     .replace("%time%", teleportPlayer.getCooldownString()));
-            sender.sendMessage("Current time: " + Calendar.getInstance().getTimeInMillis());
-            sender.sendMessage("Curent cooldown: " + teleportPlayer.getCooldown());
+            player.sendMessage("Current time: " + Calendar.getInstance().getTimeInMillis());
+            player.sendMessage("Curent cooldown: " + teleportPlayer.getCooldown());
             return true;
         }
 
         if (args.length < 2) {
             if (Bukkit.getPlayer(args[0]) != null) {
-                ((Player) sender).teleport(Bukkit.getPlayer(args[0]));
-                sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleport.success")
-                        .replace("%player%", args[0]));
-                success = true;
+                if (Bukkit.getPlayer(args[0]) != player) {
+                    player.teleport(Bukkit.getPlayer(args[0]));
+                    player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleport.success")
+                            .replace("%player%", args[0]));
+                    success = true;
+                } else {
+                    player.sendMessage("You can't teleport to yourself");
+                }
             } else
-                sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[0]));
+                player.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[0]));
         } else {
             if (Bukkit.getPlayer(args[0]) != null)
                 if (Bukkit.getPlayer(args[1]) != null) {
-                    (Bukkit.getPlayer(args[0])).teleport(Bukkit.getPlayer(args[1]));
-                    sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleport.successOther")
-                            .replace("%target%", args[0]).replace("%destination%", args[1]));
-                    success = true;
+                    if (Bukkit.getPlayer(args[0]) != Bukkit.getPlayer(args[1])) {
+                        (Bukkit.getPlayer(args[0])).teleport(Bukkit.getPlayer(args[1]));
+                        player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleport.successOther")
+                                .replace("%target%", args[0]).replace("%destination%", args[1]));
+                        success = true;
+                    } else {
+                        player.sendMessage("You can't teleport someone to themself");
+                    }
                 } else
-                    sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
+                    player.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
             else
-                sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[0]));
+                player.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[0]));
         }
 
         if (success) {
             teleportPlayer.runTeleport(Teleport.getTeleport("tp"));
-            sender.sendMessage("New cooldown multiplier: " + teleportPlayer.getCooldownMultiplier());
-            sender.sendMessage("New cooldown: " + teleportPlayer.getCooldown());
+            player.sendMessage("New cooldown multiplier: " + teleportPlayer.getCooldownMultiplier());
+            player.sendMessage("New cooldown: " + teleportPlayer.getCooldown());
         }
 
         return true;

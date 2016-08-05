@@ -8,8 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Calendar;
-
 public class SendSubCommand {
 
     public static void Executor(CommandSender sender, String[] args) {
@@ -29,22 +27,24 @@ public class SendSubCommand {
             return;
         }
 
-        TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(((Player) sender).getUniqueId());
+        Player player = (Player) sender;
+        TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(player.getUniqueId());
 
         if (!teleportPlayer.cooldownIsOver()) {
-            sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.shared.stillCoolingDown")
+            player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.shared.stillCoolingDown")
                     .replace("%time%", teleportPlayer.getCooldownString()));
-            sender.sendMessage("Current time: " + Calendar.getInstance().getTimeInMillis());
-            sender.sendMessage("Curent cooldown: " + teleportPlayer.getCooldown());
             return;
         }
 
         if (Bukkit.getPlayer(args[1]) != null) {
-            // TODO Delete request after 30 seconds
-            TeleportPlayer.getTeleportPlayer(args[1]).setTeleportRequester(teleportPlayer);
-            sender.sendMessage("Sent request");
+            if (Bukkit.getPlayer(args[1]) != player) {
+                // TODO Delete request after 30 seconds
+                TeleportPlayer.getTeleportPlayer(args[1]).setTeleportRequester(teleportPlayer);
+                player.sendMessage("Sent request");
+            } else
+                player.sendMessage("You can't send a request to yourself");
         } else
-            sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
+            player.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
 
     }
 

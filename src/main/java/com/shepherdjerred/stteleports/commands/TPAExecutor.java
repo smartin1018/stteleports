@@ -19,7 +19,7 @@ public class TPAExecutor implements CommandExecutor {
             return true;
         }
 
-        if (!EnumUtils.isValidEnum(MainExecutor.SubCommands.class, args[0].toUpperCase())) {
+        if (!EnumUtils.isValidEnum(TPAExecutor.SubCommands.class, args[0].toUpperCase())) {
             sender.sendMessage(GenericMessages.getInvalidArgsMessage(args[0], "<send, accept, decline>"));
             return true;
         }
