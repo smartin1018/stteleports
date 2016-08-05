@@ -4,6 +4,8 @@ description: ${project.description}
 author: Jerred Shepherd (RiotShielder)
 website: http://shepherdjerred.com/
 
+soft-depend: [Vault]
+
 main: com.shepherdjerred.stteleports.Main
 
 commands:

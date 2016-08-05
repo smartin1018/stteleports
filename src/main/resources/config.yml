@@ -29,4 +29,7 @@ periodic:
     cooldown-multiplier: -.5
     cost-multiplier: -.5
 
+economy:
+    enabled: false
+
 debug: false

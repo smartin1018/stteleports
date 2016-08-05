@@ -1,4 +1,4 @@
-prefix: &8[&3stTeleports&8]:
+prefix: "&8[&3stTeleports&8]:"
 generic:
     noPerms: '&cYou don''t have permission to do that!'
     noConsole: '&cYou must be a player to do that!'
@@ -10,7 +10,7 @@ commands:
     main:
         reload: "&aThe configuration and database have been reloaded"
     shared:
-        stillCoolingDown: "&cou need to wait %time% before teleporting again"
+        stillCoolingDown: "&cYou need to wait %time% before teleporting again"
         targetIsntOnline: "&c%player% isn't online"
     teleport:
         success: "&aYou have teleported to &3%player%"
@@ -35,3 +35,7 @@ commands:
     spawn:
         success: "&aYou have teleported to spawn"
 listeners:
+economy:
+    notEnabled: '&cEconomy features aren''t enabled'
+    notEnoughMoney: '&cYou need %amount%Cr to do that'
+    moneyTaken: '&c%amount%Cr has been taken from your account'
