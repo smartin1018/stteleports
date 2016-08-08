@@ -85,13 +85,13 @@ public class Main extends JavaPlugin {
             TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(player);
 
             if (teleportPlayer.getCooldownMultiplier() > 1) {
-                teleportPlayer.setCooldownMultiplier(teleportPlayer.getCooldownMultiplier() - getConfig().getDouble("periodic.cooldown-multiplier"));
+                teleportPlayer.setCooldownMultiplier(teleportPlayer.getCooldownMultiplier() - getConfig().getDouble("periodic.cooldown-multiplier-decrease"));
                 if (teleportPlayer.getCooldownMultiplier() < 1)
                     teleportPlayer.setCooldownMultiplier(1);
             }
 
             if (teleportPlayer.getCostMultiplier() > 1) {
-                teleportPlayer.setCostMultiplier(teleportPlayer.getCooldownMultiplier() - getConfig().getDouble("periodic.cost-multiplier"));
+                teleportPlayer.setCostMultiplier(teleportPlayer.getCooldownMultiplier() - getConfig().getDouble("periodic.cost-multiplier-decrease"));
                 if (teleportPlayer.getCostMultiplier() < 1)
                     teleportPlayer.setCostMultiplier(1);
             }
