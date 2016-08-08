@@ -3,6 +3,7 @@ package com.shepherdjerred.stteleports.objects;
 import com.shepherdjerred.stteleports.files.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,6 +46,11 @@ public class TeleportPlayer {
 
     public static HashMap<UUID, TeleportPlayer> getTeleportPlayers() {
         return teleportPlayers;
+    }
+
+    @Nullable
+    public static TeleportPlayer getTeleportPlayer(@NotNull Player player) {
+        return getTeleportPlayer(player.getUniqueId());
     }
 
     @Nullable
