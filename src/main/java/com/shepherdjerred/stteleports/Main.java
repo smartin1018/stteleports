@@ -102,6 +102,6 @@ public class Main extends JavaPlugin {
                 getLogger().info("New cost multiplier for " + player.getName() + ": " + teleportPlayer.getCostMultiplier());
             }
 
-        }), 0L, getConfig().getInt("periodic.frequency"));
+        }), 0L, getConfig().getInt("periodic.frequency") * 20);
     }
 }
