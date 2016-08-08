@@ -29,6 +29,9 @@ periodic:
     cooldown-multiplier-decrease: .5
     cost-multiplier-decrease: .5
 
+tpa:
+    requestDuration: 15
+
 economy:
     enabled: false
 
