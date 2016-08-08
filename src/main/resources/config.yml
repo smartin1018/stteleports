@@ -25,7 +25,7 @@ teleports:
         cost-multiplier: .5
 
 periodic:
-    frequency: 3
+    frequency: 180
     cooldown-multiplier: -.5
     cost-multiplier: -.5
 
