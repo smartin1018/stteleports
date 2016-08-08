@@ -2,6 +2,8 @@ package com.shepherdjerred.stteleports.extensions;
 
 import com.shepherdjerred.stteleports.Main;
 import com.shepherdjerred.stteleports.messages.commands.EconomyMessages;
+import com.shepherdjerred.stteleports.objects.Teleport;
+import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -23,6 +25,11 @@ public class Vault {
 
         return (economy != null);
 
+    }
+
+    public static boolean chargeForTeleport(Player player, Teleport teleport) {
+        TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(player);
+        return withdraw(player, teleport.getCost() * teleportPlayer.getCostMultiplier());
     }
 
     public static boolean withdraw(@NotNull Player sender, @NotNull Double amount) {

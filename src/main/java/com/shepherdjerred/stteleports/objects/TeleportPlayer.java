@@ -1,5 +1,6 @@
 package com.shepherdjerred.stteleports.objects;
 
+import com.shepherdjerred.stteleports.extensions.Vault;
 import com.shepherdjerred.stteleports.files.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -179,6 +180,13 @@ public class TeleportPlayer {
     }
 
     public void runTeleport(Teleport teleport) {
+        if (Vault.enabled)
+            if (!Vault.chargeForTeleport(Bukkit.getPlayer(getUuid()), teleport)) {
+                return;
+            } else {
+                setCostMultiplier(getCostMultiplier() + teleport.getCostMultiplier());
+            }
+        
         setCooldown((long) (teleport.getCooldown() * getCooldownMultiplier()));
         setCooldownMultiplier(getCooldownMultiplier() + teleport.getCooldownMultiplier());
 
