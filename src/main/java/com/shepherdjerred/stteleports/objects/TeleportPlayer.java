@@ -186,7 +186,7 @@ public class TeleportPlayer {
             } else {
                 setCostMultiplier(getCostMultiplier() + teleport.getCostMultiplier());
             }
-        
+
         setCooldown((long) (teleport.getCooldown() * getCooldownMultiplier()));
         setCooldownMultiplier(getCooldownMultiplier() + teleport.getCooldownMultiplier());
 

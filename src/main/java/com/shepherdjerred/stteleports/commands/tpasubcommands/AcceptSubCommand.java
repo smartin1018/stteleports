@@ -1,5 +1,6 @@
 package com.shepherdjerred.stteleports.commands.tpasubcommands;
 
+import com.shepherdjerred.stteleports.messages.MessageHelper;
 import com.shepherdjerred.stteleports.messages.commands.GenericMessages;
 import com.shepherdjerred.stteleports.messages.commands.SharedMessages;
 import com.shepherdjerred.stteleports.objects.Teleport;
@@ -23,7 +24,7 @@ public class AcceptSubCommand {
             return;
         }
 
-        if (args.length < 1) {
+        if (args.length < 2) {
             sender.sendMessage(GenericMessages.getNoArgsMessage("<target>"));
             return;
         }
@@ -40,14 +41,13 @@ public class AcceptSubCommand {
             return;
         }
 
+        Bukkit.getPlayer(args[1]).sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.accept.requestSender").replace("%player%", sender.getName()));
+        sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.accept.requestTarget").replace("%player%", Bukkit.getPlayer(args[1]).getName()));
+
         teleportPlayer.removeTeleportRequester();
         TeleportPlayer.getTeleportPlayer(args[1]).runTeleport(Teleport.getTeleport("tpa"));
         Bukkit.getPlayer(args[1]).teleport(((Player) sender).getLocation());
         Bukkit.getPlayer(args[1]).sendMessage(sender.getName() + " accepted your tpa request");
-
-        sender.sendMessage("Accepted request");
-        sender.sendMessage("New cooldown multiplier: " + teleportPlayer.getCooldownMultiplier());
-        sender.sendMessage("New cooldown: " + teleportPlayer.getCooldown());
 
     }
 

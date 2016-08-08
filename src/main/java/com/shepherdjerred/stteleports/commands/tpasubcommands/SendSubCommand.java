@@ -1,5 +1,6 @@
 package com.shepherdjerred.stteleports.commands.tpasubcommands;
 
+import com.shepherdjerred.stteleports.Main;
 import com.shepherdjerred.stteleports.messages.MessageHelper;
 import com.shepherdjerred.stteleports.messages.commands.GenericMessages;
 import com.shepherdjerred.stteleports.messages.commands.SharedMessages;
@@ -40,9 +41,18 @@ public class SendSubCommand {
             if (Bukkit.getPlayer(args[1]) != player) {
                 // TODO Delete request after 30 seconds
                 TeleportPlayer.getTeleportPlayer(args[1]).setTeleportRequester(teleportPlayer);
-                player.sendMessage("Sent request");
+                player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.requestSender"));
+                Bukkit.getPlayer(args[1]).sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.requestTarget"));
+
+                Main.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+                    if (TeleportPlayer.getTeleportPlayer(args[1]).getTeleportRequester() == teleportPlayer) {
+                        TeleportPlayer.getTeleportPlayer(args[1]).setTeleportRequester(null);
+                        player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.expire.sender").replace("%player%", Bukkit.getPlayer(args[1]).getName()));
+                        Bukkit.getPlayer(args[1]).sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.expire.target").replace("%player%", teleportPlayer.getName()));
+                    }
+                }, Main.getInstance().getConfig().getInt("tpa.requestDuration") * 20);
             } else
-                player.sendMessage("You can't send a request to yourself");
+                player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.cantRequestSelf"));
         } else
             player.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
 

@@ -11,8 +11,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Calendar;
-
 public class TPExecutor implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -39,8 +37,6 @@ public class TPExecutor implements CommandExecutor {
         if (!teleportPlayer.cooldownIsOver()) {
             player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.shared.stillCoolingDown")
                     .replace("%time%", teleportPlayer.getCooldownString()));
-            player.sendMessage("Current time: " + Calendar.getInstance().getTimeInMillis());
-            player.sendMessage("Curent cooldown: " + teleportPlayer.getCooldown());
             return true;
         }
 
@@ -75,8 +71,6 @@ public class TPExecutor implements CommandExecutor {
 
         if (success) {
             teleportPlayer.runTeleport(Teleport.getTeleport("tp"));
-            player.sendMessage("New cooldown multiplier: " + teleportPlayer.getCooldownMultiplier());
-            player.sendMessage("New cooldown: " + teleportPlayer.getCooldown());
         }
 
         return true;

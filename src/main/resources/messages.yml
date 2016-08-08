@@ -20,11 +20,15 @@ commands:
             requestSender: "Teleport request sent to %target%"
             requestTarget: |-
                 Teleport request recieved from %sender%
-                Use /tpaaccept to accept
-        accepted:
-            requestSender: ""
-            requestTarget: ""
-        declined:
+                Use /tpa accept to accept
+            cantRequestSelf: "You can't send a request to yourself"
+            expired:
+                sender: "A teleport request from %player% has expired"
+                target: "Your teleport request to %player% has expired"
+        accept:
+            requestSender: "%player% accepted your teleport request"
+            requestTarget: "You accepted a teleport request from %player%"
+        decline:
             requestSender: ""
             requestTarget: ""
     home:
