@@ -25,7 +25,8 @@ public class JoinListener implements Listener {
         if (FileManager.getInstance().storage.getConfigurationSection("players." + event.getPlayer().getUniqueId() + ".cost-multiplier") != null)
             teleportPlayer.setCostMultiplier(FileManager.getInstance().storage.getDouble("players." + event.getPlayer().getUniqueId() + ".cost-multiplier"));
 
-        if (FileManager.getInstance().storage.getConfigurationSection("players." + event.getPlayer().getUniqueId() + ".homes.home") != null) {
+        if (FileManager.getInstance().storage.getConfigurationSection("players." + event.getPlayer().getUniqueId() + ".homes.home") != null
+                && Bukkit.getWorld(UUID.fromString(FileManager.getInstance().storage.getString("" + event.getPlayer().getUniqueId() + ".homes.home.world"))) != null) {
             teleportPlayer.setHome(new Location(
                     Bukkit.getWorld(UUID.fromString(FileManager.getInstance().storage.getString("" + event.getPlayer().getUniqueId() + ".homes.home.world"))),
                     FileManager.getInstance().storage.getDouble("players." + event.getPlayer().getUniqueId() + ".homes.home.x"),
