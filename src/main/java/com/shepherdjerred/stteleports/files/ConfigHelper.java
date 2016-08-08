@@ -7,6 +7,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 public class ConfigHelper {
 
+    public static boolean debug;
+
     @SuppressWarnings("deprecation")
     public static void loadConfigs() {
         Main.getInstance().saveDefaultConfig();
@@ -14,7 +16,7 @@ public class ConfigHelper {
         Main.getInstance().getConfig().options().copyDefaults(true);
         Main.getInstance().saveConfig();
 
-        Main.debug = Main.getInstance().getConfig().getBoolean("debug");
+        debug = Main.getInstance().getConfig().getBoolean("debug");
         FileManager.getInstance().loadFiles();
 
         if (Main.getInstance().getConfig().getBoolean("economy.enabled"))
