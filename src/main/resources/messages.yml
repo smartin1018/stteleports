@@ -1,4 +1,4 @@
-prefix: "&8[&3stTeleports&8]:"
+prefix: "&8[&3stTeleports&8]: "
 generic:
     noPerms: '&cYou don''t have permission to do that!'
     noConsole: '&cYou must be a player to do that!'
@@ -17,11 +17,11 @@ commands:
         successOther: "&aYou have teleported &3%target% &ato &3%destination%"
     teleportRequest:
         send:
-            requestSender: "Teleport request sent to %target%"
+            requestSender: "&aTeleport request sent to &3%target%"
             requestTarget: |-
-                Teleport request recieved from %sender%
+                Teleport request recieved from %player%
                 Use /tpa accept to accept
-            cantRequestSelf: "You can't send a request to yourself"
+            cantRequestSelf: "&cYou can't send a request to yourself"
             expired:
                 sender: "A teleport request from %player% has expired"
                 target: "Your teleport request to %player% has expired"
@@ -29,8 +29,8 @@ commands:
             requestSender: "%player% accepted your teleport request"
             requestTarget: "You accepted a teleport request from %player%"
         decline:
-            requestSender: ""
-            requestTarget: ""
+            requestSender: "%player% declined your teleport request"
+            requestTarget: "You declined a teleport request from %player%"
     home:
         success: "&aYou have teleported home"
         noHome: "&cSet a home with /sethome first"
