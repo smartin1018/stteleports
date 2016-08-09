@@ -48,7 +48,7 @@ public class TPExecutor implements CommandExecutor {
                             .replace("%player%", args[0]));
                     success = true;
                 } else {
-                    player.sendMessage("You can't teleport to yourself");
+                    player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.shared.cantTeleportToSelf"));
                 }
             } else
                 player.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[0]));
@@ -61,7 +61,7 @@ public class TPExecutor implements CommandExecutor {
                                 .replace("%target%", args[0]).replace("%destination%", args[1]));
                         success = true;
                     } else {
-                        player.sendMessage("You can't teleport someone to themself");
+                        player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.shared.cantTeleportTargetToSelf"));
                     }
                 } else
                     player.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));

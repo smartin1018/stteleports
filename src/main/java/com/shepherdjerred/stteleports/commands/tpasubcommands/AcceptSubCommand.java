@@ -37,7 +37,7 @@ public class AcceptSubCommand {
         }
 
         if (!(teleportPlayer.getTeleportRequester() == TeleportPlayer.getTeleportPlayer(args[1]))) {
-            sender.sendMessage("No request from " + args[1]);
+            sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.requestDoesntExist").replace("%player%", Bukkit.getPlayer(args[1]).getName()));
             return;
         }
 
@@ -47,7 +47,6 @@ public class AcceptSubCommand {
         teleportPlayer.removeTeleportRequester();
         TeleportPlayer.getTeleportPlayer(args[1]).runTeleport(Teleport.getTeleport("tpa"));
         Bukkit.getPlayer(args[1]).teleport(((Player) sender).getLocation());
-        Bukkit.getPlayer(args[1]).sendMessage(sender.getName() + " accepted your tpa request");
 
     }
 

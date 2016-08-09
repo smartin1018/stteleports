@@ -1,5 +1,6 @@
 package com.shepherdjerred.stteleports.commands.tpasubcommands;
 
+import com.shepherdjerred.stteleports.messages.MessageHelper;
 import com.shepherdjerred.stteleports.messages.commands.GenericMessages;
 import com.shepherdjerred.stteleports.messages.commands.SharedMessages;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
@@ -35,12 +36,14 @@ public class DeclineSubCommand {
         }
 
         if (!(teleportPlayer.getTeleportRequester() == TeleportPlayer.getTeleportPlayer(args[1]))) {
-            sender.sendMessage("No request from " + args[1]);
+            sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.requestDoesntExist").replace("%player%", Bukkit.getPlayer(args[1]).getName()));
             return;
         }
 
+        Bukkit.getPlayer(args[1]).sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.decline.requestSender").replace("%player%", sender.getName()));
+        sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.decline.requestTarget").replace("%player%", Bukkit.getPlayer(args[1]).getName()));
+
         teleportPlayer.removeTeleportRequester();
-        sender.sendMessage("Delined request");
 
     }
 

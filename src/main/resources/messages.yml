@@ -1,4 +1,4 @@
-prefix: "&8[&3stTeleports&8]: "
+prefix: "&8[&3stTeleports&8]:"
 generic:
     noPerms: '&cYou don''t have permission to do that!'
     noConsole: '&cYou must be a player to do that!'
@@ -12,25 +12,29 @@ commands:
     shared:
         stillCoolingDown: "&cYou need to wait %time% before teleporting again"
         targetIsntOnline: "&c%player% isn't online"
+        cantTeleportToSelf: "You can't teleport to yourself"
+        cantTeleportTargetToSelf: "You can't teleport someone to themself"
     teleport:
         success: "&aYou have teleported to &3%player%"
         successOther: "&aYou have teleported &3%target% &ato &3%destination%"
     teleportRequest:
+        requestDoenstExist: "No request from %player% exists"
         send:
-            requestSender: "&aTeleport request sent to &3%target%"
+            requestSender: "Teleport request sent to %target%"
             requestTarget: |-
-                Teleport request recieved from %player%
-                Use /tpa accept to accept
-            cantRequestSelf: "&cYou can't send a request to yourself"
+                &fTeleport request recieved from &3%sender%
+                &7Use &a/tpa accept %sender% &7to accept
+                &7or &c/tpa decline %sender% &7to decline
+            cantRequestSelf: "You can't send a request to yourself"
             expired:
-                sender: "A teleport request from %player% has expired"
-                target: "Your teleport request to %player% has expired"
+                sender: "&cA teleport request from &3%player% &ahas expired"
+                target: "&cYour teleport request to &3%player% &ahas expired"
         accept:
-            requestSender: "%player% accepted your teleport request"
-            requestTarget: "You accepted a teleport request from %player%"
+            requestSender: "&3%player% &aaccepted your teleport request"
+            requestTarget: "&aYou accepted a teleport request from &3%player%"
         decline:
-            requestSender: "%player% declined your teleport request"
-            requestTarget: "You declined a teleport request from %player%"
+            requestSender: "&3%player% &cdeclined your teleport request"
+            requestTarget: "&cYou declined a teleport request from &3%player%"
     home:
         success: "&aYou have teleported home"
         noHome: "&cSet a home with /sethome first"
