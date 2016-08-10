@@ -12,23 +12,23 @@ commands:
     shared:
         stillCoolingDown: "&cYou need to wait %time% before teleporting again"
         targetIsntOnline: "&c%player% isn't online"
-        cantTeleportToSelf: "You can't teleport to yourself"
-        cantTeleportTargetToSelf: "You can't teleport someone to themself"
+        cantTeleportToSelf: "&cYou can't teleport to yourself"
+        cantTeleportTargetToSelf: "&cYou can't teleport someone to themself"
     teleport:
         success: "&aYou have teleported to &3%player%"
         successOther: "&aYou have teleported &3%target% &ato &3%destination%"
     teleportRequest:
-        requestDoenstExist: "No request from %player% exists"
+        requestDoenstExist: "&cNo request from &3%player% &cexists"
         send:
-            requestSender: "Teleport request sent to %target%"
+            requestSender: "&aTeleport request sent to &3%target%"
             requestTarget: |-
-                &fTeleport request recieved from &3%sender%
+                &7Teleport request recieved from &3%sender%
                 &7Use &a/tpa accept %sender% &7to accept
                 &7or &c/tpa decline %sender% &7to decline
-            cantRequestSelf: "You can't send a request to yourself"
-            expired:
+            cantRequestSelf: "&cYou can't send a request to yourself"
+            expire:
                 sender: "&cA teleport request from &3%player% &ahas expired"
-                target: "&cYour teleport request to &3%player% &ahas expired"
+                target: "&cYour teleport request to &3%player% &chas expired"
         accept:
             requestSender: "&3%player% &aaccepted your teleport request"
             requestTarget: "&aYou accepted a teleport request from &3%player%"

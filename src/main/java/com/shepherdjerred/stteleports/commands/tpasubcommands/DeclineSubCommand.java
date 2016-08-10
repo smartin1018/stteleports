@@ -30,12 +30,12 @@ public class DeclineSubCommand {
 
         TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(((Player) sender).getUniqueId());
 
-        if (Bukkit.getPlayer(args[1]) != null) {
+        if (Bukkit.getPlayer(args[1]) == null) {
             sender.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
             return;
         }
 
-        if (!(teleportPlayer.getTeleportRequester() == TeleportPlayer.getTeleportPlayer(args[1]))) {
+        if (teleportPlayer.getTeleportRequester() != TeleportPlayer.getTeleportPlayer(args[1])) {
             sender.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.requestDoesntExist").replace("%player%", Bukkit.getPlayer(args[1]).getName()));
             return;
         }

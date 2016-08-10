@@ -37,23 +37,28 @@ public class SendSubCommand {
             return;
         }
 
-        if (Bukkit.getPlayer(args[1]) != null) {
-            if (Bukkit.getPlayer(args[1]) != player) {
-                TeleportPlayer.getTeleportPlayer(args[1]).setTeleportRequester(teleportPlayer);
-                player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.requestSender"));
-                Bukkit.getPlayer(args[1]).sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.requestTarget"));
-
-                Main.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
-                    if (TeleportPlayer.getTeleportPlayer(args[1]).getTeleportRequester() == teleportPlayer) {
-                        TeleportPlayer.getTeleportPlayer(args[1]).setTeleportRequester(null);
-                        player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.expire.sender").replace("%player%", Bukkit.getPlayer(args[1]).getName()));
-                        Bukkit.getPlayer(args[1]).sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.expire.target").replace("%player%", teleportPlayer.getName()));
-                    }
-                }, Main.getInstance().getConfig().getInt("tpa.requestDuration") * 20);
-            } else
-                player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.cantRequestSelf"));
-        } else
+        if (Bukkit.getPlayer(args[1]) == null) {
             player.sendMessage(SharedMessages.getTargetNotOnlineMessage(args[1]));
+            return;
+        }
+
+        if (Bukkit.getPlayer(args[1]) == player) {
+            player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.cantRequestSelf"));
+            return;
+        }
+
+        TeleportPlayer.getTeleportPlayer(args[1]).setTeleportRequester(teleportPlayer);
+        player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.requestSender").replace("%target%", Bukkit.getPlayer(args[1]).getName()));
+        Bukkit.getPlayer(args[1]).sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.requestTarget").replace("%sender%", player.getName()));
+
+        Main.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
+            if (TeleportPlayer.getTeleportPlayer(args[1]).getTeleportRequester() == teleportPlayer) {
+                TeleportPlayer.getTeleportPlayer(args[1]).setTeleportRequester(null);
+                player.sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.expire.sender").replace("%player%", Bukkit.getPlayer(args[1]).getName()));
+                Bukkit.getPlayer(args[1]).sendMessage(MessageHelper.getMessagePrefix() + MessageHelper.colorMessagesString("commands.teleportRequest.send.expire.target").replace("%player%", teleportPlayer.getName()));
+            }
+        }, Main.getInstance().getConfig().getInt("tpa.requestDuration") * 20);
+
 
     }
 

@@ -18,6 +18,9 @@ commands:
     tpa:
         description: Teleport request command
         aliases: [tpr]
+    spawn:
+        description: Spawn command
+        aliases: []
     home:
         description: Home command
         aliases: []
