@@ -1,5 +1,6 @@
 package com.shepherdjerred.stteleports.listeners;
 
+import com.shepherdjerred.stteleports.Main;
 import com.shepherdjerred.stteleports.files.FileManager;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import org.bukkit.Bukkit;
@@ -15,6 +16,12 @@ public class JoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         TeleportPlayer teleportPlayer = new TeleportPlayer(event.getPlayer().getUniqueId());
+
+        if (Main.getInstance().getConfig().getBoolean("override.cooldown.op") && event.getPlayer().isOp())
+            teleportPlayer.setOverride(true);
+
+        if (Main.getInstance().getConfig().getBoolean("override.cost.op") && event.getPlayer().isOp())
+            teleportPlayer.setOverride(true);
 
         if (FileManager.getInstance().storage.getConfigurationSection("players." + event.getPlayer().getUniqueId() + ".cooldown") != null)
             teleportPlayer.setCooldown(FileManager.getInstance().storage.getLong("players." + event.getPlayer().getUniqueId() + ".cooldown"));

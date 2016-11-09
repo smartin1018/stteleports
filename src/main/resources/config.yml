@@ -42,6 +42,12 @@ teleports:
         cooldown-multiplier: .5
         cost-multiplier: .5
 
+override:
+    cooldown:
+        op: true
+    cost:
+        op: true
+
 periodic:
     frequency: 180
     cooldown-multiplier-decrease: .5

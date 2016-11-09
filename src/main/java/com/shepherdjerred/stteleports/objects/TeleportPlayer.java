@@ -29,6 +29,7 @@ public class TeleportPlayer {
     private TeleportPlayer teleportRequester;
     @NotNull
     private Deque<Location> previousLocations;
+    private boolean override;
 
     /**
      * Creates a TeleportPlayer object, only the UUID is needed
@@ -45,6 +46,15 @@ public class TeleportPlayer {
         teleportRequester = null;
         teleportPlayers.put(uuid, this);
         previousLocations = new TeleportQueue<>(3);
+        override = false;
+    }
+
+    public boolean isOverride() {
+        return override;
+    }
+
+    public void setOverride(boolean override) {
+        this.override = override;
     }
 
     public static HashMap<UUID, TeleportPlayer> getTeleportPlayers() {
