@@ -27,7 +27,7 @@ commands:
     sethome:
         description: Sethome command
         aliases: []
-     backward:
+    backward:
         description: Backward command
         aliases: [back]
     forward:
