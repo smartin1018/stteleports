@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -28,6 +29,8 @@ public class TeleportPlayer {
     private Location home;
     @Nullable
     private TeleportPlayer teleportRequester;
+    @NotNull
+    private Queue<Location> previousLocations;
 
     /**
      * Creates a TeleportPlayer object, only the UUID is needed
