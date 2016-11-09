@@ -2,7 +2,7 @@ teleports:
     home:
         enabled: true
         cooldown: 5
-        cost: 10
+        cost: 15
         cooldown-multiplier: .5
         cost-multiplier: .5
     spawn:
@@ -14,13 +14,25 @@ teleports:
     tp:
         enabled: true
         cooldown: 10
-        cost: 10
+        cost: 25
         cooldown-multiplier: .5
         cost-multiplier: .5
     tpa:
         enabled: true
         cooldown: 10
-        cost: 10
+        cost: 25
+        cooldown-multiplier: .5
+        cost-multiplier: .5
+    backward:
+        enabled: true
+        cooldown: 60
+        cost: 50
+        cooldown-multiplier: .5
+        cost-multiplier: .5
+    forward:
+        enabled: true
+        cooldown: 60
+        cost: 50
         cooldown-multiplier: .5
         cost-multiplier: .5
 

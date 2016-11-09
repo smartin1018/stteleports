@@ -3,14 +3,15 @@ package com.shepherdjerred.stteleports.listeners;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
-public class TeleportListener implements Listener {
+public class RespawnListener implements Listener {
 
     @EventHandler
-    public void onPlayerTeleport(PlayerTeleportEvent event) {
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
         TeleportPlayer teleportPlayer = TeleportPlayer.getTeleportPlayer(event.getPlayer());
-        teleportPlayer.getPreviousLocations().add(event.getFrom());
+        if (teleportPlayer.getHome() != null)
+            event.setRespawnLocation(teleportPlayer.getHome());
     }
 
 }

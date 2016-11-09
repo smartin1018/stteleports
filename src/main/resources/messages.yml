@@ -38,6 +38,12 @@ commands:
     home:
         success: "&aYou have teleported home"
         noHome: "&cSet a home with /sethome first"
+    backward:
+        success: "&aYou have teleported home"
+        noPreviousLocations: "&cSet a home with /sethome first"
+    forward:
+        success: "&aYou have teleported home"
+        noPreviousLocations: "&cSet a home with /sethome first"
     sethome:
         success: "&aYour home has been set"
     spawn:

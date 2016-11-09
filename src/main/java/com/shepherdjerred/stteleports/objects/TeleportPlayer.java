@@ -2,16 +2,14 @@ package com.shepherdjerred.stteleports.objects;
 
 import com.shepherdjerred.stteleports.extensions.Vault;
 import com.shepherdjerred.stteleports.files.FileManager;
+import com.shepherdjerred.stteleports.util.TeleportQueue;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Queue;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class TeleportPlayer {
@@ -30,7 +28,7 @@ public class TeleportPlayer {
     @Nullable
     private TeleportPlayer teleportRequester;
     @NotNull
-    private Queue<Location> previousLocations;
+    private Deque<Location> previousLocations;
 
     /**
      * Creates a TeleportPlayer object, only the UUID is needed
@@ -46,6 +44,7 @@ public class TeleportPlayer {
         costMultiplier = 1.0;
         teleportRequester = null;
         teleportPlayers.put(uuid, this);
+        previousLocations = new TeleportQueue<>(3);
     }
 
     public static HashMap<UUID, TeleportPlayer> getTeleportPlayers() {
@@ -68,7 +67,7 @@ public class TeleportPlayer {
 
     @Nullable
     public static TeleportPlayer getTeleportPlayer(@NotNull UUID uuid) {
-        return teleportPlayers.getOrDefault(uuid, null);
+        return teleportPlayers.get(uuid);
     }
 
     @Nullable
@@ -197,5 +196,10 @@ public class TeleportPlayer {
         calendar.add(Calendar.SECOND, (int) getCooldown());
 
         setCooldown(calendar.getTimeInMillis());
+    }
+
+    @NotNull
+    public Deque<Location> getPreviousLocations() {
+        return previousLocations;
     }
 }

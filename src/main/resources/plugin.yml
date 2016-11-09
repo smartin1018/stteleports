@@ -27,6 +27,12 @@ commands:
     sethome:
         description: Sethome command
         aliases: []
+     backward:
+        description: Backward command
+        aliases: [back]
+    forward:
+        description: Forward command
+        aliases: [for]
 
 permissions:
     stTeleports.*:
