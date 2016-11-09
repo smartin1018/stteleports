@@ -1,4 +1,4 @@
-prefix: "&8[&3stTeleports&8]:"
+prefix: "&8[&3stTeleports&8]: "
 generic:
     noPerms: '&cYou don''t have permission to do that!'
     noConsole: '&cYou must be a player to do that!'
