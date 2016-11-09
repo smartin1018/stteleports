@@ -1,4 +1,10 @@
 teleports:
+    default:
+        enabled: true
+        cooldown: 5
+        cost: 15
+        cooldown-multiplier: .5
+        cost-multiplier: .5
     home:
         enabled: true
         cooldown: 5

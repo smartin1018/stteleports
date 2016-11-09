@@ -30,7 +30,7 @@ public class Teleport {
 
     @Nullable
     public static Teleport getTeleport(@NotNull String name) {
-        return teleports.getOrDefault(name, null);
+        return teleports.getOrDefault(name, teleports.get("default"));
     }
 
     @NotNull

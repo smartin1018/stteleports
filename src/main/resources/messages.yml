@@ -39,10 +39,10 @@ commands:
         success: "&aYou have teleported home"
         noHome: "&cSet a home with /sethome first"
     backward:
-        success: "&aYou have teleported home"
+        success: "&cYou have no previous locations to teleport to"
         noPreviousLocations: "&cSet a home with /sethome first"
     forward:
-        success: "&aYou have teleported home"
+        success: "&aYou have no previous locations to teleport to"
         noPreviousLocations: "&cSet a home with /sethome first"
     sethome:
         success: "&aYour home has been set"
