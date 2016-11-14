@@ -1,4 +1,4 @@
-prefix: "&8[&3stTeleports&8]:"
+prefix: "&8[&3stTeleports&8]: "
 generic:
     noPerms: '&cYou don''t have permission to do that!'
     noConsole: '&cYou must be a player to do that!'
@@ -38,6 +38,12 @@ commands:
     home:
         success: "&aYou have teleported home"
         noHome: "&cSet a home with /sethome first"
+    backward:
+        noPreviousLocations: "&cYou have no previous locations to teleport to"
+        success: "&aYou've gone backwards in your teleport queue"
+    forward:
+        noPreviousLocations: "&aYou have no previous locations to teleport to"
+        success: "&aYou've gone forwards in your teleport queue"
     sethome:
         success: "&aYour home has been set"
     spawn:
