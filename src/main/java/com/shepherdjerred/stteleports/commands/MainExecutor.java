@@ -24,10 +24,10 @@ public class MainExecutor implements CommandExecutor {
 
         switch (SubCommands.valueOf(args[0].toUpperCase())) {
             case HELP:
-                HelpSubCommand.Executor(sender, args);
+                HelpSubCommand.executor(sender, args);
                 return true;
             case RELOAD:
-                ReloadSubCommand.Executor(sender, args);
+                ReloadSubCommand.executor(sender, args);
                 return true;
         }
 

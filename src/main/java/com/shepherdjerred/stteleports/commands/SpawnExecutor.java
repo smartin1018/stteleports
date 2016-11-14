@@ -19,7 +19,7 @@ public class SpawnExecutor implements CommandExecutor {
             return true;
         }
 
-        if (!sender.hasPermission("stTeleports.spawn")) {
+        if (!sender.hasPermission("stTeleports.teleport.spawn")) {
             sender.sendMessage(GenericMessages.getNoPermsMessage());
             return true;
         }

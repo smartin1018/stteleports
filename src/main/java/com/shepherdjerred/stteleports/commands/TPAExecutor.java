@@ -26,13 +26,13 @@ public class TPAExecutor implements CommandExecutor {
 
         switch (SubCommands.valueOf(args[0].toUpperCase())) {
             case SEND:
-                SendSubCommand.Executor(sender, args);
+                SendSubCommand.executor(sender, args);
                 return true;
             case ACCEPT:
-                AcceptSubCommand.Executor(sender, args);
+                AcceptSubCommand.executor(sender, args);
                 return true;
             case DECLINE:
-                DeclineSubCommand.Executor(sender, args);
+                DeclineSubCommand.executor(sender, args);
                 return true;
         }
 

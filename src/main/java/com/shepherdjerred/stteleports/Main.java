@@ -3,10 +3,7 @@ package com.shepherdjerred.stteleports;
 import com.shepherdjerred.stteleports.commands.*;
 import com.shepherdjerred.stteleports.files.ConfigHelper;
 import com.shepherdjerred.stteleports.files.FileManager;
-import com.shepherdjerred.stteleports.listeners.JoinListener;
-import com.shepherdjerred.stteleports.listeners.QuitListener;
-import com.shepherdjerred.stteleports.listeners.RespawnListener;
-import com.shepherdjerred.stteleports.listeners.TeleportListener;
+import com.shepherdjerred.stteleports.listeners.*;
 import com.shepherdjerred.stteleports.metrics.MetricsLite;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import org.bukkit.Bukkit;
@@ -41,11 +38,13 @@ public class Main extends JavaPlugin {
         this.getCommand("tpa").setExecutor(new TPAExecutor());
         this.getCommand("sethome").setExecutor(new SetHomeExecutor());
         this.getCommand("home").setExecutor(new HomeExecutor());
+        this.getCommand("spawn").setExecutor(new HomeExecutor());
         this.getCommand("backward").setExecutor(new BackExecutor());
         this.getCommand("forward").setExecutor(new ForwardExecutor());
 
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
         getServer().getPluginManager().registerEvents(new QuitListener(), this);
+        getServer().getPluginManager().registerEvents(new DeathListener(), this);
         getServer().getPluginManager().registerEvents(new RespawnListener(), this);
         getServer().getPluginManager().registerEvents(new TeleportListener(), this);
 

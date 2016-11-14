@@ -18,7 +18,7 @@ public class BackExecutor implements CommandExecutor {
             return true;
         }
 
-        if (!sender.hasPermission("stTeleports.back")) {
+        if (!sender.hasPermission("stTeleports.teleport.back")) {
             sender.sendMessage(GenericMessages.getNoPermsMessage());
             return true;
         }

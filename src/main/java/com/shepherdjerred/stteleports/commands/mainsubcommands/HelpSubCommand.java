@@ -5,9 +5,9 @@ import org.bukkit.command.CommandSender;
 
 public class HelpSubCommand {
 
-    public static void Executor(CommandSender sender, String[] args) {
+    public static void executor(CommandSender sender, String[] args) {
 
-        if (!sender.hasPermission("plugin.name.help")) {
+        if (!sender.hasPermission("stTeleports.help")) {
             sender.sendMessage(GenericMessages.getNoPermsMessage());
             return;
         }

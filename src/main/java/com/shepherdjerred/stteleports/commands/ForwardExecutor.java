@@ -18,7 +18,7 @@ public class ForwardExecutor implements CommandExecutor {
             return true;
         }
 
-        if (!sender.hasPermission("stTeleports.forward")) {
+        if (!sender.hasPermission("stTeleports.teleport.forward")) {
             sender.sendMessage(GenericMessages.getNoPermsMessage());
             return true;
         }

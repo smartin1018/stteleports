@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 
 public class ReloadSubCommand {
 
-    public static void Executor(CommandSender sender, String[] args) {
+    public static void executor(CommandSender sender, String[] args) {
 
-        if (!sender.hasPermission("stTowns.reload")) {
+        if (!sender.hasPermission("stTeleports.admin.reload")) {
             sender.sendMessage(GenericMessages.getNoPermsMessage());
             return;
         }

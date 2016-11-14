@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 public class SendSubCommand {
 
-    public static void Executor(CommandSender sender, String[] args) {
+    public static void executor(CommandSender sender, String[] args) {
 
         if (!(sender instanceof Player)) {
             sender.sendMessage(GenericMessages.getNoConsoleMessage());

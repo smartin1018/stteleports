@@ -18,7 +18,7 @@ public class HomeExecutor implements CommandExecutor {
             return true;
         }
 
-        if (!sender.hasPermission("stTeleports.home")) {
+        if (!sender.hasPermission("stTeleports.teleport.home")) {
             sender.sendMessage(GenericMessages.getNoPermsMessage());
             return true;
         }

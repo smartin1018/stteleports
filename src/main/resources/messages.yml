@@ -27,8 +27,8 @@ commands:
                 &7or &c/tpa decline %sender% &7to decline
             cantRequestSelf: "&cYou can't send a request to yourself"
             expire:
-                sender: "&cA teleport request from &3%player% &ahas expired"
-                target: "&cYour teleport request to &3%player% &chas expired"
+                sender: "&cYour teleport request to &3%player% &chas expired"
+                target: "&cA teleport request from &3%player% &chas expired"
         accept:
             requestSender: "&3%player% &aaccepted your teleport request"
             requestTarget: "&aYou accepted a teleport request from &3%player%"

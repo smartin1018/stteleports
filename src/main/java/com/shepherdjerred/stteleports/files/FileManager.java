@@ -34,13 +34,13 @@ public class FileManager {
         storageFile = new File(Main.getInstance().getDataFolder(), "storage.yml");
 
         if (!messagesFile.exists()) {
-            messagesFile.getParentFile().mkdirs();
-            copy(Main.getInstance().getResource("messages.yml"), messagesFile);
+            if (messagesFile.getParentFile().mkdirs())
+                copy(Main.getInstance().getResource("messages.yml"), messagesFile);
         }
 
         if (!storageFile.exists()) {
-            storageFile.getParentFile().mkdirs();
-            copy(Main.getInstance().getResource("storage.yml"), storageFile);
+            if (storageFile.getParentFile().mkdirs())
+                copy(Main.getInstance().getResource("storage.yml"), storageFile);
         }
 
         messages = new YamlConfiguration();

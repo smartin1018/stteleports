@@ -13,36 +13,75 @@ commands:
         description: Handles plugin related functions
         aliases: [sttp]
     teleport:
-        description: Teleport command
+        description: Directly teleport to a player
         aliases: [tp]
     tpa:
-        description: Teleport request command
+        description: Request to teleport to a player
         aliases: [tpr]
+    tpahere:
+        description: Request to teleport a player to you
+        aliases: [tpah, tph]
+    tppos:
+        description: Teleport to a coordinate
+        aliases: [tpp]
     spawn:
-        description: Spawn command
+        description: Teleport to the world spawn
         aliases: []
     home:
-        description: Home command
+        description: Teleport to your home
         aliases: []
     sethome:
-        description: Sethome command
+        description: Set your home
         aliases: []
     backward:
-        description: Backward command
-        aliases: [back]
+        description: Go backward in your teleport queue
+        aliases: [b, back]
     forward:
-        description: Forward command
-        aliases: [for]
+        description: Go forward in your teleport queue
+        aliases: [fw]
 
 permissions:
     stTeleports.*:
         description: Gives access to all plugin functions
         children:
-            stSkills.admin.*: true
+            stTeleports.admin.*: true
     stTeleports.admin.*:
         description: Gives access to all admin commands
         children:
-          stSkills.admin.reload: true
+          stTeleports.admin.reload: true
     stTeleports.admin.reload:
         description: Gives access to /sttp reload
         default: OP
+    stTeleports.teleport.teleport:
+        description: Gives access to /teleport
+        default: OP
+    stTeleports.teleport.forward:
+        description: Gives access to /forward
+        default: OP
+    stTeleports.teleport.backward:
+        description: Gives access to /backward
+        default: OP
+    stTeleports.teleport.home:
+        description: Gives access to /home
+        default: true
+    stTeleports.sethome:
+        description: Gives access to /sethome
+        default: true
+    stTeleports.teleport.home:
+        description: Gives access to /home
+        default: true
+    stTeleports.teleport.spawn:
+        description: Gives access to /spawn
+        default: true
+    stTeleports.help:
+        description: Gives access to /stteleports help
+        default: true
+    stTeleports.teleport.request.send:
+        description: Gives access to /tpa send
+        default: true
+    stTeleports.teleport.request.accept:
+        description: Gives access to /tpa accept
+        default: true
+    stTeleports.teleport.request.decline:
+        description: Gives access to /tpa decline
+        default: true
