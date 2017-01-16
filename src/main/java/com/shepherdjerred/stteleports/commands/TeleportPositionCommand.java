@@ -4,9 +4,7 @@ import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportAction;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -66,9 +64,14 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
 
         Location destination = new Location(world, x, y, z);
 
-        teleportAction.teleport(target, destination);
+        teleportAction.teleport(target, destination, true);
 
-        sender.sendMessage(parser.colorString(true, "tppos.success", x, y, z, world.getName()));
+        sender.sendMessage(parser.colorString(true, "tppos.success",
+                target.getLocation().getBlockX(),
+                target.getLocation().getBlockY(),
+                target.getLocation().getBlockZ(),
+                world.getName())
+        );
 
     }
 
