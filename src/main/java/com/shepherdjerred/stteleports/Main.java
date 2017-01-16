@@ -6,6 +6,7 @@ import com.shepherdjerred.stteleports.commands.TeleportCommand;
 import com.shepherdjerred.stteleports.commands.TeleportHereCommand;
 import com.shepherdjerred.stteleports.commands.TeleportPositionCommand;
 import com.shepherdjerred.stteleports.messages.Parser;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -16,6 +17,7 @@ public class Main extends RiotBase {
     private final Parser parser = new Parser(ResourceBundle.getBundle("messages"));
 
     private final TeleportAction teleportAction = new TeleportAction();
+    private final TeleportPlayerTracker teleportPlayerTracker = new TeleportPlayerTracker();
 
     @Override
     public void onEnable() {
