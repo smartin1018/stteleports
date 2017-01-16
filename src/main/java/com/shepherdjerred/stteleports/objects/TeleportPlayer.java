@@ -9,7 +9,7 @@ public class TeleportPlayer {
 
     private final UUID uuid;
 
-    private final long nextAvaliableTeleport = 0L;
+    private long nextAvaliableTeleport = 0L;
 
     private final Map<String, Location> homes = new HashMap<>();
     private final Deque<Location> locations = new TeleportQueue<>(5);
@@ -25,8 +25,9 @@ public class TeleportPlayer {
         this.uuid = uuid;
     }
 
-    public TeleportPlayer(UUID uuid, double cooldownMultiplier, double costMultiplier, double cooldownMultiplierModifier, double costMultiplierModifier) {
+    public TeleportPlayer(UUID uuid, long nextAvaliableTeleport, double cooldownMultiplier, double costMultiplier, double cooldownMultiplierModifier, double costMultiplierModifier) {
         this.uuid = uuid;
+        this.nextAvaliableTeleport = nextAvaliableTeleport;
         this.cooldownMultiplier = cooldownMultiplier;
         this.costMultiplier = costMultiplier;
         this.cooldownMultiplierModifier = cooldownMultiplierModifier;
@@ -103,5 +104,20 @@ public class TeleportPlayer {
 
     public void addLocation(Location location) {
         locations.add(location);
+    }
+
+    @Override
+    public String toString() {
+        return "TeleportPlayerQueries{" +
+                "uuid=" + uuid +
+                ", nextAvaliableTeleport=" + nextAvaliableTeleport +
+                ", homes=" + homes +
+                ", locations=" + locations +
+                ", requester=" + requester +
+                ", cooldownMultiplier=" + cooldownMultiplier +
+                ", costMultiplier=" + costMultiplier +
+                ", cooldownMultiplierModifier=" + cooldownMultiplierModifier +
+                ", costMultiplierModifier=" + costMultiplierModifier +
+                '}';
     }
 }

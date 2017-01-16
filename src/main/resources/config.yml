@@ -1,7 +1,9 @@
 economy:
     enabled: false
 
-database:
-    enabled: true
+multiplier-reduction:
+    frequency: 600
+    amount: .5
+    min: 1
 
 debug: false
