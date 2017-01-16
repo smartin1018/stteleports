@@ -13,6 +13,7 @@ public class TeleportPlayer {
 
     private final Map<String, Location> homes = new HashMap<>();
     private final Deque<Location> locations = new TeleportQueue<>(5);
+    private TeleportPlayer requester;
 
     private double cooldownMultiplier = 1D;
     private double costMultiplier = 1D;
@@ -29,6 +30,22 @@ public class TeleportPlayer {
         this.cooldownMultiplier = cooldownMultiplier;
         this.costMultiplier = costMultiplier;
         this.cooldownMultiplierModifier = cooldownMultiplierModifier;
+        this.costMultiplierModifier = costMultiplierModifier;
+    }
+
+    public void setCooldownMultiplier(double multiplier) {
+        cooldownMultiplier = (cooldownMultiplier * (multiplier * cooldownMultiplierModifier));
+    }
+
+    public void setCostMultiplier(double multiplier) {
+        costMultiplier = (costMultiplier * (multiplier * costMultiplierModifier));
+    }
+
+    public void setCooldownMultiplierModifier(double cooldownMultiplierModifier) {
+        this.cooldownMultiplierModifier = cooldownMultiplierModifier;
+    }
+
+    public void setCostMultiplierModifier(double costMultiplierModifier) {
         this.costMultiplierModifier = costMultiplierModifier;
     }
 
@@ -52,4 +69,39 @@ public class TeleportPlayer {
         return costMultiplierModifier;
     }
 
+    public TeleportPlayer getRequester() {
+        return requester;
+    }
+
+    public void setRequester(TeleportPlayer requester) {
+        this.requester = requester;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public Location getHome(String homeName) {
+        return homes.get(homeName);
+    }
+
+    public void addHome(String name, Location location) {
+        homes.put(name, location);
+    }
+
+    public void removeHome(String name) {
+        homes.remove(name);
+    }
+
+    public Location getLastLocation() {
+        return locations.removeLast();
+    }
+
+    public Location getFirstLocation() {
+        return locations.removeFirst();
+    }
+
+    public void addLocation(Location location) {
+        locations.add(location);
+    }
 }

@@ -1,4 +1,7 @@
 economy:
     enabled: false
 
+database:
+    enabled: true
+
 debug: false
