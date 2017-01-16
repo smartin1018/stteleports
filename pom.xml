@@ -1,20 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.shepherdjerred</groupId>
-    <artifactId>stTeleports</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <artifactId>stteleports</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
     <name>stTeleports</name>
-    <url>https://github.com/ShepherdJerred/stTeleports</url>
-    <description>Player teleporting</description>
+    <url>https://github.com/ShepherdJerred/stteleports</url>
+    <description>Towns plugin for the Bukkit API</description>
 
-    <organization>
-        <name>Jerred Shepherd (RiotShielder)</name>
-        <url>http://shepherdjerred.com/</url>
-    </organization>
-         
+    <issueManagement>
+        <url>https://github.com/ShepherdJerred/stteleports/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>GPL-3.0</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.en.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/ShepherdJerred/stteleports/</url>
+        <connection>scm:git:git://github.com/shepherdjerred/stteleports.git</connection>
+        <developerConnection>scm:git:git@github.com:shepherdjerred/stteleports.git</developerConnection>
+    </scm>
+
     <distributionManagement>
         <repository>
             <id>thestorm-releases</id>
@@ -28,23 +41,42 @@
         </snapshotRepository>
     </distributionManagement>
 
+    <developers>
+        <developer>
+            <email>shepherdjerred@gmail.com</email>
+            <name>Jerred Shepherd</name>
+            <url>https://github.com/shepherdjerred</url>
+            <id>shepherdjerred</id>
+        </developer>
+    </developers>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>3.0.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
+                    <check/>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
     <build>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
-                <includes>
-                    <include>plugin.yml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>config.yml</include>
-                    <include>messages.yml</include>
-                    <include>storage.yml</include>
-                </includes>
             </resource>
         </resources>
         <plugins>
@@ -59,9 +91,11 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <minimizeJar>true</minimizeJar>
                             <artifactSet>
                                 <excludes>
                                     <exclude>org.spigotmc:spigot-api</exclude>
+                                    <exclude>org.bukkit:craftbukkit</exclude>
                                 </excludes>
                             </artifactSet>
                         </configuration>
@@ -78,44 +112,45 @@
         </repository>
 
         <repository>
-            <id>vault-repo</id>
-            <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+            <id>thestorm-snapshots</id>
+            <url>http://ts-mc.net:8085/nexus/content/repositories/snapshots</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
+            <groupId>com.shepherdjerred</groupId>
+            <artifactId>riotbase</artifactId>
+            <version>0.1.12-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>${spgiot.api.version}</version>
+            <version>${spigot.api.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
-            <version>${spgiot.api.version}</version>
-            <scope>provided</scope>
+            <groupId>org.jdbi</groupId>
+            <artifactId>jdbi</artifactId>
+            <version>2.77</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>net.milkbowl.vault</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.5</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>15.0</version>
+            <groupId>com.eclipsesource.minimal-json</groupId>
+            <artifactId>minimal-json</artifactId>
+            <version>0.9.4</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <spgiot.api.version>1.10.2-R0.1-SNAPSHOT</spgiot.api.version>
+        <spigot.api.version>1.11.2-R0.1-SNAPSHOT</spigot.api.version>
     </properties>
-
 </project>

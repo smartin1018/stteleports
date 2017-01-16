@@ -13,19 +13,22 @@ commands:
         description: Handles plugin related functions
         aliases: [sttp]
     teleport:
-        description: Directly teleport to a player
+        description: Teleport to a player
         aliases: [tp]
+    tphere:
+        description: Teleport a player to you
+        aliases: [tph, bring]
     tpa:
         description: Request to teleport to a player
-        aliases: [tpr]
+        aliases: []
     tpahere:
         description: Request to teleport a player to you
-        aliases: [tpah, tph]
+        aliases: [tpah]
     tppos:
         description: Teleport to a coordinate
         aliases: [tpp]
     spawn:
-        description: Teleport to the world spawn
+        description: Teleport to the world's spawn point
         aliases: []
     home:
         description: Teleport to your home
@@ -35,7 +38,7 @@ commands:
         aliases: []
     backward:
         description: Go backward in your teleport queue
-        aliases: [b, back]
+        aliases: [back, return]
     forward:
         description: Go forward in your teleport queue
         aliases: [fw]
