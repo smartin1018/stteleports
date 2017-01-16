@@ -5,6 +5,7 @@ import com.shepherdjerred.stteleports.actions.TeleportAction;
 import com.shepherdjerred.stteleports.commands.TeleportCommand;
 import com.shepherdjerred.stteleports.commands.TeleportHereCommand;
 import com.shepherdjerred.stteleports.commands.TeleportPositionCommand;
+import com.shepherdjerred.stteleports.database.TeleportPlayerQueries;
 import com.shepherdjerred.stteleports.listeners.JoinListener;
 import com.shepherdjerred.stteleports.listeners.TeleportListener;
 import com.shepherdjerred.stteleports.messages.Parser;
@@ -21,28 +22,16 @@ public class Main extends RiotBase {
 
     private final Parser parser = new Parser(ResourceBundle.getBundle("messages"));
 
-    private final TeleportAction teleportAction = new TeleportAction();
-    private final TeleportPlayerTracker teleportPlayerTracker = new TeleportPlayerTracker();
-
     private HikariDataSource hikariDataSource;
 
-    private boolean databaseEnabled = false;
+    private final TeleportAction teleportAction = new TeleportAction();
+    private final TeleportPlayerTracker teleportPlayerTracker = new TeleportPlayerTracker();
+    private final TeleportPlayerQueries teleportPlayerQueries = new TeleportPlayerQueries(hikariDataSource);
 
     @Override
     public void onEnable() {
         setupConfigs();
-
-        // Setup database
-        if (databaseEnabled) {
-            saveResource("hikari.properties", false);
-            saveResource("db/migration/V1__Initial.sql", true);
-            HikariConfig hikariConfig = new HikariConfig(getDataFolder().getAbsolutePath() + "/hikari.properties");
-            hikariDataSource = new HikariDataSource(hikariConfig);
-            Flyway flyway = new Flyway();
-            flyway.setLocations("filesystem:" + getDataFolder().getAbsolutePath() + "/db/migration/");
-            flyway.setDataSource(hikariDataSource);
-            flyway.migrate();
-        }
+        setupDatabase();
 
         super.onEnable();
 
@@ -54,8 +43,18 @@ public class Main extends RiotBase {
     @Override
     protected void setupConfigs() {
         super.setupConfigs();
-        databaseEnabled = getConfig().getBoolean("database.enabled");
-        // Load teleport settings
+        // Load teleport settings from JSON
+    }
+
+    private void setupDatabase() {
+        saveResource("hikari.properties", false);
+        saveResource("db/migration/V1__Initial.sql", true);
+        HikariConfig hikariConfig = new HikariConfig(getDataFolder().getAbsolutePath() + "/hikari.properties");
+        hikariDataSource = new HikariDataSource(hikariConfig);
+        Flyway flyway = new Flyway();
+        flyway.setLocations("filesystem:" + getDataFolder().getAbsolutePath() + "/db/migration/");
+        flyway.setDataSource(hikariDataSource);
+        flyway.migrate();
     }
 
     private void registerCommands() {
@@ -65,7 +64,7 @@ public class Main extends RiotBase {
     }
 
     private void registerListeners() {
-        new JoinListener(teleportPlayerTracker).register(this);
+        new JoinListener(teleportPlayerTracker, teleportPlayerQueries).register(this);
         new TeleportListener(teleportPlayerTracker).register(this);
     }
 

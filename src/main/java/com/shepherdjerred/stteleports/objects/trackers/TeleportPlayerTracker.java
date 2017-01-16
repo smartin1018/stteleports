@@ -5,10 +5,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TeleportPlayerTracker {
 
-    private final Map<UUID, TeleportPlayer> playerTracker = new HashMap<>();
+    private final Map<UUID, TeleportPlayer> playerTracker = new ConcurrentHashMap<>();
 
     public void remove(UUID uuid) {
         playerTracker.remove(uuid);
