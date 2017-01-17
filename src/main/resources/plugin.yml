@@ -36,6 +36,9 @@ commands:
     sethome:
         description: Set your home
         aliases: []
+    delhome:
+        description: Delete a home
+        aliases: []
     backward:
         description: Go backward in your teleport queue
         aliases: [back, return]

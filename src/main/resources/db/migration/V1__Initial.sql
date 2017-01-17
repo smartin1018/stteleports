@@ -9,7 +9,7 @@ CREATE TABLE players (
 
 CREATE TABLE player_homes (
   player_uuid CHAR(36),
-  home_name   CHAR(36),
+  home_name   VARCHAR(16),
   world       CHAR(36),
   x           INT,
   y           INT,

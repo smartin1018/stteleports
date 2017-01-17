@@ -24,9 +24,22 @@ public class HomeCommand extends AbstractTeleportCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+
         Player player = (Player) sender;
         TeleportPlayer teleportPlayer = teleportPlayerTracker.get(player);
-        teleportAction.teleport(player, teleportPlayer.getHome("default"), false);
+        String home = "default";
+
+        if (args.length > 0) {
+            home = args[0];
+        }
+
+        if (teleportPlayer.getHome(home) == null) {
+            sender.sendMessage(parser.colorString(true, "home.invalidName", home));
+            return;
+        }
+
+        teleportAction.teleport(player, teleportPlayer.getHome(home), false);
+        
         sender.sendMessage(parser.colorString(true, "home.success"));
     }
 
