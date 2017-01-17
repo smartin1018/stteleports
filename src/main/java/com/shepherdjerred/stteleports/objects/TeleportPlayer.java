@@ -108,7 +108,7 @@ public class TeleportPlayer {
 
     @Override
     public String toString() {
-        return "TeleportPlayerQueries{" +
+        return "TeleportPlayerDAO{" +
                 "uuid=" + uuid +
                 ", nextAvaliableTeleport=" + nextAvaliableTeleport +
                 ", homes=" + homes +

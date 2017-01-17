@@ -14,7 +14,7 @@ CREATE TABLE player_homes (
   x           INT,
   y           INT,
   z           INT,
-  yaw         DOUBLE,
-  pitch       DOUBLE,
+  yaw         FLOAT,
+  pitch       FLOAT,
   CONSTRAINT pk_player_home PRIMARY KEY (player_uuid, home_name)
 )

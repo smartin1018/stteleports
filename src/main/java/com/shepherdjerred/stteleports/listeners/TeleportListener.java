@@ -15,8 +15,8 @@ public class TeleportListener extends AbstractListener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-        // TODO Get TeleportPlayerQueries
-        // TODO Add the previous location to the TeleportPlayerQueries's queue
+        // TODO Get TeleportPlayerDAO
+        // TODO Add the previous location to the TeleportPlayerDAO's queue
     }
 
 }

@@ -4,7 +4,6 @@ import com.shepherdjerred.riotbase.listeners.AbstractListener;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDatabaseActions;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -26,15 +25,9 @@ public class JoinListener extends AbstractListener {
         if (teleportPlayer == null) {
             teleportPlayer = new TeleportPlayer(event.getPlayer().getUniqueId());
             teleportPlayerQueries.createPlayer(teleportPlayer);
-            Bukkit.broadcastMessage("New player!");
-        } else {
-            Bukkit.broadcastMessage("Returning player!");
         }
 
         teleportPlayerTracker.add(teleportPlayer);
-
-        System.out.println(teleportPlayer.toString());
-
     }
 
 }
