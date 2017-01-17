@@ -2,7 +2,8 @@ package com.shepherdjerred.stteleports.commands;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportAction;
+import com.shepherdjerred.stteleports.actions.TeleportActions;
+import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.command.CommandSender;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 
 public class BackwardCommand extends AbstractTeleportCommand {
 
-    public BackwardCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportAction teleportAction) {
+    public BackwardCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "backward",
                 "stTeleports.backward",
@@ -21,7 +22,7 @@ public class BackwardCommand extends AbstractTeleportCommand {
                 0,
                 false,
                 Arrays.asList("back", "return")
-        ), teleportPlayerTracker, teleportAction);
+        ), teleportPlayerTracker, teleportActions);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class BackwardCommand extends AbstractTeleportCommand {
             return;
         }
 
-        teleportAction.teleport(player, teleportPlayer.getFirstLocation(), false);
+        teleportActions.teleport(Teleport.BACKWARD, player, teleportPlayer.getFirstLocation(), false);
         sender.sendMessage(parser.colorString(true, "backward.success"));
 
     }

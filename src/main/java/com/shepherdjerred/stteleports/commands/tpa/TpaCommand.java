@@ -2,7 +2,7 @@ package com.shepherdjerred.stteleports.commands.tpa;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportAction;
+import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class TpaCommand extends AbstractTeleportCommand {
 
-    public TpaCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportAction teleportAction) {
+    public TpaCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "tpa",
                 "stTeleports.tpa",
@@ -20,10 +20,10 @@ public class TpaCommand extends AbstractTeleportCommand {
                 "/tpa <destination>",
                 1,
                 false
-        ), teleportPlayerTracker, teleportAction);
+        ), teleportPlayerTracker, teleportActions);
         addChildren(
-                new AcceptCommand(parser, teleportPlayerTracker, teleportAction),
-                new DenyCommand(parser, teleportPlayerTracker, teleportAction)
+                new AcceptCommand(parser, teleportPlayerTracker, teleportActions),
+                new DenyCommand(parser, teleportPlayerTracker, teleportActions)
         );
     }
 
@@ -43,7 +43,7 @@ public class TpaCommand extends AbstractTeleportCommand {
             return;
         }
 
-        teleportAction.sendTeleportRequest(target, destination, Teleport.TPA);
+        teleportActions.sendTeleportRequest(target, destination, Teleport.TPA);
 
         sender.sendMessage(parser.colorString(true, "tpa.send.success", destination.getName()));
         destination.sendMessage(parser.colorString(true, "tpa.send.destination", sender.getName()));

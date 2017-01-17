@@ -1,6 +1,6 @@
 CREATE TABLE players (
   player_uuid                  CHAR(36) PRIMARY KEY,
-  next_teleport                LONG   NOT NULL,
+  cooldown                     LONG   NOT NULL,
   cooldown_multiplier          DOUBLE NOT NULL,
   cost_multiplier              DOUBLE NOT NULL,
   cooldown_multiplier_modifier DOUBLE NOT NULL,
@@ -9,12 +9,12 @@ CREATE TABLE players (
 
 CREATE TABLE player_homes (
   player_uuid CHAR(36),
-  home_name   VARCHAR(16),
+  name        VARCHAR(16),
   world       CHAR(36),
   x           INT,
   y           INT,
   z           INT,
   yaw         FLOAT,
   pitch       FLOAT,
-  CONSTRAINT pk_player_home PRIMARY KEY (player_uuid, home_name)
+  CONSTRAINT pk_player_home PRIMARY KEY (player_uuid, name)
 )

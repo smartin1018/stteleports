@@ -2,7 +2,8 @@ package com.shepherdjerred.stteleports.commands;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportAction;
+import com.shepherdjerred.stteleports.actions.TeleportActions;
+import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -15,7 +16,7 @@ import java.util.Arrays;
 
 public class TeleportPositionCommand extends AbstractTeleportCommand {
 
-    public TeleportPositionCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportAction teleportAction) {
+    public TeleportPositionCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "tppos",
                 "stTeleports.tppos",
@@ -24,7 +25,7 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
                 3,
                 false,
                 Arrays.asList("tpp")
-        ), teleportPlayerTracker, teleportAction);
+        ), teleportPlayerTracker, teleportActions);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
 
         Location destination = new Location(world, x, y, z);
 
-        teleportAction.teleport(target, destination, true);
+        teleportActions.teleport(Teleport.TPPOS, target, destination, true);
 
         sender.sendMessage(parser.colorString(true, "tppos.success",
                 target.getLocation().getBlockX(),

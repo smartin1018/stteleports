@@ -2,7 +2,7 @@ package com.shepherdjerred.stteleports.commands.tpa;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportAction;
+import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class AcceptCommand extends AbstractTeleportCommand {
 
-    public AcceptCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportAction teleportAction) {
+    public AcceptCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "accept",
                 "stTeleports.tpa.accept",
@@ -21,7 +21,7 @@ public class AcceptCommand extends AbstractTeleportCommand {
                 "/tpa accept <player>",
                 1,
                 false
-        ), teleportPlayerTracker, teleportAction);
+        ), teleportPlayerTracker, teleportActions);
     }
 
     @Override
@@ -45,9 +45,9 @@ public class AcceptCommand extends AbstractTeleportCommand {
         senderTeleportPlayer.removeRequest(targetPlayer.getUniqueId());
 
         if (type == Teleport.TPA) {
-            teleportAction.teleport(targetPlayer, senderPlayer);
+            teleportActions.teleport(Teleport.TPA, targetPlayer, senderPlayer);
         } else if (type == Teleport.TPAHERE) {
-            teleportAction.teleport(senderPlayer, targetPlayer);
+            teleportActions.teleport(Teleport.TPAHERE, senderPlayer, targetPlayer);
         } else {
             sender.sendMessage("Invalid teleport type. Please report this to an administrator");
             return;

@@ -4,6 +4,7 @@ import com.shepherdjerred.riotbase.listeners.AbstractListener;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -20,10 +21,14 @@ public class JoinListener extends AbstractListener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         // TODO Do this async
-        TeleportPlayer teleportPlayer = teleportPlayerDAO.load(event.getPlayer().getUniqueId());
+        loadPlayer(event.getPlayer());
+    }
+
+    public void loadPlayer(Player player) {
+        TeleportPlayer teleportPlayer = teleportPlayerDAO.load(player.getUniqueId());
 
         if (teleportPlayer == null) {
-            teleportPlayer = new TeleportPlayer(event.getPlayer().getUniqueId());
+            teleportPlayer = new TeleportPlayer(player.getUniqueId());
             teleportPlayerDAO.insert(teleportPlayer);
         }
 

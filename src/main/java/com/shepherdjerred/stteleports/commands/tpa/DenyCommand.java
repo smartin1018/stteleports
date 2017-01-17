@@ -2,7 +2,7 @@ package com.shepherdjerred.stteleports.commands.tpa;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportAction;
+import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class DenyCommand extends AbstractTeleportCommand {
 
-    public DenyCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportAction teleportAction) {
+    public DenyCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "deny",
                 "stTeleports.tpa.deny",
@@ -23,7 +23,7 @@ public class DenyCommand extends AbstractTeleportCommand {
                 1,
                 false,
                 Arrays.asList("decline")
-        ), teleportPlayerTracker, teleportAction);
+        ), teleportPlayerTracker, teleportActions);
     }
 
     @Override

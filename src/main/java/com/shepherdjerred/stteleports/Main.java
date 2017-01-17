@@ -1,7 +1,7 @@
 package com.shepherdjerred.stteleports;
 
 import com.shepherdjerred.riotbase.RiotBase;
-import com.shepherdjerred.stteleports.actions.TeleportAction;
+import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.commands.*;
 import com.shepherdjerred.stteleports.commands.tpa.TpaCommand;
 import com.shepherdjerred.stteleports.commands.tpa.TpaHereCommand;
@@ -13,8 +13,10 @@ import com.shepherdjerred.stteleports.messages.Parser;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.flywaydb.core.Flyway;
 
 import java.util.ResourceBundle;
@@ -25,26 +27,43 @@ public class Main extends RiotBase {
 
     private HikariDataSource hikariDataSource;
 
+    private Economy economy;
+
     private final TeleportPlayerTracker teleportPlayerTracker = new TeleportPlayerTracker();
-    private final TeleportAction teleportAction = new TeleportAction(teleportPlayerTracker);
+    private final TeleportActions teleportActions = new TeleportActions(teleportPlayerTracker, economy);
     private TeleportPlayerDAO teleportPlayerDAO;
+
+    private boolean vaultEnabled = false;
 
     @Override
     public void onEnable() {
         setupConfigs();
         setupDatabase();
 
+        if (vaultEnabled) {
+            setupVault();
+        }
+
         super.onEnable();
 
         registerCommands();
         registerListeners();
 
+        checkOnlinePlayers();
     }
 
     @Override
     protected void setupConfigs() {
         super.setupConfigs();
-        // Load teleport settings from JSON
+        vaultEnabled = getConfig().getBoolean("vault.enabled");
+        // TODO Load teleport settings from JSON
+    }
+
+    private void setupVault() {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
     }
 
     private void setupDatabase() {
@@ -63,17 +82,17 @@ public class Main extends RiotBase {
     }
 
     private void registerCommands() {
-        new TeleportCommand(parser, teleportPlayerTracker, teleportAction).register(this);
-        new TeleportHereCommand(parser, teleportPlayerTracker, teleportAction).register(this);
-        new TeleportPositionCommand(parser, teleportPlayerTracker, teleportAction).register(this);
+        new TeleportCommand(parser, teleportPlayerTracker, teleportActions).register(this);
+        new TeleportHereCommand(parser, teleportPlayerTracker, teleportActions).register(this);
+        new TeleportPositionCommand(parser, teleportPlayerTracker, teleportActions).register(this);
         new SetHomeCommand(parser, teleportPlayerTracker, teleportPlayerDAO).register(this);
-        new HomeCommand(parser, teleportPlayerTracker, teleportAction).register(this);
+        new HomeCommand(parser, teleportPlayerTracker, teleportActions).register(this);
         new DelHomeCommand(parser, teleportPlayerTracker, teleportPlayerDAO).register(this);
-        new SpawnCommand(parser, teleportPlayerTracker, teleportAction).register(this);
-        new ForwardCommand(parser, teleportPlayerTracker, teleportAction).register(this);
-        new BackwardCommand(parser, teleportPlayerTracker, teleportAction).register(this);
-        new TpaCommand(parser, teleportPlayerTracker, teleportAction).register(this);
-        new TpaHereCommand(parser, teleportPlayerTracker, teleportAction).register(this);
+        new SpawnCommand(parser, teleportPlayerTracker, teleportActions).register(this);
+        new ForwardCommand(parser, teleportPlayerTracker, teleportActions).register(this);
+        new BackwardCommand(parser, teleportPlayerTracker, teleportActions).register(this);
+        new TpaCommand(parser, teleportPlayerTracker, teleportActions).register(this);
+        new TpaHereCommand(parser, teleportPlayerTracker, teleportActions).register(this);
     }
 
     private void registerListeners() {
@@ -83,7 +102,10 @@ public class Main extends RiotBase {
     }
 
     private void checkOnlinePlayers() {
+        // Yeah, this is a bit hacky
+        JoinListener joinListener = new JoinListener(teleportPlayerTracker, teleportPlayerDAO);
         for (Player player : Bukkit.getOnlinePlayers()) {
+            joinListener.loadPlayer(player);
         }
     }
 

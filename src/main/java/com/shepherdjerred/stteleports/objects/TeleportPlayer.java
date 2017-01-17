@@ -7,9 +7,11 @@ import java.util.*;
 
 public class TeleportPlayer {
 
+    private static Calendar calendar = Calendar.getInstance();
+
     private final UUID uuid;
 
-    private long nextAvaliableTeleport = 0L;
+    private long cooldown = 0L;
 
     private final Map<String, Location> homes = new HashMap<>();
     private final Deque<Location> locations = new TeleportQueue<>(5);
@@ -25,9 +27,9 @@ public class TeleportPlayer {
         this.uuid = uuid;
     }
 
-    public TeleportPlayer(UUID uuid, long nextAvaliableTeleport, double cooldownMultiplier, double costMultiplier, double cooldownMultiplierModifier, double costMultiplierModifier) {
+    public TeleportPlayer(UUID uuid, long cooldown, double cooldownMultiplier, double costMultiplier, double cooldownMultiplierModifier, double costMultiplierModifier) {
         this.uuid = uuid;
-        this.nextAvaliableTeleport = nextAvaliableTeleport;
+        this.cooldown = cooldown;
         this.cooldownMultiplier = cooldownMultiplier;
         this.costMultiplier = costMultiplier;
         this.cooldownMultiplierModifier = cooldownMultiplierModifier;
@@ -38,7 +40,7 @@ public class TeleportPlayer {
         cooldownMultiplier = (cooldownMultiplier * (multiplier * cooldownMultiplierModifier));
     }
 
-    public void setCostMultiplier(double multiplier) {
+    public void calculateCostMultiplier(double multiplier) {
         costMultiplier = (costMultiplier * (multiplier * costMultiplierModifier));
     }
 
@@ -50,8 +52,8 @@ public class TeleportPlayer {
         this.costMultiplierModifier = costMultiplierModifier;
     }
 
-    public long getNextAvaliableTeleport() {
-        return nextAvaliableTeleport;
+    public long getCooldown() {
+        return cooldown;
     }
 
     public double getCooldownMultiplier() {
@@ -98,10 +100,6 @@ public class TeleportPlayer {
         homes.put(name, location);
     }
 
-    public void addHomes(Map<String, Location> homes) {
-        this.homes.putAll(homes);
-    }
-
     public void removeHome(String name) {
         homes.remove(name);
     }
@@ -118,11 +116,20 @@ public class TeleportPlayer {
         locations.add(location);
     }
 
+    public void calculateCooldown(long cooldown) {
+        double newCooldown = (cooldown + calendar.getTimeInMillis()) * cooldownMultiplier;
+        this.cooldown = (long) newCooldown;
+    }
+
+    public boolean isCooldownOver() {
+        return cooldown <= calendar.getTimeInMillis();
+    }
+
     @Override
     public String toString() {
         return "TeleportPlayer{" +
                 "uuid=" + uuid +
-                ", nextAvaliableTeleport=" + nextAvaliableTeleport +
+                ", cooldown=" + cooldown +
                 ", homes=" + homes +
                 ", locations=" + locations +
                 ", requesters=" + requesters +

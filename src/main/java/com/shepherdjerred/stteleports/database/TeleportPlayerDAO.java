@@ -24,7 +24,7 @@ public class TeleportPlayerDAO {
 
         try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, player.getUuid().toString());
-            ps.setLong(2, player.getNextAvaliableTeleport());
+            ps.setLong(2, player.getCooldown());
             ps.setDouble(3, player.getCooldownMultiplier());
             ps.setDouble(4, player.getCostMultiplier());
             ps.setDouble(5, player.getCooldownMultiplierModifier());
@@ -64,7 +64,7 @@ public class TeleportPlayerDAO {
 
     public void deleteHome(TeleportPlayer player, String home) {
 
-        String sql = "DELETE FROM player_homes WHERE player_uuid = ? AND home_name = ?";
+        String sql = "DELETE FROM player_homes WHERE player_uuid = ? AND name = ?";
 
         try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, player.getUuid().toString());
@@ -97,7 +97,7 @@ public class TeleportPlayerDAO {
                         rs.getFloat("pitch")
                 );
 
-                player.addHome(rs.getString("home_name"), location);
+                player.addHome(rs.getString("name"), location);
             }
 
             rs.close();
@@ -121,7 +121,7 @@ public class TeleportPlayerDAO {
             if (rs.next()) {
                 teleportPlayer = new TeleportPlayer(
                         UUID.fromString(rs.getString("player_uuid")),
-                        rs.getLong("next_teleport"),
+                        rs.getLong("cooldown"),
                         rs.getDouble("cooldown_multiplier"),
                         rs.getDouble("cost_multiplier"),
                         rs.getDouble("cooldown_multiplier_modifier"),

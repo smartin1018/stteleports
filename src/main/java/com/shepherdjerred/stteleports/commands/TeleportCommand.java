@@ -2,7 +2,8 @@ package com.shepherdjerred.stteleports.commands;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportAction;
+import com.shepherdjerred.stteleports.actions.TeleportActions;
+import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 
 public class TeleportCommand extends AbstractTeleportCommand {
 
-    public TeleportCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportAction teleportAction) {
+    public TeleportCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "teleport",
                 "stTeleports.teleport",
@@ -21,7 +22,7 @@ public class TeleportCommand extends AbstractTeleportCommand {
                 1,
                 false,
                 Arrays.asList("tp")
-        ), teleportPlayerTracker, teleportAction);
+        ), teleportPlayerTracker, teleportActions);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class TeleportCommand extends AbstractTeleportCommand {
             return;
         }
 
-        teleportAction.teleport(target, destination);
+        teleportActions.teleport(Teleport.TELEPORT, target, destination);
 
         if (args.length > 1) {
             sender.sendMessage(parser.colorString(true, "teleport.success.withTarget", target.getName(), destination.getName()));

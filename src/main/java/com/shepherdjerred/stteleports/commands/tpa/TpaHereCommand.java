@@ -2,7 +2,7 @@ package com.shepherdjerred.stteleports.commands.tpa;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportAction;
+import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class TpaHereCommand extends AbstractTeleportCommand {
 
-    public TpaHereCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportAction teleportAction) {
+    public TpaHereCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "teleport",
                 "stTeleports.tpahere",
@@ -20,7 +20,7 @@ public class TpaHereCommand extends AbstractTeleportCommand {
                 "/tpahere <target>",
                 1,
                 false
-        ), teleportPlayerTracker, teleportAction);
+        ), teleportPlayerTracker, teleportActions);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class TpaHereCommand extends AbstractTeleportCommand {
             return;
         }
 
-        teleportAction.sendTeleportRequest(target, destination, Teleport.TPAHERE);
+        teleportActions.sendTeleportRequest(target, destination, Teleport.TPAHERE);
 
         sender.sendMessage(parser.colorString(true, "tpahere.send.success", destination.getName()));
         destination.sendMessage(parser.colorString(true, "tpahere.send.destination", sender.getName()));

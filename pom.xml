@@ -115,6 +115,11 @@
             <id>thestorm-snapshots</id>
             <url>http://ts-mc.net:8085/nexus/content/repositories/snapshots</url>
         </repository>
+
+        <repository>
+            <id>vault-repo</id>
+            <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -130,6 +135,13 @@
             <artifactId>spigot-api</artifactId>
             <version>${spigot.api.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.6</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
