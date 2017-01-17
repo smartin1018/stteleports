@@ -56,7 +56,7 @@ public class TeleportActions {
 
     private void doCooldown(TeleportPlayer teleportPlayer, Teleport type) {
         teleportPlayer.calculateCooldown(type.getCooldown());
-        teleportPlayer.setCooldownMultiplier(type.getCooldownMultiplier());
+        teleportPlayer.calculateCooldownMultiplier(type.getCooldownMultiplier());
     }
 
     private void chargePlayer(Player player, Teleport type) {

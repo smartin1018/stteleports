@@ -42,6 +42,12 @@ public class SetHomeCommand extends AbstractCommand {
 
         Player player = (Player) sender;
         TeleportPlayer teleportPlayer = teleportPlayerTracker.get(player);
+
+        if (teleportPlayer.getMaxHomes() >= teleportPlayer.getCurrentHomeCount()) {
+            sender.sendMessage(parser.colorString(true, "sethome.tooManyHomes", teleportPlayer.getCurrentHomeCount(), teleportPlayer.getMaxHomes()));
+            return;
+        }
+
         teleportPlayer.addHome(home, ((Player) sender).getLocation());
         teleportPlayerDAO.addHome(teleportPlayer, home);
         sender.sendMessage(parser.colorString(true, "sethome.success"));

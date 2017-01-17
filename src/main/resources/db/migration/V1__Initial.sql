@@ -1,5 +1,6 @@
 CREATE TABLE players (
   player_uuid                  CHAR(36) PRIMARY KEY,
+  max_homes                    INT    NOT NULL,
   cooldown                     LONG   NOT NULL,
   cooldown_multiplier          DOUBLE NOT NULL,
   cost_multiplier              DOUBLE NOT NULL,

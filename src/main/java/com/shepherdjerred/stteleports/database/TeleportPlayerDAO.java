@@ -19,16 +19,37 @@ public class TeleportPlayerDAO {
         this.hikariDataSource = hikariDataSource;
     }
 
+    public void updateCooldown(TeleportPlayer teleportPlayer) {
+
+    }
+
+    public void updateCooldownMultiplier(TeleportPlayer teleportPlayer) {
+
+    }
+
+    public void updateCostMultiplier(TeleportPlayer teleportPlayer) {
+
+    }
+
+    public void updateCooldownMultiplierModifier(TeleportPlayer teleportPlayer) {
+
+    }
+
+    public void updateCostMultiplierModifier(TeleportPlayer teleportPlayer) {
+
+    }
+
     public void insert(TeleportPlayer player) {
-        String sql = "INSERT INTO players (?,?,?,?,?,?)";
+        String sql = "INSERT INTO players (?,?,?,?,?,?,?)";
 
         try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, player.getUuid().toString());
-            ps.setLong(2, player.getCooldown());
-            ps.setDouble(3, player.getCooldownMultiplier());
-            ps.setDouble(4, player.getCostMultiplier());
-            ps.setDouble(5, player.getCooldownMultiplierModifier());
-            ps.setDouble(6, player.getCostMultiplierModifier());
+            ps.setInt(2, player.getMaxHomes());
+            ps.setLong(3, player.getCooldown());
+            ps.setDouble(4, player.getCooldownMultiplier());
+            ps.setDouble(5, player.getCostMultiplier());
+            ps.setDouble(6, player.getCooldownMultiplierModifier());
+            ps.setDouble(7, player.getCostMultiplierModifier());
 
             ps.execute();
 
@@ -121,6 +142,7 @@ public class TeleportPlayerDAO {
             if (rs.next()) {
                 teleportPlayer = new TeleportPlayer(
                         UUID.fromString(rs.getString("player_uuid")),
+                        rs.getInt("max_homes"),
                         rs.getLong("cooldown"),
                         rs.getDouble("cooldown_multiplier"),
                         rs.getDouble("cost_multiplier"),

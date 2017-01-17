@@ -23,12 +23,15 @@ public class TeleportPlayer {
     private double cooldownMultiplierModifier = 1D;
     private double costMultiplierModifier = 1D;
 
+    private int maxHomes = 1;
+
     public TeleportPlayer(UUID uuid) {
         this.uuid = uuid;
     }
 
-    public TeleportPlayer(UUID uuid, long cooldown, double cooldownMultiplier, double costMultiplier, double cooldownMultiplierModifier, double costMultiplierModifier) {
+    public TeleportPlayer(UUID uuid, int maxHomes, long cooldown, double cooldownMultiplier, double costMultiplier, double cooldownMultiplierModifier, double costMultiplierModifier) {
         this.uuid = uuid;
+        this.maxHomes = maxHomes;
         this.cooldown = cooldown;
         this.cooldownMultiplier = cooldownMultiplier;
         this.costMultiplier = costMultiplier;
@@ -36,7 +39,7 @@ public class TeleportPlayer {
         this.costMultiplierModifier = costMultiplierModifier;
     }
 
-    public void setCooldownMultiplier(double multiplier) {
+    public void calculateCooldownMultiplier(double multiplier) {
         cooldownMultiplier = (cooldownMultiplier * (multiplier * cooldownMultiplierModifier));
     }
 
@@ -125,6 +128,18 @@ public class TeleportPlayer {
         return cooldown <= calendar.getTimeInMillis();
     }
 
+    public int getMaxHomes() {
+        return maxHomes;
+    }
+
+    public void setMaxHomes(int maxHomes) {
+        this.maxHomes = maxHomes;
+    }
+
+    public int getCurrentHomeCount() {
+        return homes.size();
+    }
+
     @Override
     public String toString() {
         return "TeleportPlayer{" +
@@ -137,6 +152,7 @@ public class TeleportPlayer {
                 ", costMultiplier=" + costMultiplier +
                 ", cooldownMultiplierModifier=" + cooldownMultiplierModifier +
                 ", costMultiplierModifier=" + costMultiplierModifier +
+                ", maxHomes=" + maxHomes +
                 '}';
     }
 }
