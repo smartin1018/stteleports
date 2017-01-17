@@ -4,28 +4,45 @@ import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportAction;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
+import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.bukkit.entity.Player;
 
 public class TpaHereCommand extends AbstractTeleportCommand {
 
     public TpaHereCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportAction teleportAction) {
         super(parser, new CommandInfo(
                 "teleport",
-                "stTeleports.teleport",
-                "Teleport to another player",
-                "/teleport [target] <destination>",
+                "stTeleports.tpahere",
+                "Request that another player teleports to you",
+                "/tpahere <target>",
                 1,
-                false,
-                new ArrayList<>(Arrays.asList("tp"))
+                false
         ), teleportPlayerTracker, teleportAction);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+
+        Player target = (Player) sender;
+        Player destination = Bukkit.getPlayer(args[0]);
+
+        if (destination == null) {
+            sender.sendMessage(parser.colorString(true, "generic.playerNotOnline", args[0]));
+            return;
+        }
+
+        if (destination == target) {
+            sender.sendMessage(parser.colorString(true, "generic.cantTargetSelf"));
+            return;
+        }
+
+        teleportAction.sendTeleportRequest(target, destination, Teleport.TPAHERE);
+
+        sender.sendMessage(parser.colorString(true, "tpahere.send.success", destination.getName()));
+        destination.sendMessage(parser.colorString(true, "tpahere.send.destination", sender.getName()));
 
     }
 

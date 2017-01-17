@@ -1,5 +1,7 @@
 package com.shepherdjerred.stteleports.actions;
 
+import com.shepherdjerred.stteleports.objects.Teleport;
+import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -37,9 +39,12 @@ public class TeleportAction {
         target.teleport(destination);
     }
 
-    public void sendTeleportRequest(Player target, Player destination) {
-        teleportPlayerTracker.get(destination).setRequester(teleportPlayerTracker.get(target));
-        // TODO Expire the invite
+    public void sendTeleportRequest(Player target, Player destination, Teleport type) {
+        TeleportPlayer targetTpPlayer = teleportPlayerTracker.get(target);
+        TeleportPlayer destinationTpPlayer = teleportPlayerTracker.get(destination);
+
+        destinationTpPlayer.addRequest(targetTpPlayer.getUuid(), type);
+        // TODO Expire the invite after some time
     }
 
 }

@@ -4,6 +4,7 @@ import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportAction;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
+import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -15,11 +16,15 @@ public class TpaCommand extends AbstractTeleportCommand {
         super(parser, new CommandInfo(
                 "tpa",
                 "stTeleports.tpa",
-                "Teleport to another player",
+                "Request to teleport to another player",
                 "/tpa <destination>",
                 1,
                 false
         ), teleportPlayerTracker, teleportAction);
+        addChildren(
+                new AcceptCommand(parser, teleportPlayerTracker, teleportAction),
+                new DenyCommand(parser, teleportPlayerTracker, teleportAction)
+        );
     }
 
     @Override
@@ -38,7 +43,7 @@ public class TpaCommand extends AbstractTeleportCommand {
             return;
         }
 
-        teleportAction.sendTeleportRequest(target, destination);
+        teleportAction.sendTeleportRequest(target, destination, Teleport.TPA);
 
         sender.sendMessage(parser.colorString(true, "tpa.send.success", destination.getName()));
         destination.sendMessage(parser.colorString(true, "tpa.send.destination", sender.getName()));

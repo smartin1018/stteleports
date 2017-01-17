@@ -3,6 +3,8 @@ package com.shepherdjerred.stteleports;
 import com.shepherdjerred.riotbase.RiotBase;
 import com.shepherdjerred.stteleports.actions.TeleportAction;
 import com.shepherdjerred.stteleports.commands.*;
+import com.shepherdjerred.stteleports.commands.tpa.TpaCommand;
+import com.shepherdjerred.stteleports.commands.tpa.TpaHereCommand;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.listeners.JoinListener;
 import com.shepherdjerred.stteleports.listeners.QuitListener;
@@ -70,6 +72,8 @@ public class Main extends RiotBase {
         new SpawnCommand(parser, teleportPlayerTracker, teleportAction).register(this);
         new ForwardCommand(parser, teleportPlayerTracker, teleportAction).register(this);
         new BackwardCommand(parser, teleportPlayerTracker, teleportAction).register(this);
+        new TpaCommand(parser, teleportPlayerTracker, teleportAction).register(this);
+        new TpaHereCommand(parser, teleportPlayerTracker, teleportAction).register(this);
     }
 
     private void registerListeners() {

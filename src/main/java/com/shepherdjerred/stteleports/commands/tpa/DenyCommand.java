@@ -4,17 +4,20 @@ import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportAction;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
+import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class DenyCommand extends AbstractTeleportCommand {
 
     public DenyCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportAction teleportAction) {
         super(parser, new CommandInfo(
                 "deny",
-                "stTeleports.tpa",
-                "Teleport to another player",
-                "/tpa <destination>",
+                "stTeleports.tpa.deny",
+                "Deny a teleport request",
+                "/tpa deny <player>",
                 1,
                 false
         ), teleportPlayerTracker, teleportAction);
@@ -23,6 +26,24 @@ public class DenyCommand extends AbstractTeleportCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
 
+        Player targetPlayer = Bukkit.getPlayer(args[0]);
+        Player senderPlayer = (Player) sender;
+        TeleportPlayer senderTeleportPlayer = teleportPlayerTracker.get(senderPlayer);
+
+        if (targetPlayer == null) {
+            sender.sendMessage(parser.colorString(true, "", args[0]));
+            return;
+        }
+
+        if (!senderTeleportPlayer.hasRequest(targetPlayer.getUniqueId())) {
+            sender.sendMessage(parser.colorString(true, "", targetPlayer.getName()));
+            return;
+        }
+
+        senderTeleportPlayer.removeRequest(targetPlayer.getUniqueId());
+
+        senderPlayer.sendMessage(parser.colorString(true, "", targetPlayer.getName()));
+        targetPlayer.sendMessage(parser.colorString(true, "", senderPlayer.getName()));
     }
 
 }

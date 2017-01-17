@@ -13,7 +13,7 @@ public class TeleportPlayer {
 
     private final Map<String, Location> homes = new HashMap<>();
     private final Deque<Location> locations = new TeleportQueue<>(5);
-    private TeleportPlayer requester;
+    private final Map<UUID, Teleport> requesters = new HashMap<>();
 
     private double cooldownMultiplier = 1D;
     private double costMultiplier = 1D;
@@ -70,12 +70,20 @@ public class TeleportPlayer {
         return costMultiplierModifier;
     }
 
-    public TeleportPlayer getRequester() {
-        return requester;
+    public void addRequest(UUID player, Teleport type) {
+        requesters.put(player, type);
     }
 
-    public void setRequester(TeleportPlayer requester) {
-        this.requester = requester;
+    public boolean hasRequest(UUID player) {
+        return requesters.containsKey(player);
+    }
+
+    public Teleport getTeleportType(UUID player) {
+        return requesters.get(player);
+    }
+
+    public void removeRequest(UUID player) {
+        requesters.remove(player);
     }
 
     public UUID getUuid() {
@@ -112,12 +120,12 @@ public class TeleportPlayer {
 
     @Override
     public String toString() {
-        return "TeleportPlayerDAO{" +
+        return "TeleportPlayer{" +
                 "uuid=" + uuid +
                 ", nextAvaliableTeleport=" + nextAvaliableTeleport +
                 ", homes=" + homes +
                 ", locations=" + locations +
-                ", requester=" + requester +
+                ", requesters=" + requesters +
                 ", cooldownMultiplier=" + cooldownMultiplier +
                 ", costMultiplier=" + costMultiplier +
                 ", cooldownMultiplierModifier=" + cooldownMultiplierModifier +
