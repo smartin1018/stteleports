@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TeleportHereCommand extends AbstractTeleportCommand {
@@ -21,7 +20,7 @@ public class TeleportHereCommand extends AbstractTeleportCommand {
                 "/tphere <target>",
                 1,
                 false,
-                new ArrayList<>(Arrays.asList("tph, bring"))
+                Arrays.asList("tph", "bring")
         ), teleportPlayerTracker, teleportAction);
     }
 

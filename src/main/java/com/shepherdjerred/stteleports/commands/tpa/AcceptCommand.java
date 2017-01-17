@@ -32,12 +32,12 @@ public class AcceptCommand extends AbstractTeleportCommand {
         TeleportPlayer senderTeleportPlayer = teleportPlayerTracker.get(senderPlayer);
 
         if (targetPlayer == null) {
-            sender.sendMessage(parser.colorString(true, "", args[0]));
+            sender.sendMessage(parser.colorString(true, "generic.playerNotOnline", args[0]));
             return;
         }
 
         if (!senderTeleportPlayer.hasRequest(targetPlayer.getUniqueId())) {
-            sender.sendMessage(parser.colorString(true, "", targetPlayer.getName()));
+            sender.sendMessage(parser.colorString(true, "tpa.noRequest", targetPlayer.getName()));
             return;
         }
 
@@ -53,8 +53,8 @@ public class AcceptCommand extends AbstractTeleportCommand {
             return;
         }
 
-        senderPlayer.sendMessage(parser.colorString(true, "", targetPlayer.getName()));
-        targetPlayer.sendMessage(parser.colorString(true, "", senderPlayer.getName()));
+        senderPlayer.sendMessage(parser.colorString(true, "tpa.accept.sender", targetPlayer.getName()));
+        targetPlayer.sendMessage(parser.colorString(true, "tpa.accept.target", senderPlayer.getName()));
 
     }
 

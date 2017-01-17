@@ -8,7 +8,6 @@ import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BackwardCommand extends AbstractTeleportCommand {
@@ -21,7 +20,7 @@ public class BackwardCommand extends AbstractTeleportCommand {
                 "/backward",
                 0,
                 false,
-                new ArrayList<>(Arrays.asList("back, return"))
+                Arrays.asList("back", "return")
         ), teleportPlayerTracker, teleportAction);
     }
 

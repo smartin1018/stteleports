@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TeleportCommand extends AbstractTeleportCommand {
@@ -21,7 +20,7 @@ public class TeleportCommand extends AbstractTeleportCommand {
                 "/teleport [target] <destination>",
                 1,
                 false,
-                new ArrayList<>(Arrays.asList("tp"))
+                Arrays.asList("tp")
         ), teleportPlayerTracker, teleportAction);
     }
 

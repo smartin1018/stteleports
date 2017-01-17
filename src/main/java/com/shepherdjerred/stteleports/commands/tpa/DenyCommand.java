@@ -10,6 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 public class DenyCommand extends AbstractTeleportCommand {
 
     public DenyCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportAction teleportAction) {
@@ -19,7 +21,8 @@ public class DenyCommand extends AbstractTeleportCommand {
                 "Deny a teleport request",
                 "/tpa deny <player>",
                 1,
-                false
+                false,
+                Arrays.asList("decline")
         ), teleportPlayerTracker, teleportAction);
     }
 
@@ -31,19 +34,19 @@ public class DenyCommand extends AbstractTeleportCommand {
         TeleportPlayer senderTeleportPlayer = teleportPlayerTracker.get(senderPlayer);
 
         if (targetPlayer == null) {
-            sender.sendMessage(parser.colorString(true, "", args[0]));
+            sender.sendMessage(parser.colorString(true, "generic.playerNotOnline", args[0]));
             return;
         }
 
         if (!senderTeleportPlayer.hasRequest(targetPlayer.getUniqueId())) {
-            sender.sendMessage(parser.colorString(true, "", targetPlayer.getName()));
+            sender.sendMessage(parser.colorString(true, "tpa.noRequest", targetPlayer.getName()));
             return;
         }
 
         senderTeleportPlayer.removeRequest(targetPlayer.getUniqueId());
 
-        senderPlayer.sendMessage(parser.colorString(true, "", targetPlayer.getName()));
-        targetPlayer.sendMessage(parser.colorString(true, "", senderPlayer.getName()));
+        senderPlayer.sendMessage(parser.colorString(true, "tpa.deny.sender", targetPlayer.getName()));
+        targetPlayer.sendMessage(parser.colorString(true, "tpa.deny.target", senderPlayer.getName()));
     }
 
 }

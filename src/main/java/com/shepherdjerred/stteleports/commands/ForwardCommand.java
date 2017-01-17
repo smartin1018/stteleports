@@ -8,7 +8,6 @@ import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ForwardCommand extends AbstractTeleportCommand {
@@ -21,7 +20,7 @@ public class ForwardCommand extends AbstractTeleportCommand {
                 "/forward",
                 0,
                 false,
-                new ArrayList<>(Arrays.asList("fw"))
+                Arrays.asList("fw")
         ), teleportPlayerTracker, teleportAction);
     }
 

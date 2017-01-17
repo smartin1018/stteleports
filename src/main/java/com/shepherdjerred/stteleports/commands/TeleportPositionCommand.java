@@ -5,11 +5,12 @@ import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportAction;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TeleportPositionCommand extends AbstractTeleportCommand {
@@ -22,7 +23,7 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
                 "/tppos <x> <y> <z> [world]",
                 3,
                 false,
-                new ArrayList<>(Arrays.asList("tpp"))
+                Arrays.asList("tpp")
         ), teleportPlayerTracker, teleportAction);
     }
 
