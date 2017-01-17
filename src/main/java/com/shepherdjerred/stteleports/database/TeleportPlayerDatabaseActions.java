@@ -19,9 +19,9 @@ public class TeleportPlayerDatabaseActions {
 
         DBI dbi = new DBI(dataSource);
 
-        TeleportPlayerDAO operations = dbi.open(TeleportPlayerDAO.class);
+        TeleportPlayerDAO dao = dbi.open(TeleportPlayerDAO.class);
 
-        operations.insert(
+        dao.insert(
                 player.getUuid().toString(),
                 player.getNextAvaliableTeleport(),
                 player.getCooldownMultiplier(),
@@ -30,7 +30,7 @@ public class TeleportPlayerDatabaseActions {
                 player.getCostMultiplierModifier()
         );
 
-        operations.close();
+        dao.close();
 
     }
 
@@ -38,9 +38,9 @@ public class TeleportPlayerDatabaseActions {
 
         DBI dbi = new DBI(dataSource);
 
-        TeleportPlayerDAO operations = dbi.open(TeleportPlayerDAO.class);
+        TeleportPlayerDAO dao = dbi.open(TeleportPlayerDAO.class);
 
-        TeleportPlayer teleportPlayer = operations.findByUuid(player.toString());
+        TeleportPlayer teleportPlayer = dao.findByUuid(player.toString());
 
         return teleportPlayer;
 
@@ -49,14 +49,13 @@ public class TeleportPlayerDatabaseActions {
     public void addHome(TeleportPlayer teleportPlayer, String name) {
 
         DBI dbi = new DBI(dataSource);
-
-        TeleportPlayerDAO operations = dbi.open(TeleportPlayerDAO.class);
+        TeleportPlayerDAO dao = dbi.open(TeleportPlayerDAO.class);
 
         Location location = teleportPlayer.getHome(name);
 
-        operations.addHome(name, location.getWorld().getUID().toString(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getYaw(), location.getPitch());
+        dao.addHome(teleportPlayer.getUuid().toString(), name, location.getWorld().getUID().toString(), location.getBlockX(), location.getBlockY(), location.getBlockZ(), location.getYaw(), location.getPitch());
 
-        operations.close();
+        dao.close();
 
     }
 

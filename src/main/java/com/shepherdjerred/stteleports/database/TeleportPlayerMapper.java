@@ -28,16 +28,18 @@ public class TeleportPlayerMapper implements ResultSetMapper<TeleportPlayer> {
             );
         }
 
-        Location location = new Location(
-                Bukkit.getWorld(UUID.fromString(r.getString("player_homes.world"))),
-                r.getInt("player_homes.x"),
-                r.getInt("player_homes.y"),
-                r.getInt("player_homes.z"),
-                r.getFloat("player_homes.yaw"),
-                r.getFloat("player_homes.pitch")
-        );
+        if (r.getString("player_homes.player_uuid") != null) {
+            Location location = new Location(
+                    Bukkit.getWorld(UUID.fromString(r.getString("player_homes.world"))),
+                    r.getInt("player_homes.x"),
+                    r.getInt("player_homes.y"),
+                    r.getInt("player_homes.z"),
+                    r.getFloat("player_homes.yaw"),
+                    r.getFloat("player_homes.pitch")
+            );
 
-        teleportPlayer.addHome(r.getString("player_homes.home_name"), location);
+            teleportPlayer.addHome(r.getString("player_homes.home_name"), location);
+        }
 
         return teleportPlayer;
 

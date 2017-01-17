@@ -29,13 +29,11 @@ public class SetHomeCommand extends AbstractCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-
         Player player = (Player) sender;
-
         TeleportPlayer teleportPlayer = teleportPlayerTracker.get(player);
         teleportPlayer.addHome("default", ((Player) sender).getLocation());
         teleportPlayerDatabaseActions.addHome(teleportPlayer, "default");
-
+        sender.sendMessage(parser.colorString(true, "sethome.success"));
     }
 
 }
