@@ -11,12 +11,11 @@ import com.shepherdjerred.stteleports.listeners.QuitListener;
 import com.shepherdjerred.stteleports.listeners.TeleportListener;
 import com.shepherdjerred.stteleports.messages.Parser;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.vault.VaultManager;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.flywaydb.core.Flyway;
 
 import java.util.ResourceBundle;
@@ -27,10 +26,10 @@ public class Main extends RiotBase {
 
     private HikariDataSource hikariDataSource;
 
-    private Economy economy;
+    private final VaultManager vaultManager = VaultManager.INSTANCE;
 
     private final TeleportPlayerTracker teleportPlayerTracker = new TeleportPlayerTracker();
-    private final TeleportActions teleportActions = new TeleportActions(teleportPlayerTracker, economy);
+    private final TeleportActions teleportActions = new TeleportActions(teleportPlayerTracker, vaultManager.getEconomy());
     private TeleportPlayerDAO teleportPlayerDAO;
 
     private boolean vaultEnabled = false;
@@ -60,10 +59,7 @@ public class Main extends RiotBase {
     }
 
     private void setupVault() {
-        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-        if (economyProvider != null) {
-            economy = economyProvider.getProvider();
-        }
+        vaultManager.setupEconomy(this);
     }
 
     private void setupDatabase() {

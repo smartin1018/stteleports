@@ -4,7 +4,10 @@ import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.objects.Teleport;
+import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.util.TimeToString;
+import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -31,6 +34,7 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player target = (Player) sender;
+        TeleportPlayer teleportPlayer = teleportPlayerTracker.get(target);
         double x;
         double y;
         double z;
@@ -59,6 +63,17 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
             }
         } else {
             world = target.getWorld();
+        }
+
+        if (!teleportPlayer.isCooldownOver()) {
+            sender.sendMessage(parser.colorString(true, "generic.cooldownActive", TimeToString.convertLong(teleportPlayer.getCooldown())));
+            return;
+        }
+
+        if (VaultManager.INSTANCE.getEconomy() != null) {
+            if (!VaultManager.INSTANCE.getEconomy().has(target, Teleport.BACKWARD.getCost())) {
+                return;
+            }
         }
 
         x = Double.valueOf(args[0]);

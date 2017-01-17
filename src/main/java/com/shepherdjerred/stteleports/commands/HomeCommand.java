@@ -6,6 +6,8 @@ import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.util.TimeToString;
+import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -37,6 +39,17 @@ public class HomeCommand extends AbstractTeleportCommand {
         if (teleportPlayer.getHome(home) == null) {
             sender.sendMessage(parser.colorString(true, "home.invalidName", home));
             return;
+        }
+
+        if (!teleportPlayer.isCooldownOver()) {
+            sender.sendMessage(parser.colorString(true, "generic.cooldownActive", TimeToString.convertLong(teleportPlayer.getCooldown())));
+            return;
+        }
+
+        if (VaultManager.INSTANCE.getEconomy() != null) {
+            if (!VaultManager.INSTANCE.getEconomy().has(player, Teleport.HOME.getCost())) {
+                return;
+            }
         }
 
         teleportActions.teleport(Teleport.HOME, player, teleportPlayer.getHome(home), false);

@@ -4,7 +4,10 @@ import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.objects.Teleport;
+import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.util.TimeToString;
+import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -55,6 +58,19 @@ public class TeleportCommand extends AbstractTeleportCommand {
         if (destination == target) {
             sender.sendMessage(parser.colorString(true, "generic.cantTargetSelf"));
             return;
+        }
+
+        TeleportPlayer teleportPlayer = teleportPlayerTracker.get(target);
+
+        if (!teleportPlayer.isCooldownOver()) {
+            sender.sendMessage(parser.colorString(true, "generic.cooldownActive", TimeToString.convertLong(teleportPlayer.getCooldown())));
+            return;
+        }
+
+        if (VaultManager.INSTANCE.getEconomy() != null) {
+            if (!VaultManager.INSTANCE.getEconomy().has(target, Teleport.BACKWARD.getCost())) {
+                return;
+            }
         }
 
         teleportActions.teleport(Teleport.TELEPORT, target, destination);
