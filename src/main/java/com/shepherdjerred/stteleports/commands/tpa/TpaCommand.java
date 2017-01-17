@@ -7,9 +7,7 @@ import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.bukkit.entity.Player;
 
 public class TpaCommand extends AbstractTeleportCommand {
 
@@ -18,20 +16,32 @@ public class TpaCommand extends AbstractTeleportCommand {
                 "tpa",
                 "stTeleports.tpa",
                 "Teleport to another player",
-                "/teleport [target] <destination>",
+                "/tpa <destination>",
                 1,
-                false,
-                new ArrayList<>(Arrays.asList("tp"))
+                false
         ), teleportPlayerTracker, teleportAction);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
 
-        if (Bukkit.getPlayer(args[0]) == null) {
+        Player target = (Player) sender;
+        Player destination = Bukkit.getPlayer(args[0]);
 
+        if (destination == null) {
+            sender.sendMessage(parser.colorString(true, "generic.playerNotOnline", args[0]));
             return;
         }
+
+        if (destination == target) {
+            sender.sendMessage(parser.colorString(true, "generic.cantTargetSelf"));
+            return;
+        }
+
+        teleportAction.sendTeleportRequest(target, destination);
+
+        sender.sendMessage(parser.colorString(true, "tpa.send.success", destination.getName()));
+        destination.sendMessage(parser.colorString(true, "tpa.send.destination", sender.getName()));
 
     }
 

@@ -23,8 +23,8 @@ public class Main extends RiotBase {
 
     private HikariDataSource hikariDataSource;
 
-    private final TeleportAction teleportAction = new TeleportAction();
     private final TeleportPlayerTracker teleportPlayerTracker = new TeleportPlayerTracker();
+    private final TeleportAction teleportAction = new TeleportAction(teleportPlayerTracker);
     private TeleportPlayerDAO teleportPlayerDAO;
 
     @Override

@@ -1,11 +1,18 @@
 package com.shepherdjerred.stteleports.actions;
 
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class TeleportAction {
+
+    private final TeleportPlayerTracker teleportPlayerTracker;
+
+    public TeleportAction(TeleportPlayerTracker teleportPlayerTracker) {
+        this.teleportPlayerTracker = teleportPlayerTracker;
+    }
 
     public void teleport(Player target, Player destination) {
         target.teleport(destination);
@@ -28,6 +35,11 @@ public class TeleportAction {
         }
 
         target.teleport(destination);
+    }
+
+    public void sendTeleportRequest(Player target, Player destination) {
+        teleportPlayerTracker.get(destination).setRequester(teleportPlayerTracker.get(target));
+        // TODO Expire the invite
     }
 
 }

@@ -5,7 +5,6 @@ import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportAction;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -59,10 +58,6 @@ public class TeleportCommand extends AbstractTeleportCommand {
         }
 
         teleportAction.teleport(target, destination);
-
-        if (destination.getLocation().getBlock().getType() != Material.AIR) {
-
-        }
 
         if (args.length > 1) {
             sender.sendMessage(parser.colorString(true, "teleport.success.withTarget", target.getName(), destination.getName()));
