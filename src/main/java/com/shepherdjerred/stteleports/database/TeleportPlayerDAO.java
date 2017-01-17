@@ -1,23 +1,130 @@
 package com.shepherdjerred.stteleports.database;
 
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import org.skife.jdbi.v2.sqlobject.Bind;
-import org.skife.jdbi.v2.sqlobject.SqlQuery;
-import org.skife.jdbi.v2.sqlobject.SqlUpdate;
-import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
+import com.zaxxer.hikari.HikariDataSource;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
-@RegisterMapper(TeleportPlayerMapper.class)
-public interface TeleportPlayerDAO {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
 
-    @SqlUpdate("INSERT INTO players VALUES (:uuid, :next_teleport, :cooldown_multiplier, :cost_multiplier, :cooldown_multiplier_modifier, :cost_multiplier_modifier)")
-    void insert(@Bind("uuid") String uuid, @Bind("next_teleport") long nextTeleport, @Bind("cooldown_multiplier") double cooldownMultiplier, @Bind("cost_multiplier") double costMultiplier, @Bind("cooldown_multiplier_modifier") double cooldownMultiplierModifier, @Bind("cost_multiplier_modifier") double costMultiplierModifier);
+public class TeleportPlayerDAO {
 
-    @SqlQuery("SELECT * FROM players LEFT JOIN player_homes ON players.player_uuid = player_homes.player_uuid WHERE players.player_uuid = :uuid")
-    TeleportPlayer findByUuid(@Bind("uuid") String uuid);
+    private final HikariDataSource hikariDataSource;
 
-    @SqlUpdate("INSERT INTO player_homes VALUES (:uuid, :name, :world, :x, :y, :z, :yaw, :pitch)")
-    void addHome(@Bind("uuid") String playerUuid, @Bind("name") String name, @Bind("world") String world, @Bind("x") int x, @Bind("y") int y, @Bind("z") int z, @Bind("yaw") float yaw, @Bind("pitch") float pitch);
+    public TeleportPlayerDAO(HikariDataSource hikariDataSource) {
+        this.hikariDataSource = hikariDataSource;
+    }
 
-    void close();
+    public void insert(TeleportPlayer player) {
+        String sql = "INSERT INTO players (?,?,?,?,?,?)";
+
+        try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(0, player.getUuid().toString());
+            ps.setLong(1, player.getNextAvaliableTeleport());
+            ps.setDouble(2, player.getCooldownMultiplier());
+            ps.setDouble(3, player.getCostMultiplier());
+            ps.setDouble(4, player.getCooldownMultiplierModifier());
+            ps.setDouble(5, player.getCostMultiplierModifier());
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void addHome(TeleportPlayer player, String home) {
+
+        String sql = "INSERT INTO player_homes (?,?,?,?,?,?,?)";
+
+        Location location = player.getHome(home);
+
+        try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(0, player.getUuid().toString());
+            ps.setString(1, home);
+            ps.setString(2, location.getWorld().getUID().toString());
+            ps.setInt(3, location.getBlockX());
+            ps.setInt(4, location.getBlockY());
+            ps.setInt(5, location.getBlockZ());
+            ps.setFloat(6, location.getYaw());
+            ps.setFloat(7, location.getPitch());
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void loadHomes(TeleportPlayer player) {
+
+        String sql = "SELECT * FROM player_homes WHERE player_uuid = ?";
+        TeleportPlayer teleportPlayer = null;
+
+        try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(0, player.getUuid().toString());
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Location location = new Location(
+                        Bukkit.getWorld(UUID.fromString(rs.getString("world"))),
+                        rs.getInt("x"),
+                        rs.getInt("y"),
+                        rs.getInt("z"),
+                        rs.getFloat("yaw"),
+                        rs.getFloat("pitch")
+                );
+
+                teleportPlayer.addHome(rs.getString("home_name"), location);
+            }
+
+            rs.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public TeleportPlayer load(UUID uuid) {
+
+        String sql = "SELECT * FROM players WHERE player_uuid = ?";
+        TeleportPlayer teleportPlayer = null;
+
+        try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(0, uuid.toString());
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                teleportPlayer = new TeleportPlayer(
+                        UUID.fromString(rs.getString("player_uuid")),
+                        rs.getLong("next_teleport"),
+                        rs.getDouble("cooldown_multiplier"),
+                        rs.getDouble("cost_multiplier"),
+                        rs.getDouble("cooldown_multiplier_modifier"),
+                        rs.getDouble("cost_multiplier_modifier")
+                );
+            }
+
+            rs.close();
+
+            loadHomes(teleportPlayer);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return teleportPlayer;
+
+    }
 
 }

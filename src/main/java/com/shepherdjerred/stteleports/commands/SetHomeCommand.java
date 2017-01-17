@@ -3,7 +3,7 @@ package com.shepherdjerred.stteleports.commands;
 import com.shepherdjerred.riotbase.commands.AbstractCommand;
 import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.database.TeleportPlayerDatabaseActions;
+import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.command.CommandSender;
@@ -12,9 +12,9 @@ import org.bukkit.entity.Player;
 public class SetHomeCommand extends AbstractCommand {
 
     private final TeleportPlayerTracker teleportPlayerTracker;
-    private final TeleportPlayerDatabaseActions teleportPlayerDatabaseActions;
+    private final TeleportPlayerDAO teleportPlayerDAO;
 
-    public SetHomeCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportPlayerDatabaseActions teleportPlayerDatabaseActions) {
+    public SetHomeCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportPlayerDAO teleportPlayerDAO) {
         super(parser, new CommandInfo(
                 "sethome",
                 "stTeleports.home.set",
@@ -24,7 +24,7 @@ public class SetHomeCommand extends AbstractCommand {
                 false
         ));
         this.teleportPlayerTracker = teleportPlayerTracker;
-        this.teleportPlayerDatabaseActions = teleportPlayerDatabaseActions;
+        this.teleportPlayerDAO = teleportPlayerDAO;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class SetHomeCommand extends AbstractCommand {
         Player player = (Player) sender;
         TeleportPlayer teleportPlayer = teleportPlayerTracker.get(player);
         teleportPlayer.addHome(home, ((Player) sender).getLocation());
-        teleportPlayerDatabaseActions.addHome(teleportPlayer, home);
+        teleportPlayerDAO.addHome(teleportPlayer, home);
         sender.sendMessage(parser.colorString(true, "sethome.success"));
     }
 

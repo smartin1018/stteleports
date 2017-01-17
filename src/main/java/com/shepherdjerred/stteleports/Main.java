@@ -3,7 +3,7 @@ package com.shepherdjerred.stteleports;
 import com.shepherdjerred.riotbase.RiotBase;
 import com.shepherdjerred.stteleports.actions.TeleportAction;
 import com.shepherdjerred.stteleports.commands.*;
-import com.shepherdjerred.stteleports.database.TeleportPlayerDatabaseActions;
+import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.listeners.JoinListener;
 import com.shepherdjerred.stteleports.listeners.QuitListener;
 import com.shepherdjerred.stteleports.listeners.TeleportListener;
@@ -25,7 +25,7 @@ public class Main extends RiotBase {
 
     private final TeleportAction teleportAction = new TeleportAction();
     private final TeleportPlayerTracker teleportPlayerTracker = new TeleportPlayerTracker();
-    private TeleportPlayerDatabaseActions teleportPlayerQueries;
+    private TeleportPlayerDAO teleportPlayerDAO;
 
     @Override
     public void onEnable() {
@@ -57,19 +57,19 @@ public class Main extends RiotBase {
         flyway.setDataSource(hikariDataSource);
         flyway.migrate();
 
-        teleportPlayerQueries = new TeleportPlayerDatabaseActions(hikariDataSource);
+        teleportPlayerDAO = new TeleportPlayerDAO(hikariDataSource);
     }
 
     private void registerCommands() {
         new TeleportCommand(parser, teleportPlayerTracker, teleportAction).register(this);
         new TeleportHereCommand(parser, teleportPlayerTracker, teleportAction).register(this);
         new TeleportPositionCommand(parser, teleportPlayerTracker, teleportAction).register(this);
-        new SetHomeCommand(parser, teleportPlayerTracker, teleportPlayerQueries).register(this);
+        new SetHomeCommand(parser, teleportPlayerTracker, teleportPlayerDAO).register(this);
         new HomeCommand(parser, teleportPlayerTracker, teleportAction).register(this);
     }
 
     private void registerListeners() {
-        new JoinListener(teleportPlayerTracker, teleportPlayerQueries).register(this);
+        new JoinListener(teleportPlayerTracker, teleportPlayerDAO).register(this);
         new QuitListener(teleportPlayerTracker).register(this);
         new TeleportListener(teleportPlayerTracker).register(this);
     }

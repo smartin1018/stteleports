@@ -161,13 +161,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jdbi</groupId>
-            <artifactId>jdbi</artifactId>
-            <version>2.77</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.eclipsesource.minimal-json</groupId>
             <artifactId>minimal-json</artifactId>
             <version>0.9.4</version>

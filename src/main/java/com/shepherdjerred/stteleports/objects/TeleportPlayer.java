@@ -90,6 +90,10 @@ public class TeleportPlayer {
         homes.put(name, location);
     }
 
+    public void addHomes(Map<String, Location> homes) {
+        this.homes.putAll(homes);
+    }
+
     public void removeHome(String name) {
         homes.remove(name);
     }
