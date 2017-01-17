@@ -1,6 +1,7 @@
 package com.shepherdjerred.stteleports.listeners;
 
 import com.shepherdjerred.riotbase.listeners.AbstractListener;
+import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -15,8 +16,8 @@ public class TeleportListener extends AbstractListener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-        // TODO Get TeleportPlayerDAO
-        // TODO Add the previous location to the TeleportPlayerDAO's queue
+        TeleportPlayer player = teleportPlayerTracker.get(event.getPlayer());
+        player.addLocation(event.getFrom());
     }
 
 }

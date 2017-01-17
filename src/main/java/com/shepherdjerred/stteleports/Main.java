@@ -66,6 +66,10 @@ public class Main extends RiotBase {
         new TeleportPositionCommand(parser, teleportPlayerTracker, teleportAction).register(this);
         new SetHomeCommand(parser, teleportPlayerTracker, teleportPlayerDAO).register(this);
         new HomeCommand(parser, teleportPlayerTracker, teleportAction).register(this);
+        new DelHomeCommand(parser, teleportPlayerTracker, teleportPlayerDAO).register(this);
+        new SpawnCommand(parser, teleportPlayerTracker, teleportAction).register(this);
+        new ForwardCommand(parser, teleportPlayerTracker, teleportAction).register(this);
+        new BackwardCommand(parser, teleportPlayerTracker, teleportAction).register(this);
     }
 
     private void registerListeners() {

@@ -23,12 +23,12 @@ public class TeleportPlayerDAO {
         String sql = "INSERT INTO players (?,?,?,?,?,?)";
 
         try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(0, player.getUuid().toString());
-            ps.setLong(1, player.getNextAvaliableTeleport());
-            ps.setDouble(2, player.getCooldownMultiplier());
-            ps.setDouble(3, player.getCostMultiplier());
-            ps.setDouble(4, player.getCooldownMultiplierModifier());
-            ps.setDouble(5, player.getCostMultiplierModifier());
+            ps.setString(1, player.getUuid().toString());
+            ps.setLong(2, player.getNextAvaliableTeleport());
+            ps.setDouble(3, player.getCooldownMultiplier());
+            ps.setDouble(4, player.getCostMultiplier());
+            ps.setDouble(5, player.getCooldownMultiplierModifier());
+            ps.setDouble(6, player.getCostMultiplierModifier());
 
             ps.execute();
 
@@ -45,14 +45,14 @@ public class TeleportPlayerDAO {
         Location location = player.getHome(home);
 
         try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(0, player.getUuid().toString());
-            ps.setString(1, home);
-            ps.setString(2, location.getWorld().getUID().toString());
-            ps.setInt(3, location.getBlockX());
-            ps.setInt(4, location.getBlockY());
-            ps.setInt(5, location.getBlockZ());
-            ps.setFloat(6, location.getYaw());
-            ps.setFloat(7, location.getPitch());
+            ps.setString(1, player.getUuid().toString());
+            ps.setString(2, home);
+            ps.setString(3, location.getWorld().getUID().toString());
+            ps.setInt(4, location.getBlockX());
+            ps.setInt(5, location.getBlockY());
+            ps.setInt(6, location.getBlockZ());
+            ps.setFloat(7, location.getYaw());
+            ps.setFloat(8, location.getPitch());
 
             ps.execute();
 
@@ -60,16 +60,30 @@ public class TeleportPlayerDAO {
             e.printStackTrace();
         }
 
+    }
+
+    public void deleteHome(TeleportPlayer player, String home) {
+
+        String sql = "DELETE FROM player_homes WHERE player_uuid = ? AND home_name = ?";
+
+        try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, player.getUuid().toString());
+            ps.setString(2, home);
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void loadHomes(TeleportPlayer player) {
 
         String sql = "SELECT * FROM player_homes WHERE player_uuid = ?";
-        TeleportPlayer teleportPlayer = null;
 
         try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(0, player.getUuid().toString());
+            ps.setString(1, player.getUuid().toString());
 
             ResultSet rs = ps.executeQuery();
 
@@ -83,7 +97,7 @@ public class TeleportPlayerDAO {
                         rs.getFloat("pitch")
                 );
 
-                teleportPlayer.addHome(rs.getString("home_name"), location);
+                player.addHome(rs.getString("home_name"), location);
             }
 
             rs.close();
@@ -100,7 +114,7 @@ public class TeleportPlayerDAO {
         TeleportPlayer teleportPlayer = null;
 
         try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(0, uuid.toString());
+            ps.setString(1, uuid.toString());
 
             ResultSet rs = ps.executeQuery();
 
