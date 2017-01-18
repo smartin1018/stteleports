@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class TeleportPlayerDAO {
 
-    FluentJdbc fluentJdbc;
+    private final FluentJdbc fluentJdbc;
 
     public TeleportPlayerDAO(FluentJdbc fluentJdbc) {
         this.fluentJdbc = fluentJdbc;
