@@ -16,6 +16,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.codejargon.fluentjdbc.api.FluentJdbc;
+import org.codejargon.fluentjdbc.api.FluentJdbcBuilder;
 import org.flywaydb.core.Flyway;
 
 import java.util.ResourceBundle;
@@ -25,14 +27,20 @@ public class Main extends RiotBase {
     private final Parser parser = new Parser(ResourceBundle.getBundle("messages"));
 
     private HikariDataSource hikariDataSource;
+    private FluentJdbc fluentJdbc;
 
-    private final VaultManager vaultManager = VaultManager.INSTANCE;
+    private final VaultManager vaultManager;
 
-    private final TeleportPlayerTracker teleportPlayerTracker = new TeleportPlayerTracker();
+    private final TeleportPlayerTracker teleportPlayerTracker;
     private TeleportActions teleportActions;
     private TeleportPlayerDAO teleportPlayerDAO;
 
     private boolean vaultEnabled = false;
+
+    public Main() {
+        vaultManager = VaultManager.INSTANCE;
+        teleportPlayerTracker = new TeleportPlayerTracker();
+    }
 
     @Override
     public void onEnable() {
@@ -71,12 +79,14 @@ public class Main extends RiotBase {
         HikariConfig hikariConfig = new HikariConfig(getDataFolder().getAbsolutePath() + "/hikari.properties");
         hikariDataSource = new HikariDataSource(hikariConfig);
 
+        fluentJdbc = new FluentJdbcBuilder().connectionProvider(hikariDataSource).build();
+
         Flyway flyway = new Flyway();
         flyway.setLocations("filesystem:" + getDataFolder().getAbsolutePath() + "/db/migration/");
         flyway.setDataSource(hikariDataSource);
         flyway.migrate();
 
-        teleportPlayerDAO = new TeleportPlayerDAO(hikariDataSource);
+        teleportPlayerDAO = new TeleportPlayerDAO(fluentJdbc);
     }
 
     private void registerCommands() {
