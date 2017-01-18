@@ -83,6 +83,10 @@ public class TeleportPlayerDAO {
 
     }
 
+    public void updateHome(TeleportPlayer teleportPlayer, String home) {
+
+    }
+
     public void deleteHome(TeleportPlayer player, String home) {
 
         String sql = "DELETE FROM player_homes WHERE player_uuid = ? AND name = ?";

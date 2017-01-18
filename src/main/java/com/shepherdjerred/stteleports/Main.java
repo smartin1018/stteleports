@@ -29,7 +29,7 @@ public class Main extends RiotBase {
     private final VaultManager vaultManager = VaultManager.INSTANCE;
 
     private final TeleportPlayerTracker teleportPlayerTracker = new TeleportPlayerTracker();
-    private final TeleportActions teleportActions = new TeleportActions(teleportPlayerTracker, vaultManager.getEconomy());
+    private TeleportActions teleportActions;
     private TeleportPlayerDAO teleportPlayerDAO;
 
     private boolean vaultEnabled = false;
@@ -38,6 +38,8 @@ public class Main extends RiotBase {
     public void onEnable() {
         setupConfigs();
         setupDatabase();
+
+        teleportActions = new TeleportActions(teleportPlayerTracker, teleportPlayerDAO, vaultManager.getEconomy());
 
         if (vaultEnabled) {
             setupVault();

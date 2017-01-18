@@ -1,5 +1,6 @@
 package com.shepherdjerred.stteleports.actions;
 
+import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
@@ -12,10 +13,12 @@ import org.bukkit.entity.Player;
 public class TeleportActions {
 
     private final TeleportPlayerTracker teleportPlayerTracker;
+    private final TeleportPlayerDAO teleportPlayerDAO;
     private final Economy economy;
 
-    public TeleportActions(TeleportPlayerTracker teleportPlayerTracker, Economy economy) {
+    public TeleportActions(TeleportPlayerTracker teleportPlayerTracker, TeleportPlayerDAO teleportPlayerDAO, Economy economy) {
         this.teleportPlayerTracker = teleportPlayerTracker;
+        this.teleportPlayerDAO = teleportPlayerDAO;
         this.economy = economy;
     }
 
@@ -57,6 +60,8 @@ public class TeleportActions {
     private void doCooldown(TeleportPlayer teleportPlayer, Teleport type) {
         teleportPlayer.calculateCooldown(type.getCooldown());
         teleportPlayer.calculateCooldownMultiplier(type.getCooldownMultiplier());
+        teleportPlayerDAO.updateCooldown(teleportPlayer);
+        teleportPlayerDAO.updateCooldownMultiplier(teleportPlayer);
     }
 
     private void chargePlayer(Player player, Teleport type) {
@@ -64,6 +69,7 @@ public class TeleportActions {
         if (economy != null) {
             economy.withdrawPlayer(player, type.getCost());
             teleportPlayer.calculateCostMultiplier(teleportPlayer.getCooldownMultiplier());
+            teleportPlayerDAO.updateCostMultiplier(teleportPlayer);
         }
     }
 

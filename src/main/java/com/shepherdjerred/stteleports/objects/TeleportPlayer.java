@@ -94,7 +94,12 @@ public class TeleportPlayer {
     }
 
     public Location getHome(String homeName) {
-        return homes.get(homeName);
+        for (Map.Entry<String, Location> entry : homes.entrySet()) {
+            if (entry.getKey().equalsIgnoreCase(homeName)) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     public void addHome(String name, Location location) {
