@@ -61,8 +61,10 @@ public class TeleportActions {
 
     private void chargePlayer(Player player, Teleport type) {
         TeleportPlayer teleportPlayer = teleportPlayerTracker.get(player);
-        economy.withdrawPlayer(player, type.getCost());
-        teleportPlayer.calculateCostMultiplier(teleportPlayer.getCooldownMultiplier());
+        if (economy != null) {
+            economy.withdrawPlayer(player, type.getCost());
+            teleportPlayer.calculateCostMultiplier(teleportPlayer.getCooldownMultiplier());
+        }
     }
 
 }

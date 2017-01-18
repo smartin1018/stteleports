@@ -5,10 +5,10 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeToString {
 
-    private static Calendar calendar = Calendar.getInstance();
-
     public static String convertLong(Long timeInMillis) {
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.getTime();
         long diffInMillis = timeInMillis - calendar.getTimeInMillis();
 
         long hours = TimeUnit.HOURS.convert(diffInMillis, TimeUnit.MILLISECONDS);

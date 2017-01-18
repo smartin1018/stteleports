@@ -7,21 +7,19 @@ import java.util.*;
 
 public class TeleportPlayer {
 
-    private static Calendar calendar = Calendar.getInstance();
-
     private final UUID uuid;
 
-    private long cooldown = 0L;
+    private long cooldown = 0;
 
     private final Map<String, Location> homes = new HashMap<>();
     private final Deque<Location> locations = new TeleportQueue<>(5);
     private final Map<UUID, Teleport> requesters = new HashMap<>();
 
-    private double cooldownMultiplier = 1D;
-    private double costMultiplier = 1D;
+    private double cooldownMultiplier = 0;
+    private double costMultiplier = 0;
 
-    private double cooldownMultiplierModifier = 1D;
-    private double costMultiplierModifier = 1D;
+    private double cooldownMultiplierModifier = 0;
+    private double costMultiplierModifier = 0;
 
     private int maxHomes = 1;
 
@@ -40,11 +38,11 @@ public class TeleportPlayer {
     }
 
     public void calculateCooldownMultiplier(double multiplier) {
-        cooldownMultiplier = (cooldownMultiplier * (multiplier * cooldownMultiplierModifier));
+        cooldownMultiplier = cooldownMultiplier + (multiplier * cooldownMultiplierModifier);
     }
 
     public void calculateCostMultiplier(double multiplier) {
-        costMultiplier = (costMultiplier * (multiplier * costMultiplierModifier));
+        costMultiplier = costMultiplier + (multiplier * costMultiplierModifier);
     }
 
     public void setCooldownMultiplierModifier(double cooldownMultiplierModifier) {
@@ -120,11 +118,18 @@ public class TeleportPlayer {
     }
 
     public void calculateCooldown(long cooldown) {
-        double newCooldown = (cooldown + calendar.getTimeInMillis()) * cooldownMultiplier;
+        Calendar calendar = Calendar.getInstance();
+        double newCooldown = ((cooldown * cooldownMultiplier) + cooldown) + calendar.getTimeInMillis();
         this.cooldown = (long) newCooldown;
     }
 
+    public long getRemainingCooldown() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.getTimeInMillis() - cooldown;
+    }
+
     public boolean isCooldownOver() {
+        Calendar calendar = Calendar.getInstance();
         return cooldown <= calendar.getTimeInMillis();
     }
 

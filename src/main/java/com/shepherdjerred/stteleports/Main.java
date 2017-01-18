@@ -101,7 +101,7 @@ public class Main extends RiotBase {
         // Yeah, this is a bit hacky
         JoinListener joinListener = new JoinListener(teleportPlayerTracker, teleportPlayerDAO);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            joinListener.loadPlayer(player);
+            joinListener.loadPlayer(player.getUniqueId());
         }
     }
 

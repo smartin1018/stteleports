@@ -40,7 +40,7 @@ public class TeleportPlayerDAO {
     }
 
     public void insert(TeleportPlayer player) {
-        String sql = "INSERT INTO players (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO players VALUES (?,?,?,?,?,?,?)";
 
         try (Connection conn = hikariDataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, player.getUuid().toString());
@@ -61,7 +61,7 @@ public class TeleportPlayerDAO {
 
     public void addHome(TeleportPlayer player, String home) {
 
-        String sql = "INSERT INTO player_homes (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO player_homes VALUES (?,?,?,?,?,?,?,?)";
 
         Location location = player.getHome(home);
 
@@ -100,6 +100,10 @@ public class TeleportPlayerDAO {
     }
 
     public void loadHomes(TeleportPlayer player) {
+
+        if (player == null) {
+            System.out.println("NULL UUID");
+        }
 
         String sql = "SELECT * FROM player_homes WHERE player_uuid = ?";
 
@@ -149,11 +153,10 @@ public class TeleportPlayerDAO {
                         rs.getDouble("cooldown_multiplier_modifier"),
                         rs.getDouble("cost_multiplier_modifier")
                 );
+                loadHomes(teleportPlayer);
             }
 
             rs.close();
-
-            loadHomes(teleportPlayer);
 
         } catch (SQLException e) {
             e.printStackTrace();
