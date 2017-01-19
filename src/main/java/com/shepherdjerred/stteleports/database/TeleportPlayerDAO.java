@@ -21,23 +21,53 @@ public class TeleportPlayerDAO {
     }
 
     public void updateCooldown(TeleportPlayer teleportPlayer) {
-
+        Query query = fluentJdbc.query();
+        query
+                .update("UPDATE players SET cooldown = ? WHERE player_uuid = ?")
+                .params(
+                        teleportPlayer.getCooldown(),
+                        teleportPlayer.getUuid()
+                ).run();
     }
 
     public void updateCooldownMultiplier(TeleportPlayer teleportPlayer) {
-
+        Query query = fluentJdbc.query();
+        query
+                .update("UPDATE players SET cooldown_multiplier = ? WHERE player_uuid = ?")
+                .params(
+                        teleportPlayer.getCooldownMultiplier(),
+                        teleportPlayer.getUuid()
+                ).run();
     }
 
     public void updateCostMultiplier(TeleportPlayer teleportPlayer) {
-
+        Query query = fluentJdbc.query();
+        query
+                .update("UPDATE players SET cost_multiplier = ? WHERE player_uuid = ?")
+                .params(
+                        teleportPlayer.getCostMultiplier(),
+                        teleportPlayer.getUuid()
+                ).run();
     }
 
     public void updateCooldownMultiplierModifier(TeleportPlayer teleportPlayer) {
-
+        Query query = fluentJdbc.query();
+        query
+                .update("UPDATE players SET cooldown_multiplier_modifier = ? WHERE player_uuid = ?")
+                .params(
+                        teleportPlayer.getCooldownMultiplierModifier(),
+                        teleportPlayer.getUuid()
+                ).run();
     }
 
     public void updateCostMultiplierModifier(TeleportPlayer teleportPlayer) {
-
+        Query query = fluentJdbc.query();
+        query
+                .update("UPDATE players SET cost_multiplier_modifier = ? WHERE player_uuid = ?")
+                .params(
+                        teleportPlayer.getCostMultiplierModifier(),
+                        teleportPlayer.getUuid()
+                ).run();
     }
 
     public void insert(TeleportPlayer player) {

@@ -9,13 +9,15 @@ CREATE TABLE players (
 );
 
 CREATE TABLE player_homes (
-  player_uuid CHAR(36),
-  name        VARCHAR(16),
-  world       CHAR(36),
-  x           INT,
-  y           INT,
-  z           INT,
-  yaw         FLOAT,
-  pitch       FLOAT,
-  CONSTRAINT pk_player_home PRIMARY KEY (player_uuid, name)
+  player_uuid CHAR(36)    NOT NULL,
+  name        VARCHAR(16) NOT NULL,
+  world       CHAR(36)    NOT NULL,
+  x           INT         NOT NULL,
+  y           INT         NOT NULL,
+  z           INT         NOT NULL,
+  yaw         FLOAT       NOT NULL,
+  pitch       FLOAT       NOT NULL,
+  CONSTRAINT pk_player_home PRIMARY KEY (player_uuid, name),
+  CONSTRAINT fk_player_uuid FOREIGN KEY (player_uuid) REFERENCES players (player_uuid)
+    ON DELETE CASCADE
 )
