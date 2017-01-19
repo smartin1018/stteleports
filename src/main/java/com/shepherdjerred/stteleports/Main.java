@@ -44,7 +44,6 @@ public class Main extends RiotBase {
     public Main() {
         parser = new Parser(ResourceBundle.getBundle("messages"));
         teleportPlayers = new TeleportPlayers();
-        teleportActions = new TeleportActions(teleportPlayers, teleportPlayerDAO, vaultManager.getEconomy());
 
         vaultManager = new VaultManager(this);
     }
@@ -53,6 +52,8 @@ public class Main extends RiotBase {
     public void onEnable() {
         setupConfigs();
         setupDatabase();
+
+        teleportActions = new TeleportActions(teleportPlayers, teleportPlayerDAO, vaultManager.getEconomy());
 
         if (teleportsConfig.isVaultEnabled()) {
             vaultManager.setupEconomy();
