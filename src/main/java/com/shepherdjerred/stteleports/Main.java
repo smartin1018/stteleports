@@ -1,11 +1,13 @@
 package com.shepherdjerred.stteleports;
 
 import com.shepherdjerred.riotbase.RiotBase;
+import com.shepherdjerred.riotbase.commands.CommandRegister;
+import com.shepherdjerred.riotbase.listeners.ListenerRegister;
 import com.shepherdjerred.stteleports.actions.TeleportActions;
-import com.shepherdjerred.stteleports.commands.*;
-import com.shepherdjerred.stteleports.commands.tpa.TpaCommand;
-import com.shepherdjerred.stteleports.commands.tpa.TpaHereCommand;
-import com.shepherdjerred.stteleports.config.ConfigFacade;
+import com.shepherdjerred.stteleports.commands.DelHomeCommand;
+import com.shepherdjerred.stteleports.commands.SetHomeCommand;
+import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
+import com.shepherdjerred.stteleports.config.TeleportsConfig;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.listeners.JoinListener;
 import com.shepherdjerred.stteleports.listeners.QuitListener;
@@ -21,29 +23,30 @@ import org.codejargon.fluentjdbc.api.FluentJdbc;
 import org.codejargon.fluentjdbc.api.FluentJdbcBuilder;
 import org.flywaydb.core.Flyway;
 
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class Main extends RiotBase {
 
     private Parser parser;
 
-    private HikariDataSource hikariDataSource;
-    private FluentJdbc fluentJdbc;
-
-    private final VaultManager vaultManager;
-
-    private final TeleportPlayers teleportPlayers;
-    private TeleportPlayerDAO teleportPlayerDAO;
+    private TeleportPlayers teleportPlayers;
     private TeleportActions teleportActions;
 
-    private final ConfigFacade configFacade;
+    private HikariDataSource hikariDataSource;
+    private FluentJdbc fluentJdbc;
+    private TeleportPlayerDAO teleportPlayerDAO;
+
+    private VaultManager vaultManager;
+    private TeleportsConfig teleportsConfig;
+
 
     public Main() {
-        vaultManager = new VaultManager(this);
-        teleportPlayers = new TeleportPlayers();
-
         parser = new Parser(ResourceBundle.getBundle("messages"));
-        configFacade = new ConfigFacade(getConfig());
+        teleportPlayers = new TeleportPlayers();
+        teleportActions = new TeleportActions(teleportPlayers, teleportPlayerDAO, vaultManager.getEconomy());
+
+        vaultManager = new VaultManager(this);
     }
 
     @Override
@@ -51,29 +54,30 @@ public class Main extends RiotBase {
         setupConfigs();
         setupDatabase();
 
-        teleportActions = new TeleportActions(teleportPlayers, teleportPlayerDAO, vaultManager.getEconomy());
-
-        if (configFacade.isVaultEnabled()) {
+        if (teleportsConfig.isVaultEnabled()) {
             vaultManager.setupEconomy();
         }
-
-        super.onEnable();
 
         registerCommands();
         registerListeners();
 
         checkOnlinePlayers();
+
+        startMetrics();
     }
 
-    @Override
     protected void setupConfigs() {
-        super.setupConfigs();
+        copyFile("config.yml", getDataFolder().getAbsolutePath());
+        copyFile("messages.properties", getDataFolder().getAbsolutePath());
+
+        teleportsConfig = new TeleportsConfig(loadConfig(getDataFolder() + "/config.yml"));
+
         // TODO Load teleport settings from JSON
     }
 
     private void setupDatabase() {
-        saveResource("hikari.properties", false);
-        saveResource("db/migration/V1__Initial.sql", true);
+        copyFile("hikari.properties", getDataFolder().getAbsolutePath());
+        copyFile("db/migration/V1__Initial.sql", getDataFolder().getAbsolutePath());
 
         HikariConfig hikariConfig = new HikariConfig(getDataFolder().getAbsolutePath() + "/hikari.properties");
         hikariDataSource = new HikariDataSource(hikariConfig);
@@ -89,23 +93,19 @@ public class Main extends RiotBase {
     }
 
     private void registerCommands() {
-        new TeleportCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
-        new TeleportHereCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
-        new TeleportPositionCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
-        new SetHomeCommand(parser, teleportPlayers, teleportPlayerDAO).register(this);
-        new HomeCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
-        new DelHomeCommand(parser, teleportPlayers, teleportPlayerDAO).register(this);
-        new SpawnCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
-        new ForwardCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
-        new BackwardCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
-        new TpaCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
-        new TpaHereCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
+        CommandRegister cr = new CommandRegister(parser);
+        cr.addCommand(new SetHomeCommand(cr, teleportPlayers, teleportPlayerDAO));
+        cr.addCommand(new DelHomeCommand(cr, teleportPlayers, teleportPlayerDAO));
+        cr.register(this);
+        new TeleportCommandRegister(parser, teleportPlayers, teleportActions, vaultManager).register(this);
     }
 
     private void registerListeners() {
-        new JoinListener(teleportPlayers, teleportPlayerDAO).register(this);
-        new QuitListener(teleportPlayers).register(this);
-        new TeleportListener(teleportPlayers).register(this);
+        new ListenerRegister(Arrays.asList(
+                new JoinListener(teleportPlayers, teleportPlayerDAO),
+                new QuitListener(teleportPlayers),
+                new TeleportListener(teleportPlayers)
+        ));
     }
 
     private void checkOnlinePlayers() {

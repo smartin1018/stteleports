@@ -1,23 +1,20 @@
 package com.shepherdjerred.stteleports.commands;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
-import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportActions;
+import com.shepherdjerred.riotbase.commands.CommandSource;
+import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import com.shepherdjerred.stteleports.util.TimeToString;
-import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
 public class TeleportHereCommand extends AbstractTeleportCommand {
 
-    public TeleportHereCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
-        super(parser, new CommandInfo(
+    public TeleportHereCommand(TeleportCommandRegister teleportCommandRegister) {
+        super(teleportCommandRegister, new CommandInfo(
                 "tphere",
                 "stTeleports.tphere",
                 "Teleport another player to you",
@@ -25,11 +22,11 @@ public class TeleportHereCommand extends AbstractTeleportCommand {
                 1,
                 false,
                 Arrays.asList("tph", "bring")
-        ), teleportPlayers, teleportActions, vaultManager);
+        ));
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
         Player target = Bukkit.getPlayer(args[0]);
         Player destination = (Player) sender;
 
@@ -58,7 +55,7 @@ public class TeleportHereCommand extends AbstractTeleportCommand {
 
         teleportActions.teleport(Teleport.TPHERE, target, destination);
         sender.sendMessage(parser.colorString(true, "teleportHere.success", target.getName()));
-        target.sendMessage(parser.colorString(true, "teleportHere.success.target", sender.getName()));
+        target.sendMessage(parser.colorString(true, "teleportHere.success.target", sender.getSender().getName()));
     }
 
 

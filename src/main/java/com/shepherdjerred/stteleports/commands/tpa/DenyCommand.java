@@ -1,22 +1,19 @@
 package com.shepherdjerred.stteleports.commands.tpa;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
-import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportActions;
+import com.shepherdjerred.riotbase.commands.CommandSource;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
+import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
-import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
 public class DenyCommand extends AbstractTeleportCommand {
 
-    public DenyCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
-        super(parser, new CommandInfo(
+    public DenyCommand(TeleportCommandRegister teleportCommandRegister) {
+        super(teleportCommandRegister, new CommandInfo(
                 "deny",
                 "stTeleports.tpa.deny",
                 "Deny a teleport request",
@@ -24,11 +21,11 @@ public class DenyCommand extends AbstractTeleportCommand {
                 1,
                 false,
                 Arrays.asList("decline")
-        ), teleportPlayers, teleportActions, vaultManager);
+        ));
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
 
         Player targetPlayer = Bukkit.getPlayer(args[0]);
         Player senderPlayer = (Player) sender;

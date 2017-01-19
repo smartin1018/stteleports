@@ -1,35 +1,32 @@
 package com.shepherdjerred.stteleports.commands.tpa;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
-import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportActions;
+import com.shepherdjerred.riotbase.commands.CommandSource;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
+import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
 import com.shepherdjerred.stteleports.objects.Teleport;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
-import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class TpaCommand extends AbstractTeleportCommand {
 
-    public TpaCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
-        super(parser, new CommandInfo(
+    public TpaCommand(TeleportCommandRegister teleportCommandRegister) {
+        super(teleportCommandRegister, new CommandInfo(
                 "tpa",
                 "stTeleports.tpa",
                 "Request to teleport to another player",
                 "/tpa <destination>",
                 1,
                 false
-        ), teleportPlayers, teleportActions, vaultManager);
+        ));
         addChildren(
-                new AcceptCommand(parser, teleportPlayers, teleportActions, vaultManager),
-                new DenyCommand(parser, teleportPlayers, teleportActions, vaultManager)
+                new AcceptCommand(teleportCommandRegister),
+                new DenyCommand(teleportCommandRegister)
         );
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
 
         Player target = (Player) sender;
         Player destination = Bukkit.getPlayer(args[0]);
@@ -47,7 +44,7 @@ public class TpaCommand extends AbstractTeleportCommand {
         teleportActions.sendTeleportRequest(target, destination, Teleport.TPA);
 
         sender.sendMessage(parser.colorString(true, "tpa.send.success", destination.getName()));
-        destination.sendMessage(parser.colorString(true, "tpa.send.destination", sender.getName()));
+        destination.sendMessage(parser.colorString(true, "tpa.send.destination", sender.getSender().getName()));
 
     }
 

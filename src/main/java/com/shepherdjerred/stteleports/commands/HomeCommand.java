@@ -1,32 +1,29 @@
 package com.shepherdjerred.stteleports.commands;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
-import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportActions;
+import com.shepherdjerred.riotbase.commands.CommandSource;
+import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import com.shepherdjerred.stteleports.util.TimeToString;
-import com.shepherdjerred.stteleports.vault.VaultManager;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class HomeCommand extends AbstractTeleportCommand {
 
 
-    public HomeCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
-        super(parser, new CommandInfo(
+    public HomeCommand(TeleportCommandRegister teleportCommandRegister) {
+        super(teleportCommandRegister, new CommandInfo(
                 "home",
                 "stTeleports.home",
                 "Go to a home you have set",
                 "/home [name]",
                 0,
                 false
-        ), teleportPlayers, teleportActions, vaultManager);
+        ));
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
 
         Player player = (Player) sender;
         TeleportPlayer teleportPlayer = teleportPlayers.get(player);

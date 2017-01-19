@@ -1,10 +1,13 @@
 package com.shepherdjerred.stteleports.objects.trackers;
 
+import com.shepherdjerred.riotbase.commands.CommandSource;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TeleportPlayers {
@@ -53,7 +56,7 @@ public class TeleportPlayers {
         return get(player.getUniqueId());
     }
 
-    public TeleportPlayer get(CommandSender sender) {
+    public TeleportPlayer get(CommandSource sender) {
         if (sender instanceof Player) {
             return get(((Player) sender).getUniqueId());
         }

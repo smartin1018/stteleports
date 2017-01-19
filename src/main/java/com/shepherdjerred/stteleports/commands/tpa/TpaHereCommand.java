@@ -1,31 +1,28 @@
 package com.shepherdjerred.stteleports.commands.tpa;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
-import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportActions;
+import com.shepherdjerred.riotbase.commands.CommandSource;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
+import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
 import com.shepherdjerred.stteleports.objects.Teleport;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
-import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class TpaHereCommand extends AbstractTeleportCommand {
 
-    public TpaHereCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
-        super(parser, new CommandInfo(
+    public TpaHereCommand(TeleportCommandRegister teleportCommandRegister) {
+        super(teleportCommandRegister, new CommandInfo(
                 "teleport",
                 "stTeleports.tpahere",
                 "Request that another player teleports to you",
                 "/tpahere <target>",
                 1,
                 false
-        ), teleportPlayers, teleportActions, vaultManager);
+        ));
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
 
         Player target = (Player) sender;
         Player destination = Bukkit.getPlayer(args[0]);
@@ -43,7 +40,7 @@ public class TpaHereCommand extends AbstractTeleportCommand {
         teleportActions.sendTeleportRequest(target, destination, Teleport.TPAHERE);
 
         sender.sendMessage(parser.colorString(true, "tpahere.send.success", destination.getName()));
-        destination.sendMessage(parser.colorString(true, "tpahere.send.destination", sender.getName()));
+        destination.sendMessage(parser.colorString(true, "tpahere.send.destination", sender.getSender().getName()));
 
     }
 

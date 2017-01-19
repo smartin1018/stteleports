@@ -1,26 +1,23 @@
 package com.shepherdjerred.stteleports.commands;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
-import com.shepherdjerred.riotbase.messages.AbstractParser;
-import com.shepherdjerred.stteleports.actions.TeleportActions;
+import com.shepherdjerred.riotbase.commands.CommandSource;
+import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import com.shepherdjerred.stteleports.util.TimeToString;
-import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
 public class TeleportPositionCommand extends AbstractTeleportCommand {
 
-    public TeleportPositionCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
-        super(parser, new CommandInfo(
+    public TeleportPositionCommand(TeleportCommandRegister teleportCommandRegister) {
+        super(teleportCommandRegister, new CommandInfo(
                 "tppos",
                 "stTeleports.tppos",
                 "Teleport to a coordinate",
@@ -28,11 +25,11 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
                 3,
                 false,
                 Arrays.asList("tpp")
-        ), teleportPlayers, teleportActions, vaultManager);
+        ));
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
         Player target = (Player) sender;
         TeleportPlayer teleportPlayer = teleportPlayers.get(target);
         double x;
