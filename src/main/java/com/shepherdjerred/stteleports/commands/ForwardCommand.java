@@ -5,7 +5,7 @@ import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import com.shepherdjerred.stteleports.util.TimeToString;
 import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.bukkit.command.CommandSender;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 public class ForwardCommand extends AbstractTeleportCommand {
 
-    public ForwardCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
+    public ForwardCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "forward",
                 "stTeleports.forward",
@@ -24,14 +24,14 @@ public class ForwardCommand extends AbstractTeleportCommand {
                 0,
                 false,
                 Arrays.asList("fw")
-        ), teleportPlayerTracker, teleportActions);
+        ), teleportPlayers, teleportActions);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
 
         Player player = (Player) sender;
-        TeleportPlayer teleportPlayer = teleportPlayerTracker.get(player);
+        TeleportPlayer teleportPlayer = teleportPlayers.get(player);
 
         if (teleportPlayer.getFirstLocation() == null) {
             sender.sendMessage(parser.colorString(true, "player.emptyQueue"));

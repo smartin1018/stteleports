@@ -5,16 +5,16 @@ import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SetHomeCommand extends AbstractCommand {
 
-    private final TeleportPlayerTracker teleportPlayerTracker;
+    private final TeleportPlayers teleportPlayers;
     private final TeleportPlayerDAO teleportPlayerDAO;
 
-    public SetHomeCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportPlayerDAO teleportPlayerDAO) {
+    public SetHomeCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportPlayerDAO teleportPlayerDAO) {
         super(parser, new CommandInfo(
                 "sethome",
                 "stTeleports.home.set",
@@ -23,7 +23,7 @@ public class SetHomeCommand extends AbstractCommand {
                 0,
                 false
         ));
-        this.teleportPlayerTracker = teleportPlayerTracker;
+        this.teleportPlayers = teleportPlayers;
         this.teleportPlayerDAO = teleportPlayerDAO;
     }
 
@@ -41,7 +41,7 @@ public class SetHomeCommand extends AbstractCommand {
         }
 
         Player player = (Player) sender;
-        TeleportPlayer teleportPlayer = teleportPlayerTracker.get(player);
+        TeleportPlayer teleportPlayer = teleportPlayers.get(player);
 
         boolean replaceExistingHome = false;
 

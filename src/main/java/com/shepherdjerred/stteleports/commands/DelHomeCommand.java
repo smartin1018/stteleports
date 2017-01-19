@@ -5,16 +5,16 @@ import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class DelHomeCommand extends AbstractCommand {
 
-    private final TeleportPlayerTracker teleportPlayerTracker;
+    private final TeleportPlayers teleportPlayers;
     private final TeleportPlayerDAO teleportPlayerDAO;
 
-    public DelHomeCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportPlayerDAO teleportPlayerDAO) {
+    public DelHomeCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportPlayerDAO teleportPlayerDAO) {
         super(parser, new CommandInfo(
                 "delhome",
                 "stTeleports.home.delete",
@@ -23,7 +23,7 @@ public class DelHomeCommand extends AbstractCommand {
                 0,
                 false
         ));
-        this.teleportPlayerTracker = teleportPlayerTracker;
+        this.teleportPlayers = teleportPlayers;
         this.teleportPlayerDAO = teleportPlayerDAO;
     }
 
@@ -31,7 +31,7 @@ public class DelHomeCommand extends AbstractCommand {
     public void execute(CommandSender sender, String[] args) {
 
         Player player = (Player) sender;
-        TeleportPlayer teleportPlayer = teleportPlayerTracker.get(player);
+        TeleportPlayer teleportPlayer = teleportPlayers.get(player);
 
         String home = "default";
 

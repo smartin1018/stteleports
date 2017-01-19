@@ -10,7 +10,7 @@ import com.shepherdjerred.stteleports.listeners.JoinListener;
 import com.shepherdjerred.stteleports.listeners.QuitListener;
 import com.shepherdjerred.stteleports.listeners.TeleportListener;
 import com.shepherdjerred.stteleports.messages.Parser;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import com.shepherdjerred.stteleports.vault.VaultManager;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -31,7 +31,7 @@ public class Main extends RiotBase {
 
     private final VaultManager vaultManager;
 
-    private final TeleportPlayerTracker teleportPlayerTracker;
+    private final TeleportPlayers teleportPlayers;
     private TeleportActions teleportActions;
     private TeleportPlayerDAO teleportPlayerDAO;
 
@@ -39,7 +39,7 @@ public class Main extends RiotBase {
 
     public Main() {
         vaultManager = VaultManager.INSTANCE;
-        teleportPlayerTracker = new TeleportPlayerTracker();
+        teleportPlayers = new TeleportPlayers();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Main extends RiotBase {
         setupConfigs();
         setupDatabase();
 
-        teleportActions = new TeleportActions(teleportPlayerTracker, teleportPlayerDAO, vaultManager.getEconomy());
+        teleportActions = new TeleportActions(teleportPlayers, teleportPlayerDAO, vaultManager.getEconomy());
 
         if (vaultEnabled) {
             setupVault();
@@ -90,28 +90,28 @@ public class Main extends RiotBase {
     }
 
     private void registerCommands() {
-        new TeleportCommand(parser, teleportPlayerTracker, teleportActions).register(this);
-        new TeleportHereCommand(parser, teleportPlayerTracker, teleportActions).register(this);
-        new TeleportPositionCommand(parser, teleportPlayerTracker, teleportActions).register(this);
-        new SetHomeCommand(parser, teleportPlayerTracker, teleportPlayerDAO).register(this);
-        new HomeCommand(parser, teleportPlayerTracker, teleportActions).register(this);
-        new DelHomeCommand(parser, teleportPlayerTracker, teleportPlayerDAO).register(this);
-        new SpawnCommand(parser, teleportPlayerTracker, teleportActions).register(this);
-        new ForwardCommand(parser, teleportPlayerTracker, teleportActions).register(this);
-        new BackwardCommand(parser, teleportPlayerTracker, teleportActions).register(this);
-        new TpaCommand(parser, teleportPlayerTracker, teleportActions).register(this);
-        new TpaHereCommand(parser, teleportPlayerTracker, teleportActions).register(this);
+        new TeleportCommand(parser, teleportPlayers, teleportActions).register(this);
+        new TeleportHereCommand(parser, teleportPlayers, teleportActions).register(this);
+        new TeleportPositionCommand(parser, teleportPlayers, teleportActions).register(this);
+        new SetHomeCommand(parser, teleportPlayers, teleportPlayerDAO).register(this);
+        new HomeCommand(parser, teleportPlayers, teleportActions).register(this);
+        new DelHomeCommand(parser, teleportPlayers, teleportPlayerDAO).register(this);
+        new SpawnCommand(parser, teleportPlayers, teleportActions).register(this);
+        new ForwardCommand(parser, teleportPlayers, teleportActions).register(this);
+        new BackwardCommand(parser, teleportPlayers, teleportActions).register(this);
+        new TpaCommand(parser, teleportPlayers, teleportActions).register(this);
+        new TpaHereCommand(parser, teleportPlayers, teleportActions).register(this);
     }
 
     private void registerListeners() {
-        new JoinListener(teleportPlayerTracker, teleportPlayerDAO).register(this);
-        new QuitListener(teleportPlayerTracker).register(this);
-        new TeleportListener(teleportPlayerTracker).register(this);
+        new JoinListener(teleportPlayers, teleportPlayerDAO).register(this);
+        new QuitListener(teleportPlayers).register(this);
+        new TeleportListener(teleportPlayers).register(this);
     }
 
     private void checkOnlinePlayers() {
         // Yeah, this is a bit hacky
-        JoinListener joinListener = new JoinListener(teleportPlayerTracker, teleportPlayerDAO);
+        JoinListener joinListener = new JoinListener(teleportPlayers, teleportPlayerDAO);
         for (Player player : Bukkit.getOnlinePlayers()) {
             joinListener.loadPlayer(player.getUniqueId());
         }

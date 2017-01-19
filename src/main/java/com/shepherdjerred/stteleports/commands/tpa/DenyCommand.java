@@ -5,7 +5,7 @@ import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class DenyCommand extends AbstractTeleportCommand {
 
-    public DenyCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
+    public DenyCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "deny",
                 "stTeleports.tpa.deny",
@@ -23,7 +23,7 @@ public class DenyCommand extends AbstractTeleportCommand {
                 1,
                 false,
                 Arrays.asList("decline")
-        ), teleportPlayerTracker, teleportActions);
+        ), teleportPlayers, teleportActions);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class DenyCommand extends AbstractTeleportCommand {
 
         Player targetPlayer = Bukkit.getPlayer(args[0]);
         Player senderPlayer = (Player) sender;
-        TeleportPlayer senderTeleportPlayer = teleportPlayerTracker.get(senderPlayer);
+        TeleportPlayer senderTeleportPlayer = teleportPlayers.get(senderPlayer);
 
         if (targetPlayer == null) {
             sender.sendMessage(parser.colorString(true, "generic.playerNotOnline", args[0]));

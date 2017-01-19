@@ -5,14 +5,14 @@ import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
 import com.shepherdjerred.stteleports.objects.Teleport;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class TpaHereCommand extends AbstractTeleportCommand {
 
-    public TpaHereCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
+    public TpaHereCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "teleport",
                 "stTeleports.tpahere",
@@ -20,7 +20,7 @@ public class TpaHereCommand extends AbstractTeleportCommand {
                 "/tpahere <target>",
                 1,
                 false
-        ), teleportPlayerTracker, teleportActions);
+        ), teleportPlayers, teleportActions);
     }
 
     @Override

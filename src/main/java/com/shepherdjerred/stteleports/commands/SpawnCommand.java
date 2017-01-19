@@ -5,7 +5,7 @@ import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import com.shepherdjerred.stteleports.util.TimeToString;
 import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.bukkit.command.CommandSender;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class SpawnCommand extends AbstractTeleportCommand {
 
-    public SpawnCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
+    public SpawnCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "spawn",
                 "stTeleports.spawn",
@@ -21,14 +21,14 @@ public class SpawnCommand extends AbstractTeleportCommand {
                 "/spawn",
                 0,
                 false
-        ), teleportPlayerTracker, teleportActions);
+        ), teleportPlayers, teleportActions);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
 
         Player player = (Player) sender;
-        TeleportPlayer teleportPlayer = teleportPlayerTracker.get(player);
+        TeleportPlayer teleportPlayer = teleportPlayers.get(player);
 
         if (!teleportPlayer.isCooldownOver()) {
             sender.sendMessage(parser.colorString(true, "generic.cooldownActive", TimeToString.convertLong(teleportPlayer.getCooldown())));

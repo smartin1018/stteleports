@@ -5,7 +5,7 @@ import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import com.shepherdjerred.stteleports.util.TimeToString;
 import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.bukkit.Bukkit;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class TeleportHereCommand extends AbstractTeleportCommand {
 
-    public TeleportHereCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
+    public TeleportHereCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "tphere",
                 "stTeleports.tphere",
@@ -25,7 +25,7 @@ public class TeleportHereCommand extends AbstractTeleportCommand {
                 1,
                 false,
                 Arrays.asList("tph", "bring")
-        ), teleportPlayerTracker, teleportActions);
+        ), teleportPlayers, teleportActions);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class TeleportHereCommand extends AbstractTeleportCommand {
             return;
         }
 
-        TeleportPlayer teleportPlayer = teleportPlayerTracker.get(target);
+        TeleportPlayer teleportPlayer = teleportPlayers.get(target);
 
         if (!teleportPlayer.isCooldownOver()) {
             sender.sendMessage(parser.colorString(true, "generic.cooldownActive", TimeToString.convertLong(teleportPlayer.getCooldown())));

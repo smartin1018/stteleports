@@ -3,7 +3,7 @@ package com.shepherdjerred.stteleports.actions;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -12,19 +12,19 @@ import org.bukkit.entity.Player;
 
 public class TeleportActions {
 
-    private final TeleportPlayerTracker teleportPlayerTracker;
+    private final TeleportPlayers teleportPlayers;
     private final TeleportPlayerDAO teleportPlayerDAO;
     private final Economy economy;
 
-    public TeleportActions(TeleportPlayerTracker teleportPlayerTracker, TeleportPlayerDAO teleportPlayerDAO, Economy economy) {
-        this.teleportPlayerTracker = teleportPlayerTracker;
+    public TeleportActions(TeleportPlayers teleportPlayers, TeleportPlayerDAO teleportPlayerDAO, Economy economy) {
+        this.teleportPlayers = teleportPlayers;
         this.teleportPlayerDAO = teleportPlayerDAO;
         this.economy = economy;
     }
 
     public void teleport(Teleport type, Player target, Player destination) {
         target.teleport(destination);
-        doCooldown(teleportPlayerTracker.get(target), type);
+        doCooldown(teleportPlayers.get(target), type);
         chargePlayer(target, type);
     }
 
@@ -45,13 +45,13 @@ public class TeleportActions {
         }
 
         target.teleport(destination);
-        doCooldown(teleportPlayerTracker.get(target), type);
+        doCooldown(teleportPlayers.get(target), type);
         chargePlayer(target, type);
     }
 
     public void sendTeleportRequest(Player target, Player destination, Teleport type) {
-        TeleportPlayer targetTpPlayer = teleportPlayerTracker.get(target);
-        TeleportPlayer destinationTpPlayer = teleportPlayerTracker.get(destination);
+        TeleportPlayer targetTpPlayer = teleportPlayers.get(target);
+        TeleportPlayer destinationTpPlayer = teleportPlayers.get(destination);
 
         destinationTpPlayer.addRequest(targetTpPlayer.getUuid(), type);
         // TODO Expire the invite after some time
@@ -65,7 +65,7 @@ public class TeleportActions {
     }
 
     private void chargePlayer(Player player, Teleport type) {
-        TeleportPlayer teleportPlayer = teleportPlayerTracker.get(player);
+        TeleportPlayer teleportPlayer = teleportPlayers.get(player);
         if (economy != null) {
             economy.withdrawPlayer(player, type.getCost());
             teleportPlayer.calculateCostMultiplier(teleportPlayer.getCooldownMultiplier());

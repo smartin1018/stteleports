@@ -2,21 +2,21 @@ package com.shepherdjerred.stteleports.listeners;
 
 import com.shepherdjerred.riotbase.listeners.AbstractListener;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class TeleportListener extends AbstractListener {
 
-    private final TeleportPlayerTracker teleportPlayerTracker;
+    private final TeleportPlayers teleportPlayers;
 
-    public TeleportListener(TeleportPlayerTracker teleportPlayerTracker) {
-        this.teleportPlayerTracker = teleportPlayerTracker;
+    public TeleportListener(TeleportPlayers teleportPlayers) {
+        this.teleportPlayers = teleportPlayers;
     }
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
-        TeleportPlayer player = teleportPlayerTracker.get(event.getPlayer());
+        TeleportPlayer player = teleportPlayers.get(event.getPlayer());
         player.addLocation(event.getFrom());
     }
 

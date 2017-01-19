@@ -1,21 +1,21 @@
 package com.shepherdjerred.stteleports.listeners;
 
 import com.shepherdjerred.riotbase.listeners.AbstractListener;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class QuitListener extends AbstractListener {
 
-    private final TeleportPlayerTracker teleportPlayerTracker;
+    private final TeleportPlayers teleportPlayers;
 
-    public QuitListener(TeleportPlayerTracker teleportPlayerTracker) {
-        this.teleportPlayerTracker = teleportPlayerTracker;
+    public QuitListener(TeleportPlayers teleportPlayers) {
+        this.teleportPlayers = teleportPlayers;
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        teleportPlayerTracker.remove(event.getPlayer());
+        teleportPlayers.remove(event.getPlayer());
     }
 
 }

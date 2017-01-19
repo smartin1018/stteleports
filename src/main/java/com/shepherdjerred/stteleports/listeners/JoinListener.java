@@ -3,7 +3,7 @@ package com.shepherdjerred.stteleports.listeners;
 import com.shepherdjerred.riotbase.listeners.AbstractListener;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -11,11 +11,11 @@ import java.util.UUID;
 
 public class JoinListener extends AbstractListener {
 
-    private final TeleportPlayerTracker teleportPlayerTracker;
+    private final TeleportPlayers teleportPlayers;
     private final TeleportPlayerDAO teleportPlayerDAO;
 
-    public JoinListener(TeleportPlayerTracker teleportPlayerTracker, TeleportPlayerDAO teleportPlayerDAO) {
-        this.teleportPlayerTracker = teleportPlayerTracker;
+    public JoinListener(TeleportPlayers teleportPlayers, TeleportPlayerDAO teleportPlayerDAO) {
+        this.teleportPlayers = teleportPlayers;
         this.teleportPlayerDAO = teleportPlayerDAO;
     }
 
@@ -33,7 +33,7 @@ public class JoinListener extends AbstractListener {
             teleportPlayerDAO.insert(teleportPlayer);
         }
 
-        teleportPlayerTracker.add(teleportPlayer);
+        teleportPlayers.add(teleportPlayer);
     }
 
 }

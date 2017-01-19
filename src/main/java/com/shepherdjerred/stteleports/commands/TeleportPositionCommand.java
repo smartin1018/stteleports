@@ -5,7 +5,7 @@ import com.shepherdjerred.riotbase.messages.AbstractParser;
 import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
-import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayerTracker;
+import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import com.shepherdjerred.stteleports.util.TimeToString;
 import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.apache.commons.lang.StringUtils;
@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 public class TeleportPositionCommand extends AbstractTeleportCommand {
 
-    public TeleportPositionCommand(AbstractParser parser, TeleportPlayerTracker teleportPlayerTracker, TeleportActions teleportActions) {
+    public TeleportPositionCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
         super(parser, new CommandInfo(
                 "tppos",
                 "stTeleports.tppos",
@@ -28,13 +28,13 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
                 3,
                 false,
                 Arrays.asList("tpp")
-        ), teleportPlayerTracker, teleportActions);
+        ), teleportPlayers, teleportActions);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         Player target = (Player) sender;
-        TeleportPlayer teleportPlayer = teleportPlayerTracker.get(target);
+        TeleportPlayer teleportPlayer = teleportPlayers.get(target);
         double x;
         double y;
         double z;

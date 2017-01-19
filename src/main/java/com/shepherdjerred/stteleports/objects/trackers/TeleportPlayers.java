@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class TeleportPlayerTracker {
+public class TeleportPlayers {
 
     private final Map<UUID, TeleportPlayer> playerTracker = new ConcurrentHashMap<>();
 
