@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class TeleportQueue<E> extends LinkedList<E> {
 
-    private int limit;
+    private final int limit;
 
     public TeleportQueue(int limit) {
         this.limit = limit;
