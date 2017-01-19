@@ -89,17 +89,17 @@ public class Main extends RiotBase {
     }
 
     private void registerCommands() {
-        new TeleportCommand(parser, teleportPlayers, teleportActions).register(this);
-        new TeleportHereCommand(parser, teleportPlayers, teleportActions).register(this);
-        new TeleportPositionCommand(parser, teleportPlayers, teleportActions).register(this);
+        new TeleportCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
+        new TeleportHereCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
+        new TeleportPositionCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
         new SetHomeCommand(parser, teleportPlayers, teleportPlayerDAO).register(this);
-        new HomeCommand(parser, teleportPlayers, teleportActions).register(this);
+        new HomeCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
         new DelHomeCommand(parser, teleportPlayers, teleportPlayerDAO).register(this);
-        new SpawnCommand(parser, teleportPlayers, teleportActions).register(this);
-        new ForwardCommand(parser, teleportPlayers, teleportActions).register(this);
-        new BackwardCommand(parser, teleportPlayers, teleportActions).register(this);
-        new TpaCommand(parser, teleportPlayers, teleportActions).register(this);
-        new TpaHereCommand(parser, teleportPlayers, teleportActions).register(this);
+        new SpawnCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
+        new ForwardCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
+        new BackwardCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
+        new TpaCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
+        new TpaHereCommand(parser, teleportPlayers, teleportActions, vaultManager).register(this);
     }
 
     private void registerListeners() {
