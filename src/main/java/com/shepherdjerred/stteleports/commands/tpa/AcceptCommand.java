@@ -7,13 +7,14 @@ import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
+import com.shepherdjerred.stteleports.vault.VaultManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class AcceptCommand extends AbstractTeleportCommand {
 
-    public AcceptCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
+    public AcceptCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
         super(parser, new CommandInfo(
                 "accept",
                 "stTeleports.tpa.accept",
@@ -21,7 +22,7 @@ public class AcceptCommand extends AbstractTeleportCommand {
                 "/tpa accept <player>",
                 1,
                 false
-        ), teleportPlayers, teleportActions);
+        ), teleportPlayers, teleportActions, vaultManager);
     }
 
     @Override

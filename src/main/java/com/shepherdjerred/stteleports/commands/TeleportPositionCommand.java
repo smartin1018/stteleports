@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 public class TeleportPositionCommand extends AbstractTeleportCommand {
 
-    public TeleportPositionCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
+    public TeleportPositionCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
         super(parser, new CommandInfo(
                 "tppos",
                 "stTeleports.tppos",
@@ -28,7 +28,7 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
                 3,
                 false,
                 Arrays.asList("tpp")
-        ), teleportPlayers, teleportActions);
+        ), teleportPlayers, teleportActions, vaultManager);
     }
 
     @Override
@@ -70,8 +70,8 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
             return;
         }
 
-        if (VaultManager.INSTANCE.getEconomy() != null) {
-            if (!VaultManager.INSTANCE.getEconomy().has(target, Teleport.BACKWARD.getCost())) {
+        if (vaultManager.getEconomy() != null) {
+            if (!vaultManager.getEconomy().has(target, Teleport.BACKWARD.getCost())) {
                 return;
             }
         }

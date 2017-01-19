@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 public class TeleportHereCommand extends AbstractTeleportCommand {
 
-    public TeleportHereCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
+    public TeleportHereCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
         super(parser, new CommandInfo(
                 "tphere",
                 "stTeleports.tphere",
@@ -25,7 +25,7 @@ public class TeleportHereCommand extends AbstractTeleportCommand {
                 1,
                 false,
                 Arrays.asList("tph", "bring")
-        ), teleportPlayers, teleportActions);
+        ), teleportPlayers, teleportActions, vaultManager);
     }
 
     @Override
@@ -50,8 +50,8 @@ public class TeleportHereCommand extends AbstractTeleportCommand {
             return;
         }
 
-        if (VaultManager.INSTANCE.getEconomy() != null) {
-            if (!VaultManager.INSTANCE.getEconomy().has(target, Teleport.BACKWARD.getCost())) {
+        if (vaultManager.getEconomy() != null) {
+            if (!vaultManager.getEconomy().has(target, Teleport.BACKWARD.getCost())) {
                 return;
             }
         }

@@ -4,14 +4,18 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public enum VaultManager {
-    INSTANCE;
+public class VaultManager {
 
     private Economy economy;
+    private final JavaPlugin javaPlugin;
 
-    public void setupEconomy(JavaPlugin plugin) {
+    public VaultManager(JavaPlugin javaPlugin) {
+        this.javaPlugin = javaPlugin;
+    }
+
+    public void setupEconomy() {
         if (economy == null) {
-            RegisteredServiceProvider<Economy> economyProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+            RegisteredServiceProvider<Economy> economyProvider = javaPlugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
             if (economyProvider != null) {
                 economy = economyProvider.getProvider();
             }

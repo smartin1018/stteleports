@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 public class HomeCommand extends AbstractTeleportCommand {
 
 
-    public HomeCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
+    public HomeCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
         super(parser, new CommandInfo(
                 "home",
                 "stTeleports.home",
@@ -22,7 +22,7 @@ public class HomeCommand extends AbstractTeleportCommand {
                 "/home [name]",
                 0,
                 false
-        ), teleportPlayers, teleportActions);
+        ), teleportPlayers, teleportActions, vaultManager);
     }
 
     @Override
@@ -46,8 +46,8 @@ public class HomeCommand extends AbstractTeleportCommand {
             return;
         }
 
-        if (VaultManager.INSTANCE.getEconomy() != null) {
-            if (!VaultManager.INSTANCE.getEconomy().has(player, Teleport.HOME.getCost())) {
+        if (vaultManager.getEconomy() != null) {
+            if (!vaultManager.getEconomy().has(player, Teleport.HOME.getCost())) {
                 return;
             }
         }

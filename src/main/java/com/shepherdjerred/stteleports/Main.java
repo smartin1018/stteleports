@@ -5,6 +5,7 @@ import com.shepherdjerred.stteleports.actions.TeleportActions;
 import com.shepherdjerred.stteleports.commands.*;
 import com.shepherdjerred.stteleports.commands.tpa.TpaCommand;
 import com.shepherdjerred.stteleports.commands.tpa.TpaHereCommand;
+import com.shepherdjerred.stteleports.config.ConfigFacade;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.listeners.JoinListener;
 import com.shepherdjerred.stteleports.listeners.QuitListener;
@@ -24,7 +25,7 @@ import java.util.ResourceBundle;
 
 public class Main extends RiotBase {
 
-    private final Parser parser = new Parser(ResourceBundle.getBundle("messages"));
+    private Parser parser;
 
     private HikariDataSource hikariDataSource;
     private FluentJdbc fluentJdbc;
@@ -32,14 +33,17 @@ public class Main extends RiotBase {
     private final VaultManager vaultManager;
 
     private final TeleportPlayers teleportPlayers;
-    private TeleportActions teleportActions;
     private TeleportPlayerDAO teleportPlayerDAO;
+    private TeleportActions teleportActions;
 
-    private boolean vaultEnabled = false;
+    private final ConfigFacade configFacade;
 
     public Main() {
-        vaultManager = VaultManager.INSTANCE;
+        vaultManager = new VaultManager(this);
         teleportPlayers = new TeleportPlayers();
+
+        parser = new Parser(ResourceBundle.getBundle("messages"));
+        configFacade = new ConfigFacade(getConfig());
     }
 
     @Override
@@ -49,8 +53,8 @@ public class Main extends RiotBase {
 
         teleportActions = new TeleportActions(teleportPlayers, teleportPlayerDAO, vaultManager.getEconomy());
 
-        if (vaultEnabled) {
-            setupVault();
+        if (configFacade.isVaultEnabled()) {
+            vaultManager.setupEconomy();
         }
 
         super.onEnable();
@@ -64,12 +68,7 @@ public class Main extends RiotBase {
     @Override
     protected void setupConfigs() {
         super.setupConfigs();
-        vaultEnabled = getConfig().getBoolean("vault.enabled");
         // TODO Load teleport settings from JSON
-    }
-
-    private void setupVault() {
-        vaultManager.setupEconomy(this);
     }
 
     private void setupDatabase() {

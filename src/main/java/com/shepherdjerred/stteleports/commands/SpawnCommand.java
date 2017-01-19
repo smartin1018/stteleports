@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class SpawnCommand extends AbstractTeleportCommand {
 
-    public SpawnCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
+    public SpawnCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
         super(parser, new CommandInfo(
                 "spawn",
                 "stTeleports.spawn",
@@ -21,7 +21,7 @@ public class SpawnCommand extends AbstractTeleportCommand {
                 "/spawn",
                 0,
                 false
-        ), teleportPlayers, teleportActions);
+        ), teleportPlayers, teleportActions, vaultManager);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class SpawnCommand extends AbstractTeleportCommand {
             return;
         }
 
-        if (VaultManager.INSTANCE.getEconomy() != null) {
-            if (!VaultManager.INSTANCE.getEconomy().has(player, Teleport.SPAWN.getCost())) {
+        if (vaultManager.getEconomy() != null) {
+            if (!vaultManager.getEconomy().has(player, Teleport.SPAWN.getCost())) {
                 return;
             }
         }

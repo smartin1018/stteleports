@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 public class BackwardCommand extends AbstractTeleportCommand {
 
-    public BackwardCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
+    public BackwardCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
         super(parser, new CommandInfo(
                 "backward",
                 "stTeleports.backward",
@@ -24,7 +24,7 @@ public class BackwardCommand extends AbstractTeleportCommand {
                 0,
                 false,
                 Arrays.asList("back", "return")
-        ), teleportPlayers, teleportActions);
+        ), teleportPlayers, teleportActions, vaultManager);
     }
 
     @Override
@@ -43,8 +43,8 @@ public class BackwardCommand extends AbstractTeleportCommand {
             return;
         }
 
-        if (VaultManager.INSTANCE.getEconomy() != null) {
-            if (!VaultManager.INSTANCE.getEconomy().has(player, Teleport.BACKWARD.getCost())) {
+        if (vaultManager.getEconomy() != null) {
+            if (!vaultManager.getEconomy().has(player, Teleport.BACKWARD.getCost())) {
                 return;
             }
         }

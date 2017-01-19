@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 public class ForwardCommand extends AbstractTeleportCommand {
 
-    public ForwardCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions) {
+    public ForwardCommand(AbstractParser parser, TeleportPlayers teleportPlayers, TeleportActions teleportActions, VaultManager vaultManager) {
         super(parser, new CommandInfo(
                 "forward",
                 "stTeleports.forward",
@@ -24,7 +24,7 @@ public class ForwardCommand extends AbstractTeleportCommand {
                 0,
                 false,
                 Arrays.asList("fw")
-        ), teleportPlayers, teleportActions);
+        ), teleportPlayers, teleportActions, vaultManager);
     }
 
     @Override
@@ -43,8 +43,8 @@ public class ForwardCommand extends AbstractTeleportCommand {
             return;
         }
 
-        if (VaultManager.INSTANCE.getEconomy() != null) {
-            if (!VaultManager.INSTANCE.getEconomy().has(player, Teleport.FORWARD.getCost())) {
+        if (vaultManager.getEconomy() != null) {
+            if (!vaultManager.getEconomy().has(player, Teleport.FORWARD.getCost())) {
                 return;
             }
         }

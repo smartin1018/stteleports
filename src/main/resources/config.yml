@@ -1,5 +1,4 @@
-vault:
-    enabled: false
+vault: false
 
 multiplier-reduction:
     frequency: 600
