@@ -28,7 +28,7 @@ public class TeleportHereCommand extends AbstractTeleportCommand {
     @Override
     public void execute(CommandSource sender, String[] args) {
         Player target = Bukkit.getPlayer(args[0]);
-        Player destination = (Player) sender;
+        Player destination = sender.getPlayer();
 
         if (target == null) {
             sender.sendMessage(parser.colorString(true, "generic.playerNotOnline", args[0]));

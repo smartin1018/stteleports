@@ -4,8 +4,7 @@ import com.shepherdjerred.riotbase.RiotBase;
 import com.shepherdjerred.riotbase.commands.CommandRegister;
 import com.shepherdjerred.riotbase.listeners.ListenerRegister;
 import com.shepherdjerred.stteleports.actions.TeleportActions;
-import com.shepherdjerred.stteleports.commands.DelHomeCommand;
-import com.shepherdjerred.stteleports.commands.SetHomeCommand;
+import com.shepherdjerred.stteleports.commands.*;
 import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
 import com.shepherdjerred.stteleports.config.TeleportsConfig;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
@@ -40,19 +39,15 @@ public class Main extends RiotBase {
     private VaultManager vaultManager;
     private TeleportsConfig teleportsConfig;
 
-
-    public Main() {
-        parser = new Parser(ResourceBundle.getBundle("messages"));
-        teleportPlayers = new TeleportPlayers();
-
-        vaultManager = new VaultManager(this);
-    }
-
     @Override
     public void onEnable() {
         setupConfigs();
         setupDatabase();
 
+        // TODO Load from filesystem
+        parser = new Parser(ResourceBundle.getBundle("messages"));
+        teleportPlayers = new TeleportPlayers();
+        vaultManager = new VaultManager(this);
         teleportActions = new TeleportActions(teleportPlayers, teleportPlayerDAO, vaultManager.getEconomy());
 
         if (teleportsConfig.isVaultEnabled()) {
@@ -68,17 +63,17 @@ public class Main extends RiotBase {
     }
 
     protected void setupConfigs() {
-        copyFile("config.yml", getDataFolder().getAbsolutePath());
-        copyFile("messages.properties", getDataFolder().getAbsolutePath());
+        copyFile(getResource("config.yml"), getDataFolder().getAbsolutePath() + "/config.yml");
+        copyFile(getResource("messages.properties"), getDataFolder().getAbsolutePath() + "/messages.properties");
 
-        teleportsConfig = new TeleportsConfig(loadConfig(getDataFolder() + "/config.yml"));
+        teleportsConfig = new TeleportsConfig(getConfig());
 
         // TODO Load teleport settings from JSON
     }
 
     private void setupDatabase() {
-        copyFile("hikari.properties", getDataFolder().getAbsolutePath());
-        copyFile("db/migration/V1__Initial.sql", getDataFolder().getAbsolutePath());
+        copyFile(getResource("hikari.properties"), getDataFolder().getAbsolutePath() + "/hikari.properties");
+        copyFile(getResource("db/migration/V1__Initial.sql"), getDataFolder().getAbsolutePath() + "/db/migration/V1__Initial.sql");
 
         HikariConfig hikariConfig = new HikariConfig(getDataFolder().getAbsolutePath() + "/hikari.properties");
         hikariDataSource = new HikariDataSource(hikariConfig);
@@ -98,7 +93,15 @@ public class Main extends RiotBase {
         cr.addCommand(new SetHomeCommand(cr, teleportPlayers, teleportPlayerDAO));
         cr.addCommand(new DelHomeCommand(cr, teleportPlayers, teleportPlayerDAO));
         cr.register(this);
-        new TeleportCommandRegister(parser, teleportPlayers, teleportActions, vaultManager).register(this);
+        TeleportCommandRegister tcr = new TeleportCommandRegister(parser, teleportPlayers, teleportActions, vaultManager);
+        tcr.addCommand(new BackwardCommand(tcr));
+        tcr.addCommand(new ForwardCommand(tcr));
+        tcr.addCommand(new HomeCommand(tcr));
+        tcr.addCommand(new SpawnCommand(tcr));
+        tcr.addCommand(new TeleportCommand(tcr));
+        tcr.addCommand(new TeleportHereCommand(tcr));
+        tcr.addCommand(new TeleportPositionCommand(tcr));
+        tcr.register(this);
     }
 
     private void registerListeners() {
@@ -106,7 +109,7 @@ public class Main extends RiotBase {
                 new JoinListener(teleportPlayers, teleportPlayerDAO),
                 new QuitListener(teleportPlayers),
                 new TeleportListener(teleportPlayers)
-        ));
+        )).register(this);
     }
 
     private void checkOnlinePlayers() {

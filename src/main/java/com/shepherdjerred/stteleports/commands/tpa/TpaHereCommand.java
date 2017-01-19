@@ -24,7 +24,7 @@ public class TpaHereCommand extends AbstractTeleportCommand {
     @Override
     public void execute(CommandSource sender, String[] args) {
 
-        Player target = (Player) sender;
+        Player target = sender.getPlayer();
         Player destination = Bukkit.getPlayer(args[0]);
 
         if (destination == null) {

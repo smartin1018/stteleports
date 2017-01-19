@@ -27,7 +27,7 @@ public class ForwardCommand extends AbstractTeleportCommand {
     @Override
     public void execute(CommandSource sender, String[] args) {
 
-        Player player = (Player) sender;
+        Player player = sender.getPlayer();
         TeleportPlayer teleportPlayer = teleportPlayers.get(player);
 
         if (teleportPlayer.getFirstLocation() == null) {

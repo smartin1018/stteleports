@@ -40,7 +40,7 @@ public class SetHomeCommand extends AbstractCommand {
             home = args[0];
         }
 
-        Player player = (Player) sender;
+        Player player = sender.getPlayer();
         TeleportPlayer teleportPlayer = teleportPlayers.get(player);
 
         boolean replaceExistingHome = false;
@@ -54,7 +54,7 @@ public class SetHomeCommand extends AbstractCommand {
             }
         }
 
-        teleportPlayer.addHome(home, ((Player) sender).getLocation());
+        teleportPlayer.addHome(home, (sender.getPlayer()).getLocation());
 
         if (replaceExistingHome) {
             teleportPlayerDAO.updateHome(teleportPlayer, home);

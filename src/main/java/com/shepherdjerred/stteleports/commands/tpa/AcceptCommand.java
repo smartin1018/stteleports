@@ -26,7 +26,7 @@ public class AcceptCommand extends AbstractTeleportCommand {
     public void execute(CommandSource sender, String[] args) {
 
         Player targetPlayer = Bukkit.getPlayer(args[0]);
-        Player senderPlayer = (Player) sender;
+        Player senderPlayer = sender.getPlayer();
         TeleportPlayer senderTeleportPlayer = teleportPlayers.get(senderPlayer);
 
         if (targetPlayer == null) {

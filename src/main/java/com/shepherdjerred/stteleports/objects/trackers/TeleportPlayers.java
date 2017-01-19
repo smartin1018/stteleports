@@ -58,7 +58,7 @@ public class TeleportPlayers {
 
     public TeleportPlayer get(CommandSource sender) {
         if (sender instanceof Player) {
-            return get(((Player) sender).getUniqueId());
+            return get((sender.getPlayer()).getUniqueId());
         }
         return null;
     }

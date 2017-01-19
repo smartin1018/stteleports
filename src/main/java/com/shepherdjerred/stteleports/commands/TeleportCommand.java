@@ -43,7 +43,7 @@ public class TeleportCommand extends AbstractTeleportCommand {
                 return;
             }
         } else {
-            target = (Player) sender;
+            target = sender.getPlayer();
             destination = Bukkit.getPlayer(args[0]);
 
             if (destination == null) {

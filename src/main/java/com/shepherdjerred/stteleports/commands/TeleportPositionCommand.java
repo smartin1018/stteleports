@@ -30,7 +30,7 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
 
     @Override
     public void execute(CommandSource sender, String[] args) {
-        Player target = (Player) sender;
+        Player target = sender.getPlayer();
         TeleportPlayer teleportPlayer = teleportPlayers.get(target);
         double x;
         double y;
