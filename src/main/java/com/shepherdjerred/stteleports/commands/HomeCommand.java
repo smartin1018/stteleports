@@ -49,7 +49,7 @@ public class HomeCommand extends AbstractTeleportCommand {
             }
         }
 
-        teleportActions.teleport(Teleport.HOME, player, teleportPlayer.getHome(home), false);
+        teleportController.teleport(Teleport.HOME, player, teleportPlayer.getHome(home), false);
         
         sender.sendMessage(parser.colorString(true, "home.success"));
     }

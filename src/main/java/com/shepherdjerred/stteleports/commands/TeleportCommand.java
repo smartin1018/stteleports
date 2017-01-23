@@ -70,7 +70,7 @@ public class TeleportCommand extends AbstractTeleportCommand {
             }
         }
 
-        teleportActions.teleport(Teleport.TELEPORT, target, destination);
+        teleportController.teleport(Teleport.TELEPORT, target, destination);
 
         if (args.length > 1) {
             sender.sendMessage(parser.colorString(true, "teleport.success.withTarget", target.getName(), destination.getName()));

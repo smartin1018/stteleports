@@ -43,9 +43,9 @@ public class AcceptCommand extends AbstractTeleportCommand {
         senderTeleportPlayer.removeRequest(targetPlayer.getUniqueId());
 
         if (type == Teleport.TPA) {
-            teleportActions.teleport(Teleport.TPA, targetPlayer, senderPlayer);
+            teleportController.teleport(Teleport.TPA, targetPlayer, senderPlayer);
         } else if (type == Teleport.TPAHERE) {
-            teleportActions.teleport(Teleport.TPAHERE, senderPlayer, targetPlayer);
+            teleportController.teleport(Teleport.TPAHERE, senderPlayer, targetPlayer);
         } else {
             sender.sendMessage("Invalid teleport type. Please report this to an administrator");
             return;

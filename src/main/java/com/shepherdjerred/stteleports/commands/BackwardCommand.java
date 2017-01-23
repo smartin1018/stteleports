@@ -46,7 +46,7 @@ public class BackwardCommand extends AbstractTeleportCommand {
             }
         }
 
-        teleportActions.teleport(Teleport.BACKWARD, player, teleportPlayer.getFirstLocation(), false);
+        teleportController.teleport(Teleport.BACKWARD, player, teleportPlayer.getFirstLocation(), false);
         sender.sendMessage(parser.colorString(true, "backward.success"));
 
     }

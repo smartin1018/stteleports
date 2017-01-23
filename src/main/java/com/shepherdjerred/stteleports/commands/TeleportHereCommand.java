@@ -53,7 +53,7 @@ public class TeleportHereCommand extends AbstractTeleportCommand {
             }
         }
 
-        teleportActions.teleport(Teleport.TPHERE, target, destination);
+        teleportController.teleport(Teleport.TPHERE, target, destination);
         sender.sendMessage(parser.colorString(true, "teleportHere.success", target.getName()));
         target.sendMessage(parser.colorString(true, "teleportHere.success.target", sender.getSender().getName()));
     }

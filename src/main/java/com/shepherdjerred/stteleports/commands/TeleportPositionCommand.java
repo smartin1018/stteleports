@@ -79,7 +79,7 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
 
         Location destination = new Location(world, x, y, z);
 
-        teleportActions.teleport(Teleport.TPPOS, target, destination, true);
+        teleportController.teleport(Teleport.TPPOS, target, destination, true);
 
         sender.sendMessage(parser.colorString(true, "tppos.success",
                 target.getLocation().getBlockX(),

@@ -37,7 +37,7 @@ public class TpaHereCommand extends AbstractTeleportCommand {
             return;
         }
 
-        teleportActions.sendTeleportRequest(target, destination, Teleport.TPAHERE);
+        teleportController.sendTeleportRequest(target, destination, Teleport.TPAHERE);
 
         sender.sendMessage(parser.colorString(true, "tpahere.send.success", destination.getName()));
         destination.sendMessage(parser.colorString(true, "tpahere.send.destination", sender.getSender().getName()));

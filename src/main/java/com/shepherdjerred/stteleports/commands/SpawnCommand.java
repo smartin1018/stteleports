@@ -38,7 +38,7 @@ public class SpawnCommand extends AbstractTeleportCommand {
             }
         }
 
-        teleportActions.teleport(Teleport.SPAWN, player, player.getWorld().getSpawnLocation(), false);
+        teleportController.teleport(Teleport.SPAWN, player, player.getWorld().getSpawnLocation(), false);
 
         sender.sendMessage(parser.colorString(true, "spawn.success"));
     }

@@ -1,4 +1,4 @@
-package com.shepherdjerred.stteleports.actions;
+package com.shepherdjerred.stteleports.controllers;
 
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.Teleport;
@@ -10,13 +10,13 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public class TeleportActions {
+public class TeleportController {
 
     private final TeleportPlayers teleportPlayers;
     private final TeleportPlayerDAO teleportPlayerDAO;
     private final Economy economy;
 
-    public TeleportActions(TeleportPlayers teleportPlayers, TeleportPlayerDAO teleportPlayerDAO, Economy economy) {
+    public TeleportController(TeleportPlayers teleportPlayers, TeleportPlayerDAO teleportPlayerDAO, Economy economy) {
         this.teleportPlayers = teleportPlayers;
         this.teleportPlayerDAO = teleportPlayerDAO;
         this.economy = economy;

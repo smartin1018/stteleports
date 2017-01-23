@@ -41,7 +41,7 @@ public class TpaCommand extends AbstractTeleportCommand {
             return;
         }
 
-        teleportActions.sendTeleportRequest(target, destination, Teleport.TPA);
+        teleportController.sendTeleportRequest(target, destination, Teleport.TPA);
 
         sender.sendMessage(parser.colorString(true, "tpa.send.success", destination.getName()));
         destination.sendMessage(parser.colorString(true, "tpa.send.destination", sender.getSender().getName()));

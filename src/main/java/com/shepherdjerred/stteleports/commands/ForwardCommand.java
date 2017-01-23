@@ -46,7 +46,7 @@ public class ForwardCommand extends AbstractTeleportCommand {
             }
         }
 
-        teleportActions.teleport(Teleport.FORWARD, player, teleportPlayer.getFirstLocation(), false);
+        teleportController.teleport(Teleport.FORWARD, player, teleportPlayer.getFirstLocation(), false);
         sender.sendMessage(parser.colorString(true, "forward.success"));
 
     }

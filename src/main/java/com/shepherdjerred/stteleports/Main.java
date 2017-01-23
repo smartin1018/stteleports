@@ -3,7 +3,7 @@ package com.shepherdjerred.stteleports;
 import com.shepherdjerred.riotbase.RiotBase;
 import com.shepherdjerred.riotbase.commands.CommandRegister;
 import com.shepherdjerred.riotbase.listeners.ListenerRegister;
-import com.shepherdjerred.stteleports.actions.TeleportActions;
+import com.shepherdjerred.stteleports.controllers.TeleportController;
 import com.shepherdjerred.stteleports.commands.*;
 import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
 import com.shepherdjerred.stteleports.config.TeleportsConfig;
@@ -30,7 +30,7 @@ public class Main extends RiotBase {
     private Parser parser;
 
     private TeleportPlayers teleportPlayers;
-    private TeleportActions teleportActions;
+    private TeleportController teleportController;
 
     private HikariDataSource hikariDataSource;
     private FluentJdbc fluentJdbc;
@@ -48,7 +48,7 @@ public class Main extends RiotBase {
         parser = new Parser(ResourceBundle.getBundle("messages"));
         teleportPlayers = new TeleportPlayers();
         vaultManager = new VaultManager(this);
-        teleportActions = new TeleportActions(teleportPlayers, teleportPlayerDAO, vaultManager.getEconomy());
+        teleportController = new TeleportController(teleportPlayers, teleportPlayerDAO, vaultManager.getEconomy());
 
         if (teleportsConfig.isVaultEnabled()) {
             vaultManager.setupEconomy();
@@ -93,7 +93,7 @@ public class Main extends RiotBase {
         cr.addCommand(new SetHomeCommand(cr, teleportPlayers, teleportPlayerDAO));
         cr.addCommand(new DelHomeCommand(cr, teleportPlayers, teleportPlayerDAO));
         cr.register(this);
-        TeleportCommandRegister tcr = new TeleportCommandRegister(parser, teleportPlayers, teleportActions, vaultManager);
+        TeleportCommandRegister tcr = new TeleportCommandRegister(parser, teleportPlayers, teleportController, vaultManager);
         tcr.addCommand(new BackwardCommand(tcr));
         tcr.addCommand(new ForwardCommand(tcr));
         tcr.addCommand(new HomeCommand(tcr));
