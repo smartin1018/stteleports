@@ -19,6 +19,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.codejargon.fluentjdbc.api.FluentJdbc;
 import org.codejargon.fluentjdbc.api.FluentJdbcBuilder;
 import org.flywaydb.core.Flyway;
@@ -60,12 +61,16 @@ public class Main extends RiotBase {
 
         checkOnlinePlayers();
 
+        runCooldownReduction();
+
         startMetrics();
     }
 
+    // TODO Move this to its own class
     private void runCooldownReduction() {
 
-        Bukkit.getOnlinePlayers().forEach(player -> {
+        BukkitScheduler scheduler = getServer().getScheduler();
+        scheduler.scheduleSyncRepeatingTask(this, () -> Bukkit.getOnlinePlayers().forEach(player -> {
 
             TeleportPlayer teleportPlayer = teleportPlayers.get(player);
 
@@ -86,7 +91,7 @@ public class Main extends RiotBase {
             teleportPlayer.setCostMultiplier(currentCostMultiplier);
             teleportPlayer.setCooldownMultiplier(currentCooldownMultiplier);
 
-        });
+        }), 0L, 12000L);
 
     }
 
