@@ -6,6 +6,7 @@ import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.util.TimeToString;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class SpawnCommand extends AbstractTeleportCommand {
@@ -38,7 +39,8 @@ public class SpawnCommand extends AbstractTeleportCommand {
             }
         }
 
-        teleportController.teleport(Teleport.SPAWN, player, player.getWorld().getSpawnLocation(), false);
+        // TODO Make world name configurable
+        teleportController.teleport(Teleport.SPAWN, player, Bukkit.getWorld("world").getSpawnLocation(), false);
 
         sender.sendMessage(parser.colorString(true, "spawn.success"));
     }
