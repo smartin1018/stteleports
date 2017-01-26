@@ -24,8 +24,12 @@ public class TeleportController {
 
     public void teleport(Teleport type, Player target, Player destination) {
         target.teleport(destination);
-        doCooldown(teleportPlayers.get(target), type);
-        chargePlayer(target, type);
+        if (!target.hasPermission("stTeleports.cooldown.exempt")) {
+            doCooldown(teleportPlayers.get(target), type);
+        }
+        if (!target.hasPermission("stTeleports.cost.exempt")) {
+            chargePlayer(target, type);
+        }
     }
 
     public void teleport(Teleport type, Player target, Location destination, boolean safe) {
@@ -45,8 +49,12 @@ public class TeleportController {
         }
 
         target.teleport(destination);
-        doCooldown(teleportPlayers.get(target), type);
-        chargePlayer(target, type);
+        if (!target.hasPermission("stTeleports.cooldown.exempt")) {
+            doCooldown(teleportPlayers.get(target), type);
+        }
+        if (!target.hasPermission("stTeleports.cost.exempt")) {
+            chargePlayer(target, type);
+        }
     }
 
     public void sendTeleportRequest(Player target, Player destination, Teleport type) {
@@ -58,8 +66,12 @@ public class TeleportController {
     }
 
     private void doCooldown(TeleportPlayer teleportPlayer, Teleport type) {
-        teleportPlayer.calculateCooldown(type.getCooldown());
-        teleportPlayer.calculateCooldownMultiplier(type.getCooldownMultiplier());
+        long newCooldown = teleportPlayer.calculateCooldown(type.getCooldown());
+        double newCooldownMultiplier = teleportPlayer.calculateCooldownMultiplier(type.getCooldownMultiplier());
+
+        teleportPlayer.setCooldown(newCooldown);
+        teleportPlayer.setCooldownMultiplier(newCooldownMultiplier);
+
         teleportPlayerDAO.updateCooldown(teleportPlayer);
         teleportPlayerDAO.updateCooldownMultiplier(teleportPlayer);
     }
@@ -68,7 +80,8 @@ public class TeleportController {
         TeleportPlayer teleportPlayer = teleportPlayers.get(player);
         if (economy != null) {
             economy.withdrawPlayer(player, type.getCost());
-            teleportPlayer.calculateCostMultiplier(teleportPlayer.getCooldownMultiplier());
+            double newCostMultiplier = teleportPlayer.calculateCostMultiplier(teleportPlayer.getCooldownMultiplier());
+            teleportPlayer.setCostMultiplier(newCostMultiplier);
             teleportPlayerDAO.updateCostMultiplier(teleportPlayer);
         }
     }

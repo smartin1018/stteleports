@@ -8,13 +8,10 @@ import java.util.*;
 public class TeleportPlayer {
 
     private final UUID uuid;
-
-    private long cooldown = 0;
-
     private final Map<String, Location> homes = new HashMap<>();
     private final Deque<Location> locations = new TeleportQueue<>(5);
     private final Map<UUID, Teleport> requesters = new HashMap<>();
-
+    private long cooldown = 0;
     private double cooldownMultiplier = 0;
     private double costMultiplier = 0;
 
@@ -37,40 +34,52 @@ public class TeleportPlayer {
         this.costMultiplierModifier = costMultiplierModifier;
     }
 
-    public void calculateCooldownMultiplier(double multiplier) {
-        cooldownMultiplier = cooldownMultiplier + (multiplier * cooldownMultiplierModifier);
+    public double calculateCooldownMultiplier(double multiplier) {
+        return cooldownMultiplier = cooldownMultiplier + (multiplier * cooldownMultiplierModifier);
     }
 
-    public void calculateCostMultiplier(double multiplier) {
-        costMultiplier = costMultiplier + (multiplier * costMultiplierModifier);
-    }
-
-    public void setCooldownMultiplierModifier(double cooldownMultiplierModifier) {
-        this.cooldownMultiplierModifier = cooldownMultiplierModifier;
-    }
-
-    public void setCostMultiplierModifier(double costMultiplierModifier) {
-        this.costMultiplierModifier = costMultiplierModifier;
+    public double calculateCostMultiplier(double multiplier) {
+        return costMultiplier = costMultiplier + (multiplier * costMultiplierModifier);
     }
 
     public long getCooldown() {
         return cooldown;
     }
 
+    public void setCooldown(long cooldown) {
+        this.cooldown = cooldown;
+    }
+
     public double getCooldownMultiplier() {
         return cooldownMultiplier;
+    }
+
+    public void setCooldownMultiplier(double cooldownMultiplier) {
+        this.cooldownMultiplier = cooldownMultiplier;
     }
 
     public double getCostMultiplier() {
         return costMultiplier;
     }
 
+    public void setCostMultiplier(double costMultiplier) {
+        this.costMultiplier = costMultiplier;
+    }
+
     public double getCooldownMultiplierModifier() {
         return cooldownMultiplierModifier;
     }
 
+    public void setCooldownMultiplierModifier(double cooldownMultiplierModifier) {
+        this.cooldownMultiplierModifier = cooldownMultiplierModifier;
+    }
+
     public double getCostMultiplierModifier() {
         return costMultiplierModifier;
+    }
+
+    public void setCostMultiplierModifier(double costMultiplierModifier) {
+        this.costMultiplierModifier = costMultiplierModifier;
     }
 
     public void addRequest(UUID player, Teleport type) {
@@ -122,10 +131,10 @@ public class TeleportPlayer {
         locations.add(location);
     }
 
-    public void calculateCooldown(long cooldown) {
+    public long calculateCooldown(long cooldown) {
         Calendar calendar = Calendar.getInstance();
         double newCooldown = ((cooldown * cooldownMultiplier) + cooldown) + calendar.getTimeInMillis();
-        this.cooldown = (long) newCooldown;
+        return (long) newCooldown;
     }
 
     public long getRemainingCooldown() {
@@ -149,6 +158,7 @@ public class TeleportPlayer {
     public int getCurrentHomeCount() {
         return homes.size();
     }
+
 
     @Override
     public String toString() {

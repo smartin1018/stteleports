@@ -3,15 +3,16 @@ package com.shepherdjerred.stteleports;
 import com.shepherdjerred.riotbase.RiotBase;
 import com.shepherdjerred.riotbase.commands.CommandRegister;
 import com.shepherdjerred.riotbase.listeners.ListenerRegister;
-import com.shepherdjerred.stteleports.controllers.TeleportController;
 import com.shepherdjerred.stteleports.commands.*;
 import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
 import com.shepherdjerred.stteleports.config.TeleportsConfig;
+import com.shepherdjerred.stteleports.controllers.TeleportController;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.listeners.JoinListener;
 import com.shepherdjerred.stteleports.listeners.QuitListener;
 import com.shepherdjerred.stteleports.listeners.TeleportListener;
 import com.shepherdjerred.stteleports.messages.Parser;
+import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import com.shepherdjerred.stteleports.vault.VaultManager;
 import com.zaxxer.hikari.HikariConfig;
@@ -60,6 +61,33 @@ public class Main extends RiotBase {
         checkOnlinePlayers();
 
         startMetrics();
+    }
+
+    private void runCooldownReduction() {
+
+        Bukkit.getOnlinePlayers().forEach(player -> {
+
+            TeleportPlayer teleportPlayer = teleportPlayers.get(player);
+
+            double currentCostMultiplier = teleportPlayer.getCostMultiplier();
+            double currentCooldownMultiplier = teleportPlayer.getCooldownMultiplier();
+
+            currentCostMultiplier -= .5;
+            currentCooldownMultiplier -= .5;
+
+            if (currentCostMultiplier < 0) {
+                currentCostMultiplier = 0;
+            }
+
+            if (currentCooldownMultiplier < 0) {
+                currentCooldownMultiplier = 0;
+            }
+
+            teleportPlayer.setCostMultiplier(currentCostMultiplier);
+            teleportPlayer.setCooldownMultiplier(currentCooldownMultiplier);
+
+        });
+
     }
 
     protected void setupConfigs() {
