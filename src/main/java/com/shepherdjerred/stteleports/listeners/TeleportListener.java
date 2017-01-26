@@ -17,7 +17,8 @@ public class TeleportListener extends AbstractListener {
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         TeleportPlayer player = teleportPlayers.get(event.getPlayer());
-        player.addLocation(event.getFrom());
+        if (player != null) {
+            player.addLocation(event.getFrom());
+        }
     }
-
 }

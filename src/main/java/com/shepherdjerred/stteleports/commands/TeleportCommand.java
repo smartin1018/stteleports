@@ -56,7 +56,6 @@ public class TeleportCommand extends AbstractTeleportCommand {
             sender.sendMessage(parser.colorString(true, "generic.cantTargetSelf"));
             return;
         }
-
         TeleportPlayer teleportPlayer = teleportPlayers.get(target);
 
         if (!teleportPlayer.isCooldownOver()) {
@@ -65,7 +64,7 @@ public class TeleportCommand extends AbstractTeleportCommand {
         }
 
         if (vaultManager.getEconomy() != null) {
-            if (!vaultManager.getEconomy().has(target, Teleport.BACKWARD.getCost())) {
+            if (!vaultManager.getEconomy().has(target, Teleport.TELEPORT.getCost())) {
                 return;
             }
         }
@@ -73,13 +72,28 @@ public class TeleportCommand extends AbstractTeleportCommand {
         teleportController.teleport(Teleport.TELEPORT, target, destination);
 
         if (args.length > 1) {
-            sender.sendMessage(parser.colorString(true, "teleport.success.withTarget", target.getName(), destination.getName()));
-            target.sendMessage(parser.colorString(true, "teleport.success.teleported", destination.getName(), sender.getSender().getName()));
-        } else {
-            sender.sendMessage(parser.colorString(true, "teleport.success", destination.getName()));
-        }
+            // The sender teleported themself to someone
+            if (target == sender.getPlayer()) {
+                sender.sendMessage(parser.colorString(true, "teleport.success.sender", destination.getName()));
+                destination.sendMessage(parser.colorString(true, "teleport.success.destination", sender.getName()));
+                return;
+            }
 
-        sender.sendMessage(parser.colorString(true, "teleport.success.teleportedTo", target.getName()));
+            // The sender teleported someone to them
+            if (destination == sender) {
+                target.sendMessage(parser.colorString(true, "teleportHere.success.target", sender.getName()));
+                sender.sendMessage(parser.colorString(true, "teleportHere.success", target.getName()));
+                return;
+            }
+
+            // The sender teleported someone to someone else
+            sender.sendMessage(parser.colorString(true, "teleport.multiple.sender", target.getName(), destination.getName()));
+            target.sendMessage(parser.colorString(true, "teleport.multiple.target", sender.getName(), destination.getName()));
+            destination.sendMessage(parser.colorString(true, "teleport.multiple.destination", sender.getName(), target.getName()));
+        } else {
+            sender.sendMessage(parser.colorString(true, "teleport.success.sender", destination.getName()));
+            destination.sendMessage(parser.colorString(true, "teleport.success.destination", sender.getName()));
+        }
 
     }
 

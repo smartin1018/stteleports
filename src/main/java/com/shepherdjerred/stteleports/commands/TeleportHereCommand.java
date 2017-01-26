@@ -48,7 +48,7 @@ public class TeleportHereCommand extends AbstractTeleportCommand {
         }
 
         if (vaultManager.getEconomy() != null) {
-            if (!vaultManager.getEconomy().has(target, Teleport.BACKWARD.getCost())) {
+            if (!vaultManager.getEconomy().has(target, Teleport.TPHERE.getCost())) {
                 return;
             }
         }

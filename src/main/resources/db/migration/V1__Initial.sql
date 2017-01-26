@@ -20,4 +20,4 @@ CREATE TABLE player_homes (
   CONSTRAINT pk_player_home PRIMARY KEY (player_uuid, name),
   CONSTRAINT fk_player_uuid FOREIGN KEY (player_uuid) REFERENCES players (player_uuid)
     ON DELETE CASCADE
-)
+);

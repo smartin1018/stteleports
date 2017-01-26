@@ -68,7 +68,7 @@ public class TeleportPositionCommand extends AbstractTeleportCommand {
         }
 
         if (vaultManager.getEconomy() != null) {
-            if (!vaultManager.getEconomy().has(target, Teleport.BACKWARD.getCost())) {
+            if (!vaultManager.getEconomy().has(target, Teleport.TPPOS.getCost())) {
                 return;
             }
         }
