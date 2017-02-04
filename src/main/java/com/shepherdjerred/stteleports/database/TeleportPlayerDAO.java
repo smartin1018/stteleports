@@ -104,7 +104,17 @@ public class TeleportPlayerDAO {
     }
 
     public void updateHome(TeleportPlayer teleportPlayer, String home) {
-
+        Location playerHomeLocation = teleportPlayer.getHome(home);
+        Query query = fluentJdbc.query();
+        query
+                .update("UPDATE player_homes SET x = ?, y = ?, z = ?, yaw = ?, pitch = ? WHERE player_uuid = ? AND name = ?")
+                .params(
+                        playerHomeLocation.getX(),
+                        playerHomeLocation.getY(),
+                        playerHomeLocation.getZ(),
+                        playerHomeLocation.getYaw(),
+                        playerHomeLocation.getPitch()
+                ).run();
     }
 
     public void deleteHome(TeleportPlayer player, String home) {
