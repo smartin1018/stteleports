@@ -4,6 +4,8 @@ import com.shepherdjerred.riotbase.RiotBase;
 import com.shepherdjerred.riotbase.commands.CommandRegister;
 import com.shepherdjerred.stteleports.commands.*;
 import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
+import com.shepherdjerred.stteleports.commands.tpa.TpaCommand;
+import com.shepherdjerred.stteleports.commands.tpa.TpaHereCommand;
 import com.shepherdjerred.stteleports.config.SpigotTeleportsConfig;
 import com.shepherdjerred.stteleports.controllers.TeleportController;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
@@ -130,6 +132,8 @@ public class Main extends RiotBase {
         tcr.addCommand(new TeleportCommand(tcr));
         tcr.addCommand(new TeleportHereCommand(tcr));
         tcr.addCommand(new TeleportPositionCommand(tcr));
+        tcr.addCommand(new TpaCommand(tcr));
+        tcr.addCommand(new TpaHereCommand(tcr));
         tcr.register(this);
     }
 
