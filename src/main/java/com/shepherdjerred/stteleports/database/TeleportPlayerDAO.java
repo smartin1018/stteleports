@@ -113,7 +113,9 @@ public class TeleportPlayerDAO {
                         playerHomeLocation.getY(),
                         playerHomeLocation.getZ(),
                         playerHomeLocation.getYaw(),
-                        playerHomeLocation.getPitch()
+                        playerHomeLocation.getPitch(),
+                        String.valueOf(teleportPlayer.getUuid()),
+                        home
                 ).run();
     }
 
