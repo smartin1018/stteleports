@@ -3,7 +3,7 @@ package com.shepherdjerred.stteleports.commands;
 import com.shepherdjerred.riotbase.commands.AbstractCommand;
 import com.shepherdjerred.riotbase.commands.CommandInfo;
 import com.shepherdjerred.riotbase.commands.CommandRegister;
-import com.shepherdjerred.riotbase.commands.CommandSource;
+import com.shepherdjerred.riotbase.commands.SpigotCommandSource;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
@@ -28,7 +28,7 @@ public class SetHomeCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(CommandSource sender, String[] args) {
+    public void execute(SpigotCommandSource sender, String[] args) {
 
         String home = "default";
 

@@ -1,20 +1,22 @@
 package com.shepherdjerred.stteleports.listeners;
 
-import com.shepherdjerred.riotbase.listeners.AbstractListener;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.UUID;
 
-public class JoinListener extends AbstractListener {
+public class PlayerListener implements Listener {
 
     private final TeleportPlayers teleportPlayers;
     private final TeleportPlayerDAO teleportPlayerDAO;
 
-    public JoinListener(TeleportPlayers teleportPlayers, TeleportPlayerDAO teleportPlayerDAO) {
+    public PlayerListener(TeleportPlayers teleportPlayers, TeleportPlayerDAO teleportPlayerDAO) {
         this.teleportPlayers = teleportPlayers;
         this.teleportPlayerDAO = teleportPlayerDAO;
     }
@@ -23,6 +25,19 @@ public class JoinListener extends AbstractListener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         // TODO Do this async
         loadPlayer(event.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        teleportPlayers.remove(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+        TeleportPlayer player = teleportPlayers.get(event.getPlayer());
+        if (player != null) {
+            player.addLocation(event.getFrom());
+        }
     }
 
     public void loadPlayer(UUID uuid) {

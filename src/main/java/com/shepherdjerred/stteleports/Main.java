@@ -2,15 +2,12 @@ package com.shepherdjerred.stteleports;
 
 import com.shepherdjerred.riotbase.RiotBase;
 import com.shepherdjerred.riotbase.commands.CommandRegister;
-import com.shepherdjerred.riotbase.listeners.ListenerRegister;
 import com.shepherdjerred.stteleports.commands.*;
 import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
-import com.shepherdjerred.stteleports.config.TeleportsConfig;
+import com.shepherdjerred.stteleports.config.SpigotTeleportsConfig;
 import com.shepherdjerred.stteleports.controllers.TeleportController;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
-import com.shepherdjerred.stteleports.listeners.JoinListener;
-import com.shepherdjerred.stteleports.listeners.QuitListener;
-import com.shepherdjerred.stteleports.listeners.TeleportListener;
+import com.shepherdjerred.stteleports.listeners.PlayerListener;
 import com.shepherdjerred.stteleports.messages.Parser;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
@@ -24,7 +21,6 @@ import org.codejargon.fluentjdbc.api.FluentJdbc;
 import org.codejargon.fluentjdbc.api.FluentJdbcBuilder;
 import org.flywaydb.core.Flyway;
 
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class Main extends RiotBase {
@@ -39,7 +35,7 @@ public class Main extends RiotBase {
     private TeleportPlayerDAO teleportPlayerDAO;
 
     private VaultManager vaultManager;
-    private TeleportsConfig teleportsConfig;
+    private SpigotTeleportsConfig spigotTeleportsConfig;
 
     @Override
     public void onEnable() {
@@ -52,7 +48,7 @@ public class Main extends RiotBase {
         vaultManager = new VaultManager(this);
         teleportController = new TeleportController(teleportPlayers, teleportPlayerDAO, vaultManager.getEconomy());
 
-        if (teleportsConfig.isVaultEnabled()) {
+        if (spigotTeleportsConfig.isVaultEnabled()) {
             vaultManager.setupEconomy();
         }
 
@@ -99,7 +95,7 @@ public class Main extends RiotBase {
         copyFile(getResource("config.yml"), getDataFolder().getAbsolutePath() + "/config.yml");
         copyFile(getResource("messages.properties"), getDataFolder().getAbsolutePath() + "/messages.properties");
 
-        teleportsConfig = new TeleportsConfig(getConfig());
+        spigotTeleportsConfig = new SpigotTeleportsConfig(getConfig());
 
         // TODO Load teleport settings from JSON
     }
@@ -138,18 +134,14 @@ public class Main extends RiotBase {
     }
 
     private void registerListeners() {
-        new ListenerRegister(Arrays.asList(
-                new JoinListener(teleportPlayers, teleportPlayerDAO),
-                new QuitListener(teleportPlayers),
-                new TeleportListener(teleportPlayers)
-        )).register(this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(teleportPlayers, teleportPlayerDAO), this);
     }
 
     private void checkOnlinePlayers() {
         // Yeah, this is a bit hacky
-        JoinListener joinListener = new JoinListener(teleportPlayers, teleportPlayerDAO);
+        PlayerListener playerListener = new PlayerListener(teleportPlayers, teleportPlayerDAO);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            joinListener.loadPlayer(player.getUniqueId());
+            playerListener.loadPlayer(player.getUniqueId());
         }
     }
 

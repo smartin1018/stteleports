@@ -1,7 +1,7 @@
 package com.shepherdjerred.stteleports.commands.tpa;
 
 import com.shepherdjerred.riotbase.commands.CommandInfo;
-import com.shepherdjerred.riotbase.commands.CommandSource;
+import com.shepherdjerred.riotbase.commands.SpigotCommandSource;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
 import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
 import com.shepherdjerred.stteleports.objects.Teleport;
@@ -23,7 +23,7 @@ public class AcceptCommand extends AbstractTeleportCommand {
     }
 
     @Override
-    public void execute(CommandSource sender, String[] args) {
+    public void execute(SpigotCommandSource sender, String[] args) {
 
         Player targetPlayer = Bukkit.getPlayer(args[0]);
         Player senderPlayer = sender.getPlayer();
