@@ -149,7 +149,10 @@ public class TeleportPlayerDAO {
                         player.getUuid().toString()
                 ).listResult(homeMapper);
 
-        locations.forEach(home -> player.addHome(home.getName(), home.getLocation()));
+        locations.forEach(home -> {
+            player.addHome(home.getName(), home.getLocation());
+            System.out.println(home.getLocation().getWorld().getName());
+        });
 
     }
 
