@@ -1,21 +1,21 @@
 package com.shepherdjerred.stteleports.commands;
 
-import com.shepherdjerred.riotbase.commands.AbstractCommand;
-import com.shepherdjerred.riotbase.commands.CommandInfo;
-import com.shepherdjerred.riotbase.commands.CommandRegister;
+import com.shepherdjerred.riotbase.commands.CommandNode;
+import com.shepherdjerred.riotbase.commands.NodeInfo;
+import com.shepherdjerred.riotbase.commands.NodeRegister;
 import com.shepherdjerred.riotbase.commands.SpigotCommandSource;
 import com.shepherdjerred.stteleports.database.TeleportPlayerDAO;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import org.bukkit.entity.Player;
 
-public class SetHomeCommand extends AbstractCommand {
+public class SetHomeCommand extends CommandNode {
 
     private final TeleportPlayers teleportPlayers;
     private final TeleportPlayerDAO teleportPlayerDAO;
 
-    public SetHomeCommand(CommandRegister commandRegister, TeleportPlayers teleportPlayers, TeleportPlayerDAO teleportPlayerDAO) {
-        super(commandRegister, new CommandInfo(
+    public SetHomeCommand(NodeRegister nodeRegister, TeleportPlayers teleportPlayers, TeleportPlayerDAO teleportPlayerDAO) {
+        super(nodeRegister, new NodeInfo(
                 "sethome",
                 "stTeleports.home.set",
                 "Set your home",

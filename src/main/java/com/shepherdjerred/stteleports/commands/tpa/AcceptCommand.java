@@ -1,9 +1,9 @@
 package com.shepherdjerred.stteleports.commands.tpa;
 
-import com.shepherdjerred.riotbase.commands.CommandInfo;
+import com.shepherdjerred.riotbase.commands.NodeInfo;
 import com.shepherdjerred.riotbase.commands.SpigotCommandSource;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
-import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
+import com.shepherdjerred.stteleports.commands.registers.TeleportNodeRegister;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import org.bukkit.Bukkit;
@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 
 public class AcceptCommand extends AbstractTeleportCommand {
 
-    public AcceptCommand(TeleportCommandRegister teleportCommandRegister) {
-        super(teleportCommandRegister, new CommandInfo(
+    public AcceptCommand(TeleportNodeRegister teleportNodeRegister) {
+        super(teleportNodeRegister, new NodeInfo(
                 "accept",
                 "stTeleports.tpa.accept",
                 "Accept a teleport request",

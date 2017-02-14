@@ -1,8 +1,8 @@
 package com.shepherdjerred.stteleports.commands;
 
-import com.shepherdjerred.riotbase.commands.CommandInfo;
+import com.shepherdjerred.riotbase.commands.NodeInfo;
 import com.shepherdjerred.riotbase.commands.SpigotCommandSource;
-import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
+import com.shepherdjerred.stteleports.commands.registers.TeleportNodeRegister;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.util.TimeToString;
@@ -13,8 +13,8 @@ import java.util.Arrays;
 
 public class TeleportHereCommand extends AbstractTeleportCommand {
 
-    public TeleportHereCommand(TeleportCommandRegister teleportCommandRegister) {
-        super(teleportCommandRegister, new CommandInfo(
+    public TeleportHereCommand(TeleportNodeRegister teleportNodeRegister) {
+        super(teleportNodeRegister, new NodeInfo(
                 "tphere",
                 "stTeleports.tphere",
                 "Teleport another player to you",

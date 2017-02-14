@@ -1,17 +1,17 @@
 package com.shepherdjerred.stteleports.commands.tpa;
 
-import com.shepherdjerred.riotbase.commands.CommandInfo;
+import com.shepherdjerred.riotbase.commands.NodeInfo;
 import com.shepherdjerred.riotbase.commands.SpigotCommandSource;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
-import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
+import com.shepherdjerred.stteleports.commands.registers.TeleportNodeRegister;
 import com.shepherdjerred.stteleports.objects.Teleport;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class TpaHereCommand extends AbstractTeleportCommand {
 
-    public TpaHereCommand(TeleportCommandRegister teleportCommandRegister) {
-        super(teleportCommandRegister, new CommandInfo(
+    public TpaHereCommand(TeleportNodeRegister teleportNodeRegister) {
+        super(teleportNodeRegister, new NodeInfo(
                 "teleport",
                 "stTeleports.tpahere",
                 "Request that another player teleports to you",

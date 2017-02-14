@@ -1,9 +1,9 @@
 package com.shepherdjerred.stteleports;
 
 import com.shepherdjerred.riotbase.RiotBase;
-import com.shepherdjerred.riotbase.commands.CommandRegister;
+import com.shepherdjerred.riotbase.commands.NodeRegister;
 import com.shepherdjerred.stteleports.commands.*;
-import com.shepherdjerred.stteleports.commands.registers.TeleportCommandRegister;
+import com.shepherdjerred.stteleports.commands.registers.TeleportNodeRegister;
 import com.shepherdjerred.stteleports.commands.tpa.TpaCommand;
 import com.shepherdjerred.stteleports.commands.tpa.TpaHereCommand;
 import com.shepherdjerred.stteleports.config.SpigotTeleportsConfig;
@@ -120,21 +120,22 @@ public class Main extends RiotBase {
     }
 
     private void registerCommands() {
-        CommandRegister cr = new CommandRegister(parser);
-        cr.addCommand(new SetHomeCommand(cr, teleportPlayers, teleportPlayerDAO));
-        cr.addCommand(new DelHomeCommand(cr, teleportPlayers, teleportPlayerDAO));
-        cr.register(this);
-        TeleportCommandRegister tcr = new TeleportCommandRegister(parser, teleportPlayers, teleportController, vaultManager);
-        tcr.addCommand(new BackwardCommand(tcr));
-        tcr.addCommand(new ForwardCommand(tcr));
-        tcr.addCommand(new HomeCommand(tcr));
-        tcr.addCommand(new SpawnCommand(tcr));
-        tcr.addCommand(new TeleportCommand(tcr));
-        tcr.addCommand(new TeleportHereCommand(tcr));
-        tcr.addCommand(new TeleportPositionCommand(tcr));
-        tcr.addCommand(new TpaCommand(tcr));
-        tcr.addCommand(new TpaHereCommand(tcr));
-        tcr.register(this);
+        NodeRegister nr = new NodeRegister(parser);
+        nr.addNode(new SetHomeCommand(nr, teleportPlayers, teleportPlayerDAO));
+        nr.addNode(new DelHomeCommand(nr, teleportPlayers, teleportPlayerDAO));
+        nr.registerCommandsForBukkit(this);
+
+        TeleportNodeRegister tnr = new TeleportNodeRegister(parser, teleportPlayers, teleportController, vaultManager);
+        tnr.addNode(new BackwardCommand(tnr));
+        tnr.addNode(new ForwardCommand(tnr));
+        tnr.addNode(new HomeCommand(tnr));
+        tnr.addNode(new SpawnCommand(tnr));
+        tnr.addNode(new TeleportCommand(tnr));
+        tnr.addNode(new TeleportHereCommand(tnr));
+        tnr.addNode(new TeleportPositionCommand(tnr));
+        tnr.addNode(new TpaCommand(tnr));
+        tnr.addNode(new TpaHereCommand(tnr));
+        tnr.registerCommandsForBukkit(this);
     }
 
     private void registerListeners() {
