@@ -12,7 +12,7 @@ public class TpaHereCommand extends AbstractTeleportCommand {
 
     public TpaHereCommand(TeleportNodeRegister teleportNodeRegister) {
         super(teleportNodeRegister, new NodeInfo(
-                "teleport",
+                "tpahere",
                 "stTeleports.tpahere",
                 "Request that another player teleports to you",
                 "/tpahere <target>",

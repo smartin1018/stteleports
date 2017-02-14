@@ -12,14 +12,13 @@ public class TpaCommand extends AbstractTeleportCommand {
 
     public TpaCommand(TeleportNodeRegister teleportNodeRegister) {
         super(teleportNodeRegister, new NodeInfo(
-                "tpa",
-                "stTeleports.tpa",
-                "Request to teleport to another player",
-                "/tpa <destination>",
-                1,
-                false
-        ));
-        addChildren(
+                        "tpa",
+                        "stTeleports.tpa",
+                        "Request to teleport to another player",
+                        "/tpa <destination>",
+                        1,
+                        false
+                        ),
                 new AcceptCommand(teleportNodeRegister),
                 new DenyCommand(teleportNodeRegister)
         );

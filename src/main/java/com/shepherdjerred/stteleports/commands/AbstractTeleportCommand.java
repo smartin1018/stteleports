@@ -13,8 +13,8 @@ public abstract class AbstractTeleportCommand extends CommandNode {
     protected final TeleportController teleportController;
     protected final VaultManager vaultManager;
 
-    public AbstractTeleportCommand(TeleportNodeRegister register, NodeInfo nodeInfo) {
-        super(register, nodeInfo);
+    public AbstractTeleportCommand(TeleportNodeRegister register, NodeInfo nodeInfo, AbstractTeleportCommand... children) {
+        super(register, nodeInfo, children);
         this.teleportPlayers = register.getTeleportPlayers();
         this.teleportController = register.getTeleportController();
         this.vaultManager = register.getVaultManager();
