@@ -8,44 +8,6 @@ soft-depend: [Vault]
 
 main: com.shepherdjerred.stteleports.Main
 
-commands:
-    stteleports:
-        description: Handles plugin related functions
-        aliases: [sttp]
-    teleport:
-        description: Teleport to a player
-        aliases: [tp]
-    tphere:
-        description: Teleport a player to you
-        aliases: [tph, bring]
-    tpa:
-        description: Request to teleport to a player
-        aliases: []
-    tpahere:
-        description: Request to teleport a player to you
-        aliases: [tpah]
-    tppos:
-        description: Teleport to a coordinate
-        aliases: [tpp]
-    spawn:
-        description: Teleport to the world's spawn point
-        aliases: []
-    home:
-        description: Teleport to your home
-        aliases: []
-    sethome:
-        description: Set your home
-        aliases: []
-    delhome:
-        description: Delete a home
-        aliases: []
-    backward:
-        description: Go backward in your teleport queue
-        aliases: [back, return]
-    forward:
-        description: Go forward in your teleport queue
-        aliases: [fw]
-
 permissions:
     stTeleports.*:
         description: Gives access to all plugin functions
