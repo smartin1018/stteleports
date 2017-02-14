@@ -21,6 +21,7 @@ public class TeleportPlayerDAO {
     }
 
     public void updateCooldown(TeleportPlayer teleportPlayer) {
+        System.out.println("Updating CD");
         Query query = fluentJdbc.query();
         query
                 .update("UPDATE players SET cooldown = ? WHERE player_uuid = ?")
@@ -31,6 +32,7 @@ public class TeleportPlayerDAO {
     }
 
     public void updateCooldownMultiplier(TeleportPlayer teleportPlayer) {
+        System.out.println("Updating CD Mult");
         Query query = fluentJdbc.query();
         query
                 .update("UPDATE players SET cooldown_multiplier = ? WHERE player_uuid = ?")
@@ -41,6 +43,7 @@ public class TeleportPlayerDAO {
     }
 
     public void updateCostMultiplier(TeleportPlayer teleportPlayer) {
+        System.out.println("Updating Cost Mult");
         Query query = fluentJdbc.query();
         query
                 .update("UPDATE players SET cost_multiplier = ? WHERE player_uuid = ?")
@@ -129,7 +132,7 @@ public class TeleportPlayerDAO {
                 ).run();
     }
 
-    public void loadHomes(TeleportPlayer player) {
+    private void loadHomes(TeleportPlayer player) {
 
         Mapper<Home> homeMapper = rs -> new Home(
                 rs.getString("name"),

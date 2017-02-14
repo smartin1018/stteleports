@@ -5,6 +5,7 @@ import com.shepherdjerred.stteleports.objects.TeleportPlayer;
 import com.shepherdjerred.stteleports.objects.trackers.TeleportPlayers;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -37,6 +38,14 @@ public class PlayerListener implements Listener {
         TeleportPlayer player = teleportPlayers.get(event.getPlayer());
         if (player != null) {
             player.addLocation(event.getFrom());
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        TeleportPlayer player = teleportPlayers.get(event.getEntity());
+        if (player != null) {
+            player.addLocation(event.getEntity().getLocation());
         }
     }
 
