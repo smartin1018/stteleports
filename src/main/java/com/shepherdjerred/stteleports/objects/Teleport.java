@@ -3,7 +3,7 @@ package com.shepherdjerred.stteleports.objects;
 public enum Teleport {
     TELEPORT, TPHERE, TPPOS, HOME, SPAWN, TPA, TPAHERE, BACKWARD, FORWARD;
 
-    private long cooldown = 1200000;
+    private long cooldown = 120000;
     private long cost = 25;
     private double cooldownMultiplier = 0.5;
     private double costMultiplier = 0.5;
