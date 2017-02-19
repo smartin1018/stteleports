@@ -5,6 +5,8 @@ import com.shepherdjerred.riotbase.commands.SpigotCommandSource;
 import com.shepherdjerred.stteleports.commands.AbstractTeleportCommand;
 import com.shepherdjerred.stteleports.commands.registers.TeleportNodeRegister;
 import com.shepherdjerred.stteleports.objects.Teleport;
+import com.shepherdjerred.stteleports.objects.TeleportPlayer;
+import com.shepherdjerred.stteleports.util.TimeToString;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -29,6 +31,12 @@ public class TpaCommand extends AbstractTeleportCommand {
 
         Player target = sender.getPlayer();
         Player destination = Bukkit.getPlayer(args[0]);
+        TeleportPlayer teleportPlayer = teleportPlayers.get(target);
+
+        if (!teleportPlayer.isCooldownOver()) {
+            sender.sendMessage(parser.colorString(true, "generic.cooldownActive", TimeToString.convertLong(teleportPlayer.getCooldown())));
+            return;
+        }
 
         if (destination == null) {
             sender.sendMessage(parser.colorString(true, "generic.playerNotOnline", args[0]));
